@@ -30,3 +30,13 @@ The guideline is a working document. Examples are exercises used to evaluate it;
 For an existing specification, preserve its normative meaning and identify any proposed behavior changes separately. Improved presentation should not silently introduce new requirements or remove existing ones.
 
 To contribute, read [CONTRIBUTION.md](CONTRIBUTION.md).
+
+## License
+
+Original project content is dedicated to the public domain under [CC0 1.0 Universal](LICENSE), to the extent permitted by law, with the fallback license provided by CC0. You may copy, modify, incorporate, and redistribute that content, including commercially, without an attribution requirement.
+
+This dedication applies only to rights held by the project contributors. Third-party material, including text adapted from existing specifications, retains its applicable terms and notices. Inclusion in this repository does not place that material under CC0. Check the source specification's terms before reusing an example; where the applicable terms are not recorded, do not assume the whole example is covered by CC0.
+
+## Acknowledgments
+
+Thank you to the project's [contributors](https://github.com/sakimura/modern-spec-writing/graphs/contributors). This link provides a convenient record of GitHub contributions; it may not capture every form of help. Acknowledgment is voluntary and is not a condition of reuse under CC0.

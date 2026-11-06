@@ -2,6 +2,18 @@
 
 Contributions should help the guideline produce better specification documents for AI systems, human readers, security analysts, and test developers.
 
+## Contribution terms
+
+By intentionally submitting original material for inclusion in this project, including through a pull request, you agree to apply [CC0 1.0 Universal](LICENSE) to your contribution to the extent you hold the relevant rights. CC0 provides a public-domain dedication to the extent permitted by law and a fallback license. It allows others to incorporate, edit, publish, and reuse your contribution, including commercially, without requiring attribution or further permission.
+
+You confirm that you have authority to submit the material under these terms, including any permission needed from an employer or other rights holder. A GitHub username or pseudonym is acceptable; a legal name is not required. Acknowledgments are voluntary, and the project does not promise an exhaustive contributor list.
+
+Identify third-party material separately, with its source, applicable terms, and required notices. Do not claim CC0 rights over material you do not own or have authority to dedicate. For adaptations of existing specifications, distinguish your original contributions from the source material and confirm that the source terms permit the proposed use. If the terms are unclear, flag that for review before the material is merged.
+
+AI-assisted contributions follow the same rules: apply CC0 only to rights you hold, and identify known third-party material. These terms do not assert that all AI-generated material is copyrightable or free of third-party rights.
+
+Each pull request should include the confirmation provided in the PR template. Maintainers should obtain confirmation before merging. Material submitted before these terms were introduced needs an applicable permission or the relevant rights holder's agreement; these terms do not retroactively grant rights to someone else's work.
+
 ## Proposing a change
 
 Use an issue to discuss a problem or a pull request to propose a concrete change. Keep each proposal focused enough to review on its own.
