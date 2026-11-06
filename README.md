@@ -7,7 +7,7 @@ The aim is to make specifications clear enough to support consistent interpretat
 ## Project documents
 
 - [Modern Spec Writing Guidelines](modern_spec_writing_guidelines.md): The working guideline.
-- [Examples](examples/): Applications of the guideline to existing specifications. The first example is [OAuth 2.0 Form Post Response Mode 1.0](examples/oauth_2_0_form_post_response_mode_1_0_modern_spec.md).
+- [Examples](examples/): Applications of the guideline to existing specifications. The first example is [OAuth 2.0 Form Post Response Mode 1.0](examples/oauth_2_0_form_post_response_mode_1_0_modern_spec.md), an unvalidated, unofficial adaptation with source and rights notices and initial review findings.
 - [Contribution guide](CONTRIBUTION.md): How to propose changes and record findings.
 
 ## How the guideline improves

@@ -1,5 +1,27 @@
 # OAuth 2.0 Form Post Response Mode 1.0 (Modern Spec Edition)
 
+> **Unvalidated working example — unofficial adaptation.** This document is an exercise in specification development. It is not an OpenID Foundation publication or an authoritative replacement for the source specification. Semantic equivalence, conformance, and interoperability have not been established.
+
+## Source and rights notice
+
+This example adapts [OAuth 2.0 Form Post Response Mode, Final, April 27, 2015](https://openid.net/specs/oauth-v2-form-post-response-mode-1_0.html), by Michael B. Jones and Brian Campbell. The OpenID Foundation is the source of the adapted material. This attribution does not imply endorsement by the OpenID Foundation.
+
+Copyright (c) 2015 The OpenID Foundation.
+
+The source's [Appendix C — Notices](https://openid.net/specs/oauth-v2-form-post-response-mode-1_0.html#AppendixC) supplies the applicable copyright permission and other notices. Its copyright grant permits reproduction, preparation of derivative works, distribution, performance, and display solely for developing specifications and implementing Implementers Drafts and Final Specifications based on those documents, subject to attribution without implying endorsement. Consult Appendix C for the full terms, disclaimers, and intellectual property notices.
+
+The repository's CC0 dedication applies only to original contributions to the extent their contributors hold the relevant rights. It does not relicense the underlying specification or other third-party material. Do not treat this entire example as CC0 material.
+
+## Review status and known differences
+
+This adaptation reorganizes the source into actors, a sequence diagram, constraint tables, labeled provisions, and wire examples. The following items require review against the source before this example can be used as evidence that the guideline preserves normative meaning:
+
+- `REQ3.1` makes HTTP `200 OK` mandatory, although the source shows that status in its non-normative Appendix A example rather than requiring it in Section 2.
+- `REQ3.5` and `REQ3.7` make specific input elements and cache headers mandatory. Review whether these convert illustrative choices into requirements beyond the source's Section 2 obligations.
+- `META1`, `REQ2`, and the variable constraints need review to distinguish presentation delimiters, HTML syntax and escaping, and quotation marks within actual values.
+
+These are initial review findings, not an exhaustive list. The protocol provisions below remain unchanged for further evaluation. Compare them with the authoritative source; do not rely on them as a validated implementation specification.
+
 ## 1. Scope
 This document specifies the `form_post` Response Mode for OAuth 2.0. It defines how an Authorization Server encodes OAuth 2.0 Authorization Response parameters as HTML form values and transmits them to a Client via a User Agent using the HTTP `POST` method.
 
