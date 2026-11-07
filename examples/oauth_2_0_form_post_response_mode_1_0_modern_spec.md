@@ -14,12 +14,10 @@ The repository's CC0 dedication applies only to original contributions to the ex
 
 ## Review status and known differences
 
-An [iteration 1 source comparison](oauth_2_0_form_post_response_mode_1_0_review.md) records findings and their effect on the guideline. This example's protocol body remains the reviewed baseline; the report does not establish conformance or resolve the listed differences.
-
-This adaptation reorganizes the source into actors, a sequence diagram, constraint tables, labeled provisions, and wire examples. The following items need review to determine whether the guideline produces clear implementation behavior and test requirements:
+This adaptation reorganizes the source into actors, a sequence diagram, constraint tables, labeled provisions, and wire examples. The following items require review against the source before this example can be used as evidence that the guideline preserves normative meaning:
 
 - `REQ3.1` makes HTTP `200 OK` mandatory, although the source shows that status in its non-normative Appendix A example rather than requiring it in Section 2.
-- `REQ3.5` and `REQ3.7` make specific input elements and cache headers mandatory. Clarify whether these mechanisms are deliberate conformance requirements or illustrative implementation choices.
+- `REQ3.5` and `REQ3.7` make specific input elements and cache headers mandatory. Review whether these convert illustrative choices into requirements beyond the source's Section 2 obligations.
 - `META1`, `REQ2`, and the variable constraints need review to distinguish presentation delimiters, HTML syntax and escaping, and quotation marks within actual values.
 
 These are initial review findings, not an exhaustive list. The protocol provisions below remain unchanged for further evaluation. Compare them with the authoritative source; do not rely on them as a validated implementation specification.
