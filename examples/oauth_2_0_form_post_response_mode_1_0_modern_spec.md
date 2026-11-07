@@ -14,6 +14,8 @@ The repository's CC0 dedication applies only to original contributions to the ex
 
 ## Review status and known differences
 
+An [iteration 1 source comparison](oauth_2_0_form_post_response_mode_1_0_review.md) records findings and their effect on the guideline. This example's protocol body remains the reviewed baseline; the report does not establish conformance or resolve the listed differences.
+
 This adaptation reorganizes the source into actors, a sequence diagram, constraint tables, labeled provisions, and wire examples. The following items require review against the source before this example can be used as evidence that the guideline preserves normative meaning:
 
 - `REQ3.1` makes HTTP `200 OK` mandatory, although the source shows that status in its non-normative Appendix A example rather than requiring it in Section 2.
