@@ -30,11 +30,11 @@ When possible, update both the guideline and an example so reviewers can assess 
 
 ## Adding or revising examples
 
-Place applications of the guideline in `examples/` and use a descriptive filename. Record the source specification's title, version or date, and authoritative URL in the example. Retain source and rights notices for adapted material.
+Place applications of the guideline in `examples/` and use a descriptive filename. Record the source specification's title, version or date, and authoritative URL in the example. Cite the source sections needed to check the rewrite.
 
-Use examples to evaluate whether the guideline produces clear, implementable, and testable specifications. Record ambiguities, missing rules, conflicting interpretations, and decisions that implementations or tests would otherwise have to guess. Comparisons with existing specifications can help reveal problems, but maintaining a provision-by-provision mapping to the original is not a project goal. Do not present deliberate protocol changes as editorial improvements.
+Preserve the source specification's normative meaning. If the source is ambiguous, record the ambiguity and any assumption made. Identify proposed behavior changes separately from editorial changes, including any added, removed, strengthened, or weakened requirements.
 
-Keep internal links between actors, interactions, provisions, constraints, and test requirements consistent. Distinguish normative dependencies, local requirements, and informative examples so readers can determine what defines conformance.
+Keep requirements, recommendations, and permissions traceable to their source. Clearly distinguish source requirements, imported requirements, explanatory material, and proposed additions. Mark illustrative messages and test vectors as non-normative unless the source gives them normative status.
 
 When changing identifiers or sequence steps, update all affected references in diagrams, tables, provisions, and examples.
 
@@ -51,7 +51,7 @@ AI-assisted contributions are welcome. For each model-assisted application, revi
 
 If model or run details are unavailable, say so. Do not guess them.
 
-For independent comparisons, give each model the same source material and task before sharing the other models' results. Record any differences in inputs or access to tools that could affect the comparison. Check findings against the specification's stated behavior and dependencies rather than treating model agreement as proof of correctness.
+For independent comparisons, give each model the same source material and task before sharing the other models' results. Record any differences in inputs or access to tools that could affect the comparison. Check findings against the source rather than treating model agreement as proof of correctness.
 
 When testing generated implementations, record the implementation revisions, model details, test setup, cases, and observed results. Distinguish successful interoperability from full conformance; a successful exchange alone does not demonstrate that error handling or security requirements are satisfied.
 
@@ -64,7 +64,7 @@ Review the result from each intended reader's perspective:
 - **Security analysts:** Are security assumptions, trust boundaries, failure behavior, and security claims clear enough to assess?
 - **Test developers:** Can provisions be linked to observable outcomes and positive, negative, and boundary cases?
 
-Check that readers can derive consistent implementation behavior and test requirements, that internal cross-references resolve, and that diagrams, constraints, provisions, and wire examples agree. If checks or experiments were not performed, state that directly.
+Check that the rewrite preserves source behavior, that cross-references resolve, and that diagrams, constraints, provisions, and wire examples agree. If checks or experiments were not performed, state that directly.
 
 ## Submitting a pull request
 
