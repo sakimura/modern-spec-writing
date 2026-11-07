@@ -1,6 +1,7 @@
 # OAuth 2.0 Form Post Response Mode 1.0 (Modern Spec Edition)
 
-> **Unvalidated working example — unofficial adaptation.** This document is an exercise in specification development. It is not an OpenID Foundation publication or an authoritative replacement for the source specification. Semantic equivalence, conformance, and interoperability have not been established.
+> Working example. This is an unofficial adaptation for guideline evaluation.
+> Implementation and interoperability tests have not been run.
 
 ## Source and rights notice
 
@@ -12,130 +13,215 @@ The source's [Appendix C — Notices](https://openid.net/specs/oauth-v2-form-pos
 
 The repository's CC0 dedication applies only to original contributions to the extent their contributors hold the relevant rights. It does not relicense the underlying specification or other third-party material. Do not treat this entire example as CC0 material.
 
-## Review status and known differences
-
-This adaptation reorganizes the source into actors, a sequence diagram, constraint tables, labeled provisions, and wire examples. The following items require review against the source before this example can be used as evidence that the guideline preserves normative meaning:
-
-- `REQ3.1` makes HTTP `200 OK` mandatory, although the source shows that status in its non-normative Appendix A example rather than requiring it in Section 2.
-- `REQ3.5` and `REQ3.7` make specific input elements and cache headers mandatory. Review whether these convert illustrative choices into requirements beyond the source's Section 2 obligations.
-- `META1`, `REQ2`, and the variable constraints need review to distinguish presentation delimiters, HTML syntax and escaping, and quotation marks within actual values.
-
-These are initial review findings, not an exhaustive list. The protocol provisions below remain unchanged for further evaluation. Compare them with the authoritative source; do not rely on them as a validated implementation specification.
-
 ## 1. Scope
-This document specifies the `form_post` Response Mode for OAuth 2.0. It defines how an Authorization Server encodes OAuth 2.0 Authorization Response parameters as HTML form values and transmits them to a Client via a User Agent using the HTTP `POST` method.
 
-## 2. Normative References
-All external specifications required to interpret this document are listed below:
-* **[RFC2119]** Bradner, S., "Key words for use in RFCs to Indicate Requirement Levels", BCP 14, RFC 2119, March 1997.
-* **[RFC6749]** Hardt, D., "The OAuth 2.0 Authorization Framework", RFC 6749, October 2012.
-* **[RFC7230]** Fielding, R. and J. Reschke, "Hypertext Transfer Protocol (HTTP/1.1): Message Syntax and Routing", RFC 7230, June 2014.
-* **[HTML401]** Raggett, D., Le Hors, A., and I. Jacobs, "HTML 4.01 Specification", W3C Recommendation, December 1999.
-* **[OAuth.Responses]** de Medeiros, B., Ed., Scurtescu, M., Tarjan, P., and M. Jones, "OAuth 2.0 Multiple Response Type Encoding Practices", February 2014.
+This document specifies the `form_post` Response Mode for OAuth 2.0.
+It defines how the AS returns response parameters through an HTML form.
 
-## 3. Terms and Definitions
-This document imports the following terms from external specifications without modification:
-* From **[RFC6749]**: *Access Token*, *Authorization Code*, *Authorization Endpoint*, *Authorization Grant*, *Authorization Response*, *Authorization Server*, *Client*, *Client Identifier*, *Client Secret*, *Protected Resource*, *Redirection URI*, *Refresh Token*, *Resource Owner*, *Resource Server*, *Response Type*, *Token Endpoint*.
-* From **[RFC7230]**: *User Agent*, *Intermediary*.
-* From **[OAuth.Responses]**: *Response Mode*.
+The selected Response Type defines the response parameters and their validation rules.
+This document changes their transport, not their meaning.
 
-This document defines the following term:
-* **Form Post Response Mode**: A Response Mode where the Authorization Server encodes Authorization Response parameters as HTML form values for the User Agent to submit to the Client via an HTTP `POST` request using the `application/x-www-form-urlencoded` format.
+## 2. Normative references
 
-## 4. Abbreviations and Symbols
+| Reference | Version / date | Rules used here |
+| --- | --- | --- |
+| [RFC2119](https://www.rfc-editor.org/rfc/rfc2119.html) | March 1997 | Requirement keywords |
+| [RFC8174](https://www.rfc-editor.org/rfc/rfc8174.html) | May 2017 | Uppercase keyword convention |
+| [RFC6749](https://www.rfc-editor.org/rfc/rfc6749.html) | October 2012 | Roles; Section 3.1.2: redirect validation; Sections 4.1/4.2: response processing; Section 10.12: CSRF protection |
+| [RFC7230](https://www.rfc-editor.org/rfc/rfc7230.html) | June 2014 | User Agent and intermediary terms |
+| [HTML401](https://www.w3.org/TR/html401/) | December 1999 | Section 17: form controls and submission; Section 5.3.2: character references |
+| [OAuth.Responses](https://openid.net/specs/oauth-v2-multiple-response-types-1_0.html) | February 25, 2014 | Response Mode and `response_mode`; selected Response Type rules |
 
-| Abbreviation | Full Term |
-| :--- | :--- |
-| **AS** | Authorization Server |
-| **HTML** | HyperText Markup Language |
-| **HTTP** | Hypertext Transfer Protocol |
-| **UA** | User Agent |
-| **URI** | Uniform Resource Identifier |
+Other Response Types require their defining specifications.
+The examples below use the `code` Response Type from RFC6749.
+
+Uppercase MUST, MUST NOT, SHOULD, and MAY have the meanings defined by RFC2119 and RFC8174.
+
+## 3. Terms and definitions
+
+**3.1 Imported terms**
+
+From RFC6749: Access Token, Authorization Request, Authorization Response, Authorization Server, Client, Protected Resource, Redirection URI, Resource Owner, and Response Type.
+
+From RFC7230: User Agent and intermediary.
+
+From OAuth.Responses: Response Mode.
+
+**3.2 Form Post Response Mode**
+
+A Response Mode that returns parameters through an automatically submitted HTML form.
+The form uses HTTP POST and `application/x-www-form-urlencoded` encoding.
+
+## 4. Abbreviations
+
+| Abbreviation | Meaning |
+| --- | --- |
+| AS | Authorization Server |
+| CSRF | Cross-Site Request Forgery |
+| HTML | Hypertext Markup Language |
+| HTTP | Hypertext Transfer Protocol |
+| UA | User Agent |
+| URI | Uniform Resource Identifier |
 
 ## 5. Actors
 
-### Target Implementation Actors
-* **Client**: An application that makes protected resource requests on behalf of the Resource Owner and with the Resource Owner's authorization.
-* **Authorization Server (AS)**: A server that issues Access Tokens and Authorization Responses to the Client after the server authenticates the Resource Owner and obtains authorization.
+**5.1 Target actors**
 
-### External / Uncontrolled Actors
-* **User Agent (UA)**: A web browser or similar software that acts on behalf of the Resource Owner and mediates HTTP communication between the Client and the AS.
-* **Intermediary**: A network component (such as a proxy or cache) positioned between the UA and the AS, or between the UA and the Client.
+**Client**: An application that accesses protected resources with the Resource Owner's authorization.
+In this mode, the Client requests `form_post` and processes the Authorization Response.
 
-## 6. Goal
-The goal of this specification is to enable the AS to return Authorization Response parameters (including parameters that default to URL query string or URL fragment encoding) to the Client inside an HTTP `POST` message body. This prevents the exposure of sensitive parameters in URL query strings, browser history, or server access logs.
+**Authorization Server (AS)**: A server that issues Access Tokens after authenticating the Resource Owner and obtaining authorization.
+In this mode, the AS creates the response form.
+
+**5.2 External actors**
+
+**User Agent (UA)**: A browser or similar application that acts on behalf of the Resource Owner.
+In this mode, the UA submits the form to the Client.
+
+**Intermediary**: A network component, such as a proxy or cache, that handles HTTP messages between actors.
+
+This document places requirements on the Client and AS.
+It does not guarantee that external actors obey instructions.
+
+## 6. Goal and security limits
+
+The goal is to carry response parameters in a POST body.
+This avoids putting those parameters in the response destination's query or fragment.
+An existing query component of the Redirection URI is not removed.
+
+The response body can still appear in logs or browser tools.
+POST does not replace TLS, redirect validation, response validation, or CSRF protection.
+A received form is not proof that the AS sent it.
 
 ## 7. Interactions
-Each step in the sequence diagram below is cross-referenced with Section 8 (Variables) and Section 9 (Provisions).
+
+This diagram is informative.
+Message numbers are the step references used below.
+Notes are not numbered steps.
 
 ```mermaid
 sequenceDiagram
     autonumber
-    actor UA as User Agent (UA)
-    participant Client as Client
-    participant AS as Authorization Server (AS)
-
-    Client->>UA: 1. [REQ1, REQ2] Redirect to AS Authorization Endpoint (response_mode=form_post)
-    UA->>AS: 2. [REQ1, REQ2] Send HTTP GET/POST Authorization Request (response_mode=form_post)
-    Note over UA,AS: 3. Resource Owner authenticates and grants authorization (Out of Scope)
-    AS->>UA: 4. [REQ2, REQ3, PERM1] Return HTTP 200 OK with HTML <form method="POST" action="Redirection URI"> (Cache-Control: no-cache, no-store)
-    Note over UA: 5. [REQ3.6, PERM1.1] Standard UA behavior: Execute onload script and submit HTML form
-    UA->>Client: 6. [REQ4.1, REQ4.2] Send HTTP POST to Redirection URI (Content-Type: application/x-www-form-urlencoded)
-    Client->>UA: 7. [REQ4.3] Process Authorization Response parameters and return HTTP response
+    participant Client
+    actor UA as User Agent
+    participant AS as Authorization Server
+    Client->>UA: [REQ1.1, REQ1.2] Authorization Request, response_mode=form_post
+    UA->>AS: [REQ2.1, REQ2.2, REC1] Authorization Request, redirect_uri
+    Note over UA,AS: Redirect validation occurs before a response form is issued
+    Note over UA,AS: Authentication and authorization follow the selected OAuth flow
+    AS->>UA: Response form, response parameters<br/>[REQ3.1–REQ3.7, PERM1, PERM2]
+    Note over UA: Submission technique is illustrative
+    UA->>Client: [REQ3.7, REQ4.1, REQ4.2] POST form data to validated Redirection URI
+    Client->>Client: [REQ4.3, REQ4.4, REQ4.5] Validate and process response
 ```
 
-## 8. Variable Values and Constraints
+Steps 3–5 apply only after redirect validation succeeds.
+An invalid URI prevents automatic redirection under `REQ2.2`.
+A valid URI can receive an OAuth error response in Step 3.
+Error handling follows the selected OAuth flow.
 
-### Meta-Rules for Protocol Values
-* **META1**: Quotation marks (`"`) in this specification are delimiters for text presentation only. Actors **MUST NOT** include quotation marks inside actual parameter values or HTML attribute values unless explicitly specified (see `REQ2`).
-* **META2**: Parameter names and string values are case-sensitive unless explicitly stated otherwise in the constraints table below.
+## 8. Variable constraints
 
-### Variable Constraints Table
+**8.1 Value notation**
 
-| Variable / Attribute | Context | Sequence Step & Provisions | Type | Allowed Values | Disallowed Values |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| `response_mode` | Authorization Request parameter | Steps 1, 2 (`REQ1.1`, `REQ1.2`, `REQ2`) | String | Exact string `form_post` (when requesting this mode) | Quoted strings (e.g., `"form_post"`), case variations (e.g., `FORM_POST`), empty string. |
-| `Content-Type` (AS Response) | HTTP Response Header from AS | Step 4 (`REQ3.1`) | Media Type | `text/html` (with recommended `charset=UTF-8`, e.g., `text/html;charset=UTF-8`) | `application/json`, `text/plain`, or omitted header. |
-| `Cache-Control` | HTTP Response Header from AS | Step 4 (`REQ3.7`) | String | Directives containing `no-cache, no-store` | `public`, `max-age` greater than `0`, or omitted header. |
-| `Pragma` | HTTP Response Header from AS | Step 4 (`REQ3.7`) | String | `no-cache` | Omitted header. |
-| `<form method>` | HTML Response from AS | Step 4 (`REQ3.4`, `REQ3.6`) | String | `POST` or `post` (case-insensitive per **[HTML401]**) | `GET`, `PUT`, `DELETE`, `DIALOG`, or omitted attribute. |
-| `<form action>` | HTML Response from AS | Step 4 (`REQ3.3`, `REQ3.6`) | URI | The exact `Redirection URI` registered by and validated for the Client. | Unvalidated URIs, relative paths, or URIs that do not match the Client's `Redirection URI`. |
-| `<input type>` | HTML `<form>` child elements for response parameters | Step 4 (`REQ3.5`) | String | `hidden` (case-insensitive per **[HTML401]**) | `text`, `password`, or omitted `type` attribute for response parameters. |
-| `<input name>` | HTML `<form>` child elements | Step 4 (`REQ2`, `REQ3.5`) | String | Valid OAuth 2.0 Authorization Response parameter names (e.g., `code`, `state`, `id_token`, `error`). | Empty string, unescaped HTML characters, or literal surrounding quotes. |
-| `<input value>` | HTML `<form>` child elements | Step 4 (`REQ2`, `REQ3.5`) | String | HTML-escaped value of the corresponding Authorization Response parameter. | Unescaped HTML characters (e.g., raw `<`, `>`, `&`, `"`), or literal surrounding quotes. |
-| `Content-Type` (UA Request) | HTTP `POST` Request received by Client from UA | Step 6 (`REQ3.6`, `REQ4.1`, `REQ4.2`) | Media Type | `application/x-www-form-urlencoded` (with optional `charset` parameter) | `multipart/form-data`, `text/plain`, `application/json`. |
+Backticks mark literal text in prose.
+They are not part of a value.
+HTML attribute quotes delimit markup; they are not part of the decoded value.
+A quote inside data is a separate character.
+HTML escaping and form encoding preserve the data through different representations.
 
-## 9. Requirements, Recommendations, and Permissions
+Case rules apply to each field separately.
+The `response_mode` value below is case-sensitive.
+HTML attribute syntax follows HTML401.
 
-### Requesting Form Post Response Mode (Steps 1–2)
-* **REQ1 (Steps 1, 2)**: To request the Form Post Response Mode in Step 1 (transmitted to the AS in Step 2), the Client **MUST**:
-  1. Include the `response_mode` parameter in the Authorization Request;
-  2. Set the `response_mode` parameter value to `form_post` (per Section 8, `response_mode`).
-* **REQ2 (Steps 1, 2, 4)**: When the Client or the AS serializes literal parameter values in protocol messages (Steps 1, 2, and 4), the Client and the AS **MUST NOT** include quotation marks around the parameter values (per `META1`).
+**8.2 Constraints**
 
-### Generating the Authorization Response (Steps 4–5)
-* **REQ3 (Steps 4, 5)**: When the AS returns an Authorization Response (including an Authorization Error Response) using the `form_post` Response Mode in Step 4, the AS **MUST**:
-  1. Return an HTTP `200 OK` response with the `Content-Type` header set to `text/html` (per Section 8, `Content-Type (AS Response)`);
-  2. Include an HTML `<form>` element in the HTTP response body;
-  3. Set the `action` attribute of the HTML `<form>` element to the Client's validated `Redirection URI` (per Section 8, `<form action>`);
-  4. Set the `method` attribute of the HTML `<form>` element to `POST` (per Section 8, `<form method>`);
-  5. Encode each Authorization Response parameter as an HTML `<input type="hidden">` element inside the `<form>` element, setting the `name` attribute to the parameter name and the `value` attribute to the HTML-escaped parameter value (per Section 8, `<input type>`, `<input name>`, `<input value>`);
-  6. Structure the HTML `<form>` element so that a standard UA (in Step 5) encodes the form parameters in the `application/x-www-form-urlencoded` format and transmits them in the HTTP `POST` request body (in Step 6) to the Client's `Redirection URI`;
-  7. Include the `Cache-Control: no-cache, no-store` HTTP response header and the `Pragma: no-cache` HTTP response header (per Section 8, `Cache-Control`, `Pragma`) so that the UA and any Intermediary do not store or reuse the HTTP response content.
-* **PERM1 (Steps 4, 5)**: When the AS generates the HTML response in Step 4 to trigger form submission in Step 5, the AS **MAY**:
-  1. Use any technique supported by the UA (such as JavaScript `onload="javascript:document.forms[0].submit()"`) to trigger the automatic submission of the HTML form;
-  2. Include additional HTML form content (such as a fallback submit button) to support manual form submission when client-side scripting is disabled in the UA.
+| Variable / Parameter | Context | Sequence Step & Provisions | Type | Presence | Allowed Values | Disallowed Values |
+| --- | --- | --- | --- | --- | --- | --- |
+| `response_mode` | Requesting this mode | Steps 1–2; `REQ1.1`, `REQ1.2` | String | Required for this request | Exact `form_post` | Any other value for this request |
+| `redirect_uri` | Authorization Request | Step 2; `REQ2.1`, `REQ2.2` | URI | Per RFC6749 Section 3.1.2.3 | URI permitted by the applicable registration rules | URI that fails those rules |
+| `action` | Response form | Steps 3–4; `REQ3.2` | URI | Required | Client's validated Redirection URI | Another destination |
+| `method` | Response form | Steps 3–4; `REQ3.3` | HTML method | Required | POST, with HTML case rules | A different method |
+| Response parameters | Form controls, then decoded POST fields | Steps 3–5; `REQ3.1`, `REQ4.2`, `REQ4.3` | Per Response Type | Per selected flow | Names and values permitted by that flow | Values prohibited by that flow |
+| Submission media type | POST body | Step 4; `REQ3.7`, `REQ4.1` | Media type | Required | `application/x-www-form-urlencoded` | Another form encoding |
+| Cache instructions | AS response | Step 3; `REQ3.4`, `REQ3.5` | HTTP directives | Required | Instructions against storage and reuse | Missing instructions |
 
-### Receiving and Processing the Authorization Response (Steps 6–7)
-* **REQ4 (Steps 6, 7)**: When the Client receives an Authorization Response in the `form_post` Response Mode at its `Redirection URI` in Step 6 and processes it in Step 7, the Client **MUST**:
-  1. Accept HTTP `POST` requests at its `Redirection URI` with the `Content-Type` header set to `application/x-www-form-urlencoded` (per Section 8, `Content-Type (UA Request)`);
-  2. Parse the `application/x-www-form-urlencoded` HTTP request body to extract the Authorization Response parameters;
-  3. Process the extracted Authorization Response parameters in Step 7 regardless of the mechanism (automatic script execution or manual user action in Step 5) that initiated the form submission in the UA.
+The response parameter set is not a fixed list in this document.
+Unspecified inputs need the rules of the applicable parameter or flow.
+The HTML examples use hidden inputs; other valid form controls are not excluded here.
 
-## 10. Wire Examples (Non-Normative)
+## 9. Provisions
 
-### Example 1: AS Authorization Response (Step 4; `REQ2`, `REQ3.1`–`REQ3.7`, `PERM1.1`)
-The following is a non-normative example of an HTTP response returned by the AS to the UA in **Step 4** containing an HTML form designed for automatic submission in **Step 5**:
+**9.1 Requesting the mode (Steps 1–2)**
+
+**REQ1.1**: To request this mode, the Client MUST include `response_mode` in the Authorization Request.
+
+**REQ1.2**: For this mode, the Client MUST set `response_mode` to `form_post`.
+
+**9.2 Checking the destination (Step 2)**
+
+These provisions use RFC6749 Sections 3.1.2.3 and 3.1.2.4.
+
+**REQ2.1**: The AS MUST validate the Redirection URI under RFC6749 Section 3.1.2.
+
+**REQ2.2**: If `REQ2.1` fails, the AS MUST NOT automatically redirect the UA to the invalid URI.
+
+**REC1**: If `REQ2.1` fails, the AS SHOULD inform the Resource Owner of the error.
+
+**9.3 Creating the response (Step 3)**
+
+These provisions apply when the AS returns a response using this mode.
+
+**REQ3.1**: The AS MUST encode the response parameters as HTML form values.
+
+**REQ3.2**: The AS MUST set the form's `action` to the Client's validated Redirection URI.
+
+**REQ3.3**: The AS MUST set the form's `method` to POST.
+
+**REQ3.4**: The AS MUST instruct the UA not to store or reuse the response.
+
+**REQ3.5**: The AS MUST instruct intermediaries not to store or reuse the response.
+
+**REQ3.6**: The AS MUST provide automatic submission of the response form.
+
+**REQ3.7**: The AS MUST configure form submission to use `application/x-www-form-urlencoded` encoding.
+
+**PERM1**: The AS MAY use any submission technique supported by the UA.
+
+**PERM2**: The AS MAY include form content needed by that technique.
+
+Submit controls can provide a manual fallback.
+The fallback does not remove `REQ3.6`.
+No particular script, input type, or HTTP status is required by these provisions.
+
+**9.4 Receiving the response (Steps 4–5)**
+
+**REQ4.1 (Step 4)**: The Client MUST support form-encoded POST responses at its Redirection URI.
+
+**REQ4.2 (Step 4)**: The Client MUST decode the POST body as form data.
+
+**REQ4.3 (Step 5)**: The Client MUST validate the decoded response under the selected Response Type's rules.
+
+**REQ4.4 (Step 5)**: The Client MUST process a valid response regardless of the form submission technique.
+
+**REQ4.5 (Step 5)**: If `REQ4.3` fails, the Client MUST NOT treat the response as a successful authorization.
+
+For `code`, RFC6749 Sections 4.1.2 and 4.1.2.1 define success and error responses.
+Section 10.12 defines CSRF protection.
+An untrusted response does not become valid merely because it is form-encoded.
+Transport parsing is separate from accepting a response as valid.
+
+## 10. Wire examples (non-normative)
+
+These are HTTP display excerpts, not complete replayable exchanges.
+HTTP framing and the earlier Authorization Request are omitted.
+Assume the request used `response_type=code`, `response_mode=form_post`, and the shown `state`.
+The destination has passed `REQ2.1`.
+
+**10.1 Success form — Step 3; `REQ3.1`–`REQ3.7`, `PERM1`, `PERM2`**
+
+This example uses JavaScript, hidden controls, and explicit cache headers.
+The headers illustrate the cache instructions; they are not a required header template.
 
 ```http
 HTTP/1.1 200 OK
@@ -144,24 +230,80 @@ Cache-Control: no-cache, no-store
 Pragma: no-cache
 
 <html>
-  <head><title>Submit This Form</title></head>
-  <body onload="javascript:document.forms[0].submit()">
+  <head><title>Continue</title></head>
+  <body onload="document.forms[0].submit()">
     <form method="post" action="https://client.example.org/cb">
-      <input type="hidden" name="code" value="SplxlOBeZQQYbYS6WxSbIA"/>
-      <input type="hidden" name="state" value="af0ifjsldkj"/>
+      <input type="hidden" name="code" value="SplxlOBeZQQYbYS6WxSbIA">
+      <input type="hidden" name="state" value="af0ifjsldkj">
+      <noscript><input type="submit" value="Continue"></noscript>
     </form>
   </body>
 </html>
 ```
 
-### Example 2: UA Form Submission Received by Client (Step 6; `REQ3.6`, `REQ4.1`–`REQ4.3`)
-The following is a non-normative example of the resulting HTTP `POST` request sent by the UA and received by the Client at its `Redirection URI` in **Step 6**:
+**10.2 Submitted success — Step 4; `REQ3.7`, `REQ4.1`, `REQ4.2`**
+
+The body below contains 45 ASCII octets, excluding a trailing newline.
+The Client still applies `REQ4.3` before treating the response as valid.
 
 ```http
 POST /cb HTTP/1.1
 Host: client.example.org
 Content-Type: application/x-www-form-urlencoded
-Content-Length: 43
 
 code=SplxlOBeZQQYbYS6WxSbIA&state=af0ifjsldkj
 ```
+
+**10.3 Access denied — Steps 3–5; `REQ3.1`, `REQ4.2`, `REQ4.3`**
+
+The Resource Owner denies authorization after redirect validation succeeds.
+The AS uses the same form mechanism with `error` and `state` controls instead of `code`.
+The resulting POST body is:
+
+```text
+error=access_denied&state=af0ifjsldkj
+```
+
+The Client processes this as an error, not a successful authorization.
+If `REQ2.1` fails, this example does not apply; `REQ2.2` governs that failure.
+
+## 11. Test requirements (non-normative)
+
+These cases check provisions; they do not add protocol requirements.
+Full HTTP messages are not needed for each case.
+
+| ID | Setup / input | Observation and expected result | Step & provision |
+| --- | --- | --- | --- |
+| T1 | Client requests this mode | Request contains `response_mode=form_post` | Steps 1–2; `REQ1.1`, `REQ1.2` |
+| T2 | Client requests this mode but emits `FORM_POST`, an empty value, or surrounding data quotes | Generated request fails the Client requirement; no AS rejection rule is inferred | Steps 1–2; `REQ1.2` |
+| T3 | AS receives a mismatching Redirection URI | No automatic redirection to that URI | Step 2; `REQ2.1`, `REQ2.2` |
+| T4 | AS creates a response form | Parsed action is the validated destination; submission method is POST | Step 3; `REQ3.2`, `REQ3.3` |
+| T5 | AS returns a response form | Response instructs UA and intermediaries against storage and reuse; external compliance is not assumed | Step 3; `REQ3.4`, `REQ3.5` |
+| T6 | AS returns a response form | Form provides automatic submission with form encoding | Steps 3–4; `REQ3.6`, `REQ3.7` |
+| T7 | Equivalent valid responses in separate requests, automatic and manual submission | Client processes both with the same validation result | Steps 4–5; `REQ4.1`–`REQ4.4` |
+| T8 | Error body from Section 10.3; outstanding request has matching state | Client handles an authorization error, not success | Step 5; `REQ4.3` |
+| T9 | Valid response with `state` different from the outstanding request | Response fails the state validation; POST transport does not bypass it | Step 5; `REQ4.3`, `REQ4.5`; RFC6749 Sections 4.1.2 and 10.12 |
+| T10 | Empty `code` in a code response | Empty value fails the nonempty code syntax; the response is not a valid success response | Step 5; `REQ4.3`, `REQ4.5`; RFC6749 Section 4.1.2 and Appendix A.11 |
+
+**11.1 Encoding vectors — Steps 3–4; `REQ3.1`, `REQ4.2`**
+
+These vectors test serialization only.
+They use `sample`, an illustrative field, not a new OAuth parameter.
+A decoded field still needs the validation rules of its protocol parameter.
+
+| Case | Input string | HTML attribute | Form body | Decoded string |
+| --- | --- | --- | --- | --- |
+| Quotes and ampersand | `a"b&c` | `value="a&quot;b&amp;c"` | `sample=a%22b%26c` | `a"b&c` |
+| Space and plus | `a + b` | `value="a + b"` | `sample=a+%2B+b` | `a + b` |
+| Empty boundary | Empty string | `value=""` | `sample=` | Empty string |
+
+**11.2 Evaluation status**
+
+This revision applies the guideline at commit `77ec021`.
+One Codex assistant revised the example using the listed references.
+The runtime identified the model as `gpt-6.1-sol`.
+Sampling settings were not available.
+
+Static document and encoding checks are recorded in the PR.
+Implementations and AI-generated test requirements have not been compared.
+The multi-model interoperability evaluation required before a final version remains pending.
