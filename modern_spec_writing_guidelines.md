@@ -44,7 +44,8 @@ Give AI systems enough information to create implementations and test requiremen
 9. **Labeled, Atomic Provisions**: Put one provision on each line or numbered item.
    Give each provision a unique ID.
    State the actor, condition, action, and expected result.
-   State what happens when an input or a check fails.
+   Give each failure action its own provision.
+   Reference the provision for the input rule or failed check.
    Distinguish receipt of a message from acceptance as valid.
    Use these prefixes:
 
@@ -70,13 +71,16 @@ Give AI systems enough information to create implementations and test requiremen
     `Variable / Parameter`, `Context`, `Sequence Step & Provisions`,
     `Type`, `Presence`, `Allowed Values`, and `Disallowed Values`.
 
-12. **Wire Examples and Test Vectors**: Provide inputs, outputs, and messages in fenced code blocks.
+12. **Wire Examples and Tests**: Put wire messages in fenced code blocks.
+    Use wire examples for typical flows and main errors.
     Mark illustrative examples as non-normative.
     Link them to steps and provisions.
     Examples MUST NOT add requirements.
     Check byte counts, escaping, and encoding.
     Identify placeholders and omitted data.
-    Include valid, invalid, and boundary cases.
+    Use test vectors or test requirements for detailed cases.
+    Include valid, invalid, and boundary cases in those tests.
+    A full wire message is not needed for each case.
     Give the expected result for each case and its governing provision.
 
 13. **AI Interoperability Testing**: Test before the specification becomes final.
