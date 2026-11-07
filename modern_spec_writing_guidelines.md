@@ -2,8 +2,6 @@
 
 Write specifications that humans can understand.
 Give AI systems enough information to create implementations and test requirements.
-Use examples to find ambiguities and improve this guideline.
-There is no need to maintain a mapping to an original specification.
 
 ## Suggested Provisions
 
