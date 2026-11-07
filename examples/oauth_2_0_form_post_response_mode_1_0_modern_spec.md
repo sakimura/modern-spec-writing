@@ -41,7 +41,7 @@ Uppercase MUST, MUST NOT, SHOULD, and MAY have the meanings defined by RFC2119 a
 
 **3.1 Imported terms**
 
-From RFC6749: Authorization Request, Authorization Response, Authorization Server, Client, Redirection URI, Resource Owner, and Response Type.
+From RFC6749: Access Token, Authorization Request, Authorization Response, Authorization Server, Client, Protected Resource, Redirection URI, Resource Owner, and Response Type.
 
 From RFC7230: User Agent and intermediary.
 
@@ -67,17 +67,18 @@ The form uses HTTP POST and `application/x-www-form-urlencoded` encoding.
 
 **5.1 Target actors**
 
-The Client requests the mode and processes the response.
+**Client**: An application that accesses protected resources with the Resource Owner's authorization.
+In this mode, the Client requests `form_post` and processes the Authorization Response.
 
-The AS creates the response form.
-
-These responsibilities use the imported role definitions.
+**Authorization Server (AS)**: A server that issues Access Tokens after authenticating the Resource Owner and obtaining authorization.
+In this mode, the AS creates the response form.
 
 **5.2 External actors**
 
-The UA submits the form to the Client.
+**User Agent (UA)**: A browser or similar application that acts on behalf of the Resource Owner.
+In this mode, the UA submits the form to the Client.
 
-An intermediary can handle HTTP messages between actors.
+**Intermediary**: A network component, such as a proxy or cache, that handles HTTP messages between actors.
 
 This document places requirements on the Client and AS.
 It does not guarantee that external actors obey instructions.
