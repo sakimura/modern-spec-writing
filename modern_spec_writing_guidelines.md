@@ -180,6 +180,14 @@ A full wire message is not needed for each case.
 
 Each provision has one action and one ID.
 
+The next pair shows a check and a separate failure action.
+It uses [RFC 6749, Sections 3.1.2.3 and 3.1.2.4](https://www.rfc-editor.org/rfc/rfc6749.html#section-3.1.2.3).
+It is not a complete OAuth validation procedure.
+
+**REQ2.1 (Step 2)**: The Authorization Server MUST check a supplied `redirect_uri` under RFC 6749, Section 3.1.2.3.
+
+**REQ2.2 (Step 2)**: If the check in `REQ2.1` fails, the Authorization Server MUST NOT automatically redirect the User Agent to that URI.
+
 ### EXAMPLE 2: Variable constraints
 
 | Variable / Parameter | Context | Sequence Step & Provisions | Type | Presence | Allowed Values | Disallowed Values |
