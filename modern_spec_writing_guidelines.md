@@ -1,8 +1,12 @@
 # Modern Spec Writing Guidelines
 
-Write specifications that humans can understand.
+## Scope
 
-Give AI systems enough information to create implementations and test requirements.
+This document provides guidance for specification authors and editors.
+The goals are to help them:
+
+* write specifications that humans can understand; and
+* provide enough information in those specifications for AI systems to create implementations and test requirements.
 
 ## Suggested Provisions
 
