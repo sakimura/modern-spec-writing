@@ -1,71 +1,118 @@
 # Modern Spec Writing Guidelines
 
-The consumer of the spec will increasingly be AI agents.
-Humans will feed AI Agents the specifications to create implementations.
-
-In this respect, we need to write specifications in such a way that it will be clear for AI Agents. That in turn will make the spec more understandable for humans as well.
+Write specifications that humans can understand.
+Give AI systems enough information to create implementations and test requirements.
 
 ## Suggested Provisions
 
- 1. **Clear Scope**: State clearly what the document specifies at the very beginning.
+1. **Clear Scope**: State what the document specifies at the beginning.
 
- 2. **Normative References**: All external references that need to be brought into context for the interpretation of the document MUST be listed here (akin to `include` or `import` in programming languages).
+2. **Normative References**: List all external specifications needed to interpret the document.
+   Give their versions and links.
+   Identify the external rules that implementations must use.
 
- 3. **Terms and Definitions**: Follow Normative References with Terms and Definitions.
+3. **Terms and Definitions**: Put definitions after normative references.
+   Definitions MUST NOT contain requirements or recommendations.
+   Import external terms without redefining them.
+   Example: `From [RFC6749]: Client, Authorization Server`.
 
-    * Definitions MUST NOT contain requirements or recommendations. Their sole purpose is to remove ambiguity where the same string might represent different concepts.
+4. **Abbreviations**: Provide an abbreviations and symbols table before the main content.
 
-    * **Importing External Terms**: When using terms defined in Normative References without modification, do not redefine them. Explicitly declare them as imports (e.g., `From [RFC6749]: Client, Authorization Server`).
+5. **Actors**: Define actors before their requirements.
+   Identify the actors that must conform to the specification.
+   Identify external actors, such as browsers and intermediaries.
 
- 4. **Abbreviations**: An abbreviations and symbols table MUST be provided before the main content.
+6. **Goal**: State the problem and the intended result.
+   State the assumptions and limits of each security claim.
 
- 5. **Actors**: All actors MUST be explicitly defined before stating any requirements and recommendations. Distinguish between **Target Implementation Actors** (to whom normative requirements apply) and **External / Uncontrolled Actors** (such as standard browsers or network intermediaries).
+7. **Interactions and Cross-References**: Show interactions in a Mermaid `sequenceDiagram`.
+   Enable `autonumber`.
+   Do not add a second set of step numbers.
+   Do not count notes as numbered messages.
 
- 6. **Goal**: Clearly state the goal of the specification (including the problem it solves or the security/functional property it achieves).
+   - Label each message with its provision IDs and key parameters.
+   - Link each variable to its steps and provisions.
+   - Link each provision to its steps.
+   - Keep diagrams, tables, and provisions consistent.
+   - Label optional paths and illustrative choices.
 
- 7. **Interactions & Cross-Referencing**: Express the interactions among and within actors using a sequence diagram in Mermaid format (`sequenceDiagram`) with `autonumber` enabled.
+8. **Active Voice and Actor Ownership**: Make the actor the subject.
+   Example: “The Client MUST verify the signature.”
+   For external actors, specify what the implementation must send or expect.
+   Do not promise that an external actor will obey an instruction.
 
-    * **Explicit Traceability**: Cross-reference sequence steps, variable parameters, and normative provisions so AI agents can map state transitions directly to validation and business logic:
-      1. In the **Sequence Diagram**, annotate each message with the relevant Provision IDs (e.g., `[REQ1]`, `[REQ3, PERM1]`) and key parameters.
-      2. In the **Variable Constraints Table**, include a `Sequence Step & Provisions` column linking each parameter to its sequence step(s) and governing provision(s).
-      3. In the **Provisions (Requirements/Recommendations/Permissions)**, explicitly reference the corresponding sequence step (e.g., `(Step 4)`).
+9. **Labeled, Atomic Provisions**: Put one provision on each line or numbered item.
+   Give each provision a unique ID.
+   State the actor, condition, action, and expected result.
+   Give each failure action its own provision.
+   Reference the provision for the input rule or failed check.
+   Distinguish receipt of a message from acceptance as valid.
+   Use these prefixes:
 
- 8. **Active Voice & Actor Ownership**: Use active voice where an Actor is the explicit subject (e.g., "Actor1 MUST verify the signature of the message", instead of "The signature of the message MUST be verified").
+   - `REQ`: MUST or MUST NOT.
+   - `REC`: SHOULD or SHOULD NOT.
+   - `PERM`: MAY.
 
-    * **Handling Out-of-Scope Actors**: When a flow depends on the standard behavior of an external/uncontrolled actor (e.g., a standard web browser or OS), frame the requirement around what the target implementation actors (e.g., Server or Client) MUST output to trigger that behavior or MUST expect to receive from it.
+10. **Simplified Technical English (STE)**: Use Simplified Technical English (ASD-STE100).
+    Keep sentences short.
+    Put one instruction in each sentence.
+    Use the same term for the same concept.
 
- 9. **Labeled, Atomic Provisions**: State one provision (requirement, recommendation, or permission) per line or numbered sub-list. All provisions MUST be uniquely labeled so they can be referenced unambiguously. Use standardized prefixes corresponding to RFC 2119 levels:
+11. **Structured Variable Constraints**: Use a Markdown table or JSON Schema.
+    State types, allowed values, prohibited values, and presence rules.
+    Distinguish prohibited values from unspecified cases.
+    State whether lists are complete or permit extensions.
+    State where case matters.
+    Distinguish data values from their encoded forms.
+    Explain which quotation marks are delimiters.
+    Do not confuse delimiters with quotation marks inside data.
 
-    * **`REQ`** for `MUST` / `MUST NOT` (Requirements)
+    Use these table columns:
+    `Variable / Parameter`, `Context`, `Sequence Step & Provisions`,
+    `Type`, `Presence`, `Allowed Values`, and `Disallowed Values`.
 
-    * **`REC`** for `SHOULD` / `SHOULD NOT` (Recommendations)
+12. **Wire Examples and Tests**: Put wire messages in fenced code blocks.
+    Use wire examples for typical flows and main errors.
+    Mark illustrative examples as non-normative.
+    Link them to steps and provisions.
+    Examples MUST NOT add requirements.
+    Check byte counts, escaping, and encoding.
+    Identify placeholders and omitted data.
+    Use test vectors or test requirements for detailed cases.
+    Include valid, invalid, and boundary cases in those tests.
+    A full wire message is not needed for each case.
+    Give the expected result for each case and its governing provision.
 
-    * **`PERM`** for `MAY` (Permissions)
-
-10. **Simplified Technical English (STE)**: Use Simplified Technical English (ASD-STE100). Combined with provisions 7, 8, and 9 above, it will look like EXAMPLE 1 below.
-
-11. **Structured Variable Constraints**: For variable values, parameters, and attributes, explicitly specify what is allowed and what is not. Format these constraints as a structured Markdown table (with columns: `Variable / Parameter`, `Context`, `Sequence Step & Provisions`, `Type`, `Allowed Values`, `Disallowed Values`) or a JSON Schema so AI agents can directly generate validation logic. Also state meta-rules (e.g., whether quotation marks in the spec are literal or delimiters).
-
-12. **Wire Examples / Test Vectors (Non-Normative)**: Include concrete, machine-readable examples of inputs, outputs, and protocol messages in fenced code blocks. Clearly mark them as non-normative and link them to the corresponding Sequence Diagram step and Provisions. This serves as ground-truth context for AI code generation.
-
-13. **AI Interoperability Testing**: When a feature reaches the implementable stage (and before going to final), feed the document to at least two different AI models to independently create implementations, and test if those implementations successfully interoperate.
+13. **AI Interoperability Testing**: Test before the specification becomes final.
+    Give the same document to at least two different AI models.
+    Ask each model to create an implementation independently.
+    Check whether the implementations interoperate.
+    Check each implementation against the provisions.
+    Check whether AI-generated test requirements agree with those provisions.
+    Record the models, inputs, assumptions, and results.
+    Use disagreements to find ambiguities in the document.
 
 ## Examples
 
-### EXAMPLE 1 (Provisions 7, 8, 9, and 10)
+### EXAMPLE 1: Atomic provisions
 
-* **REQ1 (Step 2)**: When Actor1 receives the token in Step 2, Actor1 **MUST**:
+* **REQ1.1 (Step 1)**: To request Form Post Response Mode, the Client MUST include `response_mode` in the Authorization Request.
+* **REQ1.2 (Step 1)**: When the Client requests Form Post Response Mode, the Client MUST set `response_mode` to `form_post`.
 
-  1. Extract the `iss` parameter value from the token payload;
+Each provision has one action and one ID.
 
-  2. Obtain the verification key corresponding to the `iss` value;
+### EXAMPLE 2: Variable constraints
 
-  3. Verify the digital signature of the token.
+| Variable / Parameter | Context | Sequence Step & Provisions | Type | Presence | Allowed Values | Disallowed Values |
+| --- | --- | --- | --- | --- | --- | --- |
+| `response_mode` | Requesting Form Post Response Mode | Step 1 (`REQ1.1`, `REQ1.2`) | String | Required | Exact string `form_post` | Any other value in this context |
 
-*(Note: We can now point to the signature verification requirement unambiguously as **REQ1.3**, and know immediately that it executes at **Step 2** of the sequence diagram.)*
+### EXAMPLE 3: A test requirement
 
-### EXAMPLE 2 (Provisions 7 and 11 - Cross-Referenced Variable Constraints Table)
+- **Provision**: `REQ1.2`.
+- **Condition**: The Client requests Form Post Response Mode.
+- **Observation**: Read `response_mode` in the generated request.
+- **Expected result**: The decoded value is exactly `form_post`.
 
-| Variable / Parameter | Context | Sequence Step & Provisions | Type | Allowed Values | Disallowed Values | 
-| ----- | ----- | ----- | ----- | ----- | ----- | 
-| `response_mode` | Authorization Request | Steps 1, 2 (`REQ1.1`, `REQ1.2`, `REQ2`) | String | Exact string `form_post` | Quoted strings (e.g., `"form_post"`), case variations (`FORM_POST`), empty string. | 
+This test checks the Client's output.
+It does not define how a server must handle other values.
