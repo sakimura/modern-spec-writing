@@ -5,6 +5,15 @@
 This document gives guidance to specification authors and editors.
 The guidance includes specification content, structure, and tests of implementations.
 
+## Goal
+
+Ambiguity can cause differences between implementations and between test results.
+
+This guidance has two goals for authors and editors.
+
+* Write specifications that humans can understand.
+* Provide enough information in those specifications for AI systems to create implementations and test requirements.
+
 ## Normative references
 
 | Reference | Version | Rules used in this document |
@@ -44,13 +53,6 @@ The guidance includes specification content, structure, and tests of implementat
 **Author.** A person who writes or edits a specification. The Author is the target actor in this guideline.
 
 **AI Model.** An external actor that can make an implementation or write test requirements from a specification.
-
-## Goal
-
-Ambiguity can cause differences between implementations and between test results.
-
-The first goal is to make specifications clear to humans.
-The second goal is to give AI systems enough information in those specifications to make implementations and write test requirements.
 
 ## Interoperability test sequence
 
