@@ -150,6 +150,8 @@ Example: “The Client MUST verify the signature.”
 
 **12.7** Identify placeholders and omitted data.
 
+A full wire message is not needed for each case.
+
 ### 13. Test Requirements
 
 **13.1** Use test vectors or test requirements for detailed cases.
@@ -157,8 +159,6 @@ Example: “The Client MUST verify the signature.”
 **13.2** Include valid, invalid, and boundary cases in those tests.
 
 **13.3** Give the expected result for each case and its governing provision.
-
-A full wire message is not needed for each case.
 
 ### 14. AI Interoperability Testing
 
