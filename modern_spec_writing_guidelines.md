@@ -112,7 +112,7 @@ Example: “The Client MUST verify the signature.”
 
 **10.4** Use the same term for the same concept.
 
-### 11. Structured Variable Constraints
+### 11. Value and Encoding Constraints
 
 **11.1** Use a Markdown table or JSON Schema.
 
@@ -132,7 +132,11 @@ Example: “The Client MUST verify the signature.”
 
 **11.9** Use these table columns: `Variable / Parameter`, `Context`, `Sequence Step & Provisions`, `Type`, `Presence`, `Allowed Values`, and `Disallowed Values`.
 
+**11.10** Give the rules for byte counts, escaping, and encoding in the specification or identify them in a normative reference.
+
 ### 12. Wire Examples and Tests
+
+#### Wire Examples
 
 **12.1** Put wire messages in fenced code blocks.
 
@@ -148,13 +152,13 @@ Example: “The Client MUST verify the signature.”
 
 **12.7** Identify placeholders and omitted data.
 
+#### Test Requirements
+
 **12.8** Use test vectors or test requirements for detailed cases.
 
 **12.9** Include valid, invalid, and boundary cases in those tests.
 
 **12.10** Give the expected result for each case and its governing provision.
-
-**12.11** Give the criteria for 12.6 in the specification or identify the applicable rules in a normative reference.
 
 A full wire message is not needed for each case.
 
