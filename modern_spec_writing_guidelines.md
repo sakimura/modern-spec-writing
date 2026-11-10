@@ -144,7 +144,7 @@ Example: “The Client MUST verify the signature.”
 
 **12.5** Examples MUST NOT add requirements.
 
-**12.6** Check byte counts, escaping, and encoding.
+**12.6** Make sure that the wire examples follow the applicable rules for byte counts, escaping, and encoding.
 
 **12.7** Identify placeholders and omitted data.
 
@@ -153,6 +153,8 @@ Example: “The Client MUST verify the signature.”
 **12.9** Include valid, invalid, and boundary cases in those tests.
 
 **12.10** Give the expected result for each case and its governing provision.
+
+**12.11** Give the criteria for 12.6 in the specification or identify the applicable rules in a normative reference.
 
 A full wire message is not needed for each case.
 
