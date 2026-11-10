@@ -144,7 +144,7 @@ Example: “The Client MUST verify the signature.”
 
 **12.5** Examples MUST NOT add requirements.
 
-**12.6** Check byte counts, escaping, and encoding.
+**12.6** Make sure that the wire examples follow the applicable rules for byte counts, escaping, and encoding.
 
 **12.7** Identify placeholders and omitted data.
 
@@ -153,6 +153,8 @@ Example: “The Client MUST verify the signature.”
 **12.9** Include valid, invalid, and boundary cases in those tests.
 
 **12.10** Give the expected result for each case and its governing provision.
+
+**12.11** Give the criteria for 12.6 in the specification or identify the applicable rules in a normative reference.
 
 A full wire message is not needed for each case.
 
@@ -164,11 +166,11 @@ A full wire message is not needed for each case.
 
 **13.3** Ask each model to create an implementation independently.
 
-**13.4** Check whether the implementations interoperate.
+**13.4** Do an interoperability test with the implementations.
 
-**13.5** Check each implementation against the provisions.
+**13.5** Compare the behavior of each implementation with the provisions.
 
-**13.6** Check whether AI-generated test requirements agree with those provisions.
+**13.6** Compare the AI-generated test requirements with the provisions.
 
 **13.7** Record the models, inputs, assumptions, and results.
 
@@ -188,7 +190,7 @@ The next pair shows a check and a separate failure action.
 It uses [RFC 6749, Sections 3.1.2.3 and 3.1.2.4](https://www.rfc-editor.org/rfc/rfc6749.html#section-3.1.2.3).
 It is not a complete OAuth validation procedure.
 
-**REQ2.1 (Step 2)**: The Authorization Server MUST check a supplied `redirect_uri` under RFC 6749, Section 3.1.2.3.
+**REQ2.1 (Step 2)**: The Authorization Server MUST validate a supplied `redirect_uri` under RFC 6749, Section 3.1.2.3.
 
 **REQ2.2 (Step 2)**: If the check in `REQ2.1` fails, the Authorization Server MUST NOT automatically redirect the User Agent to that URI.
 
@@ -205,5 +207,5 @@ It is not a complete OAuth validation procedure.
 - **Observation**: Read `response_mode` in the generated request.
 - **Expected result**: The decoded value is exactly `form_post`.
 
-This test checks the Client's output.
+The input to this test is the Client's output.
 It does not define how a server must handle other values.
