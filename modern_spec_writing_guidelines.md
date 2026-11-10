@@ -2,208 +2,281 @@
 
 ## Scope
 
-This document provides guidance for specification authors and editors.
-The goals are to help them:
+This document gives rules for specification authors and editors.
+The rules cover specification content, structure, and tests of implementations.
 
-* write specifications that humans can understand; and
-* provide enough information in those specifications for AI systems to create implementations and test requirements.
+## Normative references
 
-## Suggested Provisions
+| Reference | Version | Rules used in this document |
+| --- | --- | --- |
+| [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119.html) | March 1997 | Requirement, recommendation, and permission levels |
+| [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174.html) | May 2017 | Use of uppercase keywords for these levels |
+| [ASD-STE100](https://www.asd-ste100.org/) | Issue 9, January 15, 2025 | English writing rules and vocabulary |
+| [Mermaid sequence diagrams](https://mermaid.js.org/syntax/sequenceDiagram.html) | Mermaid 12.3.0 documentation | Sequence diagram syntax |
+| [GitHub Flavored Markdown](https://github.github.com/gfm/) | 0.29-gfm, April 6, 2019 | Headings, tables, and fenced code blocks |
+
+## Terms and definitions
+
+**Specification.** A document that states rules for a system, protocol, format, or procedure.
+
+**Provision.** A statement that gives a requirement, recommendation, or permission.
+
+**Target actor.** A participant to which the specification assigns provisions.
+
+**External actor.** A participant outside the scope of the specification's conformance rules.
+
+**Wire message.** Data that a protocol sends between implementations.
+
+**Variable.** A named value that can change.
+
+## Abbreviations
+
+| Abbreviation | Meaning |
+| --- | --- |
+| AI | Artificial intelligence |
+| ID | Identifier |
+| JSON | JavaScript Object Notation |
+| RFC | Request for Comments |
+| STE | Simplified Technical English |
+
+## Actors
+
+**Author.** A person who writes or edits a specification. The Author is the target actor in this guideline.
+
+**AI Model.** An external actor that can make an implementation or write test requirements from a specification.
+
+## Goal
+
+Ambiguity can cause differences between implementations and between test results.
+
+The first goal is to make specifications clear to humans.
+The second goal is to give AI systems enough information in those specifications to make implementations and write test requirements.
+
+## Interoperability test sequence
+
+This informative diagram shows the test procedure in `REQ13.1`.
+Model A and Model B are example labels.
+The order of the replies is illustrative.
+Assumption. Each model sends both requested outputs to the Author.
+The replies are inputs to the checks in Step 5.
+The Author examines differences in Step 6 if the results differ.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Author
+    participant A as AI Model A
+    participant B as AI Model B
+    Author->>A: [REQ13.2, REQ13.3, REQ13.9] Specification and requests
+    Author->>B: [REQ13.2, REQ13.3, REQ13.9] Same specification and requests
+    A-->>Author: [REQ13.4, REQ13.5, REQ13.6] Implementation and test requirements
+    B-->>Author: [REQ13.4, REQ13.5, REQ13.6] Implementation and test requirements
+    Author->>Author: [REQ13.4, REQ13.5, REQ13.6] Check implementations and test requirements
+    Author->>Author: [REQ13.7, REQ13.8] Record models, inputs, assumptions, and results
+```
+
+## Provisions
+
+The uppercase keywords MUST, MUST NOT, SHOULD, SHOULD NOT, and MAY have the meanings in RFC 2119 and RFC 8174.
+Each provision applies when its condition is true.
+A condition in a section applies to the provisions in that section.
 
 ### 1. Clear Scope
 
-**1.1** State what the document specifies at the beginning.
+**REQ1.1** The Author MUST give the scope of the specification at the beginning.
 
 ### 2. Normative References
 
-**2.1** List all external specifications needed to interpret the document.
+**REQ2.1** The Author MUST give a list of the external specifications necessary to interpret the specification.
 
-**2.2** Give their versions and links.
+**REQ2.2** The Author MUST give a version and a link for each normative reference.
 
-**2.3** Identify the external rules that implementations must use.
+**REQ2.3** The Author MUST identify the applicable rules in each normative reference.
 
 ### 3. Terms and Definitions
 
-**3.1** Put definitions after normative references.
+**REQ3.1** The Author MUST put the definitions after the normative references.
 
-**3.2** Definitions MUST NOT contain requirements or recommendations.
+**REQ3.2** The Author MUST keep requirements and recommendations out of definitions.
 
-**3.3** Import external terms without redefining them.
+**REQ3.3** When a term comes from a normative reference, the Author MUST identify that reference in the definitions.
 
-Example: `From [RFC6749]: Client, Authorization Server`.
+**REQ3.4** The Author MUST NOT give a new definition to an imported term.
 
 ### 4. Abbreviations
 
-**4.1** Provide an abbreviations and symbols table before the main content.
+**REQ4.1** If the specification uses abbreviations or symbols, the Author MUST put their meanings in a table before the provisions.
 
 ### 5. Actors
 
-**5.1** Define actors before their requirements.
+**REQ5.1** The Author MUST put the definitions of the actors before their provisions.
 
-**5.2** Identify the actors that must conform to the specification.
+**REQ5.2** The Author MUST identify the target actors.
 
-**5.3** Identify external actors, such as browsers and intermediaries.
+**REQ5.3** If interactions involve external actors, the Author MUST identify them.
 
 ### 6. Goal
 
-**6.1** State the problem and the intended result.
+**REQ6.1** The Author MUST give the problem and the intended result.
 
-**6.2** State the assumptions and limits of each security claim.
+**REQ6.2** For each security claim, the Author MUST give its assumptions and limits.
 
 ### 7. Interactions and Cross-References
 
-**7.1** Show interactions in a Mermaid `sequenceDiagram`.
+These provisions apply to specifications that define interactions.
 
-**7.2** Enable `autonumber`.
+**REQ7.1** The Author MUST show the interactions in a Mermaid sequence diagram.
 
-**7.3** Do not add a second set of step numbers.
+**REQ7.2** The Author MUST use `autonumber` in each sequence diagram.
 
-**7.4** Do not count notes as numbered messages.
+**REQ7.3** The Author MUST NOT add manual step numbers to the diagram.
 
-**7.5** Label each message with its provision IDs and key parameters.
+**REQ7.4** The Author MUST NOT refer to a diagram note as a numbered step.
 
-**7.6** Link each variable to its steps and provisions.
+**REQ7.5** For each message, the Author MUST give its provision IDs and key parameters.
 
-**7.7** Link each provision to its steps.
+**REQ7.6** For each variable used in an interaction, the Author MUST identify its steps and provisions.
 
-**7.8** Keep diagrams, tables, and provisions consistent.
+**REQ7.7** For each provision that applies to an interaction, the Author MUST identify its steps.
 
-**7.9** Label optional paths and illustrative choices.
+**REQ7.8** The Author MUST make the diagrams, tables, and provisions agree.
+
+**REQ7.9** The Author MUST identify optional paths and illustrative choices in the diagram or its description.
 
 ### 8. Active Voice and Actor Ownership
 
-**8.1** Make the actor the subject.
+**REQ8.1** The Author MUST make the actor the subject of each provision.
 
-**8.2** For external actors, specify what the implementation must send or expect.
+**REQ8.2** For each interaction with an external actor, the Author MUST give the required behavior of the target actor.
 
-**8.3** Do not promise that an external actor will obey an instruction.
-
-Example: “The Client MUST verify the signature.”
+**REQ8.3** The Author MUST identify each assumption about the behavior of an external actor.
 
 ### 9. Labeled, Atomic Provisions
 
-**9.1** Put one provision on each line or numbered item.
+**REQ9.1** The Author MUST put each provision in a separate paragraph or numbered item.
 
-**9.2** Give each provision a unique ID.
+**REQ9.2** The Author MUST give each provision a unique ID.
 
-**9.3** State the actor, condition, action, and expected result.
+**REQ9.3** The Author MUST identify the actor, condition, action, and expected result of each provision.
 
-**9.4** Give each failure action its own provision.
+**REQ9.4** For each specified failure action, the Author MUST write a separate provision.
 
-**9.5** Reference the provision for the input rule or failed check.
+**REQ9.5** For each failure action, the Author MUST identify the provision for the input rule or failed check.
 
-**9.6** Distinguish receipt of a message from acceptance as valid.
+**REQ9.6** For a received message, the Author MUST give separate conditions for receipt and acceptance as valid.
 
-**9.7** Use these prefixes:
+**REQ9.7** The Author MUST use the prefix in the table for each provision ID.
 
 | Prefix | Keywords |
 | --- | --- |
-| `REQ` | MUST or MUST NOT. |
-| `REC` | SHOULD or SHOULD NOT. |
-| `PERM` | MAY. |
+| `REQ` | MUST or MUST NOT |
+| `REC` | SHOULD or SHOULD NOT |
+| `PERM` | MAY |
 
-### 10. Simplified Technical English (STE)
+### 10. Simplified Technical English
 
-**10.1** Use Simplified Technical English (ASD-STE100).
+**REQ10.1** The Author MUST use ASD-STE100 for the English text of the specification.
 
-**10.2** Keep sentences short.
+**REQ10.2** The Author MUST use short sentences.
 
-**10.3** Put one instruction in each sentence.
+**REQ10.3** The Author MUST put one instruction in each sentence.
 
-**10.4** Use the same term for the same concept.
+**REQ10.4** The Author MUST use the same term for the same concept.
 
 ### 11. Structured Variable Constraints
 
-**11.1** Use a Markdown table or JSON Schema.
+These provisions apply when the specification defines variables.
 
-**11.2** State types, allowed values, prohibited values, and presence rules.
+**REQ11.1** The Author MUST put variable constraints in a Markdown table or JSON Schema.
 
-**11.3** Distinguish prohibited values from unspecified cases.
+**REQ11.2** For each variable, the Author MUST give its type, presence, permitted values, and prohibited values.
 
-**11.4** State whether lists are complete or permit extensions.
+**REQ11.3** The Author MUST show which values the specification prohibits and which values it does not specify.
 
-**11.5** State where case matters.
+**REQ11.4** For each list of values, the Author MUST show if extensions are possible.
 
-**11.6** Distinguish data values from their encoded forms.
+**REQ11.5** The Author MUST show where letter case changes the meaning of a value.
 
-**11.7** Explain which quotation marks are delimiters.
+**REQ11.6** For encoded values, the Author MUST show the data values separately from their encoded forms.
 
-**11.8** Do not confuse delimiters with quotation marks inside data.
+**REQ11.7** If quotation marks show the limits of a value, the Author MUST identify those marks.
 
-**11.9** Use these table columns: `Variable / Parameter`, `Context`, `Sequence Step & Provisions`, `Type`, `Presence`, `Allowed Values`, and `Disallowed Values`.
+**REQ11.8** If data contains quotation marks, the Author MUST identify them separately from the marks that enclose the value.
 
-### 12. Wire Examples and Tests
+**REQ11.9** For a variable constraint table, the Author MUST use the columns in the table below.
 
-**12.1** Put wire messages in fenced code blocks.
-
-**12.2** Use wire examples for typical flows and main errors.
-
-**12.3** Mark illustrative examples as non-normative.
-
-**12.4** Link them to steps and provisions.
-
-**12.5** Examples MUST NOT add requirements.
-
-**12.6** Check byte counts, escaping, and encoding.
-
-**12.7** Identify placeholders and omitted data.
-
-**12.8** Use test vectors or test requirements for detailed cases.
-
-**12.9** Include valid, invalid, and boundary cases in those tests.
-
-**12.10** Give the expected result for each case and its governing provision.
-
-A full wire message is not needed for each case.
-
-### 13. AI Interoperability Testing
-
-**13.1** Test before the specification becomes final.
-
-**13.2** Give the same document to at least two different AI models.
-
-**13.3** Ask each model to create an implementation independently.
-
-**13.4** Check whether the implementations interoperate.
-
-**13.5** Check each implementation against the provisions.
-
-**13.6** Check whether AI-generated test requirements agree with those provisions.
-
-**13.7** Record the models, inputs, assumptions, and results.
-
-**13.8** Use disagreements to find ambiguities in the document.
-
-## Examples
-
-### EXAMPLE 1: Atomic provisions
-
-**REQ1.1 (Step 1)**: To request Form Post Response Mode, the Client MUST include `response_mode` in the Authorization Request.
-
-**REQ1.2 (Step 1)**: When the Client requests Form Post Response Mode, the Client MUST set `response_mode` to `form_post`.
-
-Each provision has one action and one ID.
-
-The next pair shows a check and a separate failure action.
-It uses [RFC 6749, Sections 3.1.2.3 and 3.1.2.4](https://www.rfc-editor.org/rfc/rfc6749.html#section-3.1.2.3).
-It is not a complete OAuth validation procedure.
-
-**REQ2.1 (Step 2)**: The Authorization Server MUST check a supplied `redirect_uri` under RFC 6749, Section 3.1.2.3.
-
-**REQ2.2 (Step 2)**: If the check in `REQ2.1` fails, the Authorization Server MUST NOT automatically redirect the User Agent to that URI.
-
-### EXAMPLE 2: Variable constraints
+The list of provision ID prefixes is complete. The prefix is case-sensitive.
 
 | Variable / Parameter | Context | Sequence Step & Provisions | Type | Presence | Allowed Values | Disallowed Values |
 | --- | --- | --- | --- | --- | --- | --- |
-| `response_mode` | Requesting Form Post Response Mode | Step 1 (`REQ1.1`, `REQ1.2`) | String | Required | Exact string `form_post` | Any other value in this context |
+| Provision ID prefix | Beginning of a provision ID | `REQ9.7` | Text | Required | `REQ`, `REC`, or `PERM` as specified by the keyword | All other values |
+| Specification version | Input to each AI Model | Steps 1 and 2, `REQ13.2` | Document version | Required | Same version for all models | Different versions for different models |
+| Number of AI Models | Models that get the specification | Steps 1 and 2, `REQ13.2` | Integer | Required | Two or more different models | Fewer than two different models |
 
-### EXAMPLE 3: A test requirement
+### 12. Wire Examples and Tests
 
-- **Provision**: `REQ1.2`.
-- **Condition**: The Client requests Form Post Response Mode.
-- **Observation**: Read `response_mode` in the generated request.
-- **Expected result**: The decoded value is exactly `form_post`.
+**REQ12.1** If an example contains wire messages, the Author MUST put them in fenced code blocks.
 
-This test checks the Client's output.
-It does not define how a server must handle other values.
+**REQ12.2** If the specification defines a wire protocol, the Author MUST show typical flows and main errors in wire examples.
+
+**REQ12.3** The Author MUST identify illustrative examples as non-normative.
+
+**REQ12.4** For each example, the Author MUST identify its applicable steps and provisions.
+
+**REQ12.5** The Author MUST NOT add requirements in examples.
+
+**REQ12.6** For wire examples, the Author MUST make sure that byte counts, escaping, and encoding are correct.
+
+**REQ12.7** For each wire example, the Author MUST identify placeholders and omitted data.
+
+**REQ12.8** For detailed cases, the Author MUST use test vectors or test requirements.
+
+**REQ12.9** The Author MUST include valid, invalid, and boundary cases in the tests.
+
+**REQ12.10** For each case, the Author MUST give the expected result and the provision that specifies it.
+
+### 13. AI Interoperability Testing
+
+These provisions apply to specifications for protocols that independent implementations can use to exchange messages.
+
+**REQ13.1 (Steps 1 to 6)** Before the specification becomes final, the Author MUST do the interoperability test in this section.
+
+**REQ13.2 (Steps 1 and 2)** The Author MUST give the same specification version to at least two different AI Models.
+
+**REQ13.3 (Steps 1 and 2)** The Author MUST tell each AI Model to make an independent implementation.
+
+**REQ13.4 (Steps 3 to 5)** The Author MUST do a test that shows if the implementations exchange messages correctly.
+
+**REQ13.5 (Steps 3 to 5)** The Author MUST compare each implementation with the provisions.
+
+**REQ13.6 (Steps 3 to 5)** The Author MUST compare the generated test requirements with the provisions.
+
+**REQ13.7 (Step 6)** The Author MUST record the models, inputs, assumptions, and results.
+
+**REQ13.8 (Step 6)** If the results differ, the Author MUST examine the differences for ambiguities in the specification.
+
+**REQ13.9 (Steps 1 and 2)** The Author MUST tell each AI Model to write test requirements.
+
+## Examples (non-normative)
+
+### Separate provisions for a check and a failure action
+
+This example illustrates `REQ9.4` and `REQ9.5`.
+
+**REQ-EX1** Before review, the Author MUST make sure that each provision ID is unique.
+
+**REQ-EX2** If the check in `REQ-EX1` finds a duplicate, the Author MUST correct the duplicate ID.
+
+### Test requirements
+
+These cases check a provision ID for a requirement with the keyword MUST.
+Each ID is a sample input.
+
+| Input | Case | Expected result | Provision |
+| --- | --- | --- | --- |
+| `REQ1.1` | Valid | The prefix is correct for MUST. | `REQ9.7` |
+| `REC1.1` | Invalid | The prefix is incorrect for MUST. | `REQ9.7` |
+| `req1.1` | Invalid case | The prefix is incorrect because it has lowercase letters. | `REQ9.7`, `REQ11.5` |
+| `1.1` | Boundary with no prefix | The ID has no prefix and fails the check. | `REQ9.7` |
+
+The [OAuth Form Post example](examples/oauth_2_0_form_post_response_mode_1_0_modern_spec.md) shows an application to a wire protocol.
