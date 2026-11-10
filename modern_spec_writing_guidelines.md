@@ -134,9 +134,7 @@ Example: “The Client MUST verify the signature.”
 
 **11.10** Give the rules for byte counts, escaping, and encoding in the specification or identify them in a normative reference.
 
-### 12. Wire Examples and Tests
-
-#### Wire Examples
+### 12. Wire Examples
 
 **12.1** Put wire messages in fenced code blocks.
 
@@ -152,33 +150,33 @@ Example: “The Client MUST verify the signature.”
 
 **12.7** Identify placeholders and omitted data.
 
-#### Test Requirements
+### 13. Test Requirements
 
-**12.8** Use test vectors or test requirements for detailed cases.
+**13.1** Use test vectors or test requirements for detailed cases.
 
-**12.9** Include valid, invalid, and boundary cases in those tests.
+**13.2** Include valid, invalid, and boundary cases in those tests.
 
-**12.10** Give the expected result for each case and its governing provision.
+**13.3** Give the expected result for each case and its governing provision.
 
 A full wire message is not needed for each case.
 
-### 13. AI Interoperability Testing
+### 14. AI Interoperability Testing
 
-**13.1** Test before the specification becomes final.
+**14.1** Test before the specification becomes final.
 
-**13.2** Give the same document to at least two different AI models.
+**14.2** Give the same document to at least two different AI models.
 
-**13.3** Ask each model to create an implementation independently.
+**14.3** Ask each model to create an implementation independently.
 
-**13.4** Do an interoperability test with the implementations.
+**14.4** Do an interoperability test with the implementations.
 
-**13.5** Compare the behavior of each implementation with the provisions.
+**14.5** Compare the behavior of each implementation with the provisions.
 
-**13.6** Compare the AI-generated test requirements with the provisions.
+**14.6** Compare the AI-generated test requirements with the provisions.
 
-**13.7** Record the models, inputs, assumptions, and results.
+**14.7** Record the models, inputs, assumptions, and results.
 
-**13.8** Use disagreements to find ambiguities in the document.
+**14.8** Use disagreements to find ambiguities in the document.
 
 ## Examples
 
