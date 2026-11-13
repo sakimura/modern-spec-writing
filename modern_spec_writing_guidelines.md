@@ -70,6 +70,10 @@ Example: `From [RFC6749]: Client, Authorization Server`.
 
 **7.9** Label optional paths and illustrative choices.
 
+**7.10** For multiple diagrams, include the diagram name in each step reference.
+
+**7.11** Identify local actions that have no message step. Do not add messages only to number those actions.
+
 ### 8. Active Voice and Actor Ownership
 
 **8.1** Make the actor the subject.
@@ -101,6 +105,8 @@ Example: “The Client MUST verify the signature.”
 | `REQ` | MUST or MUST NOT. |
 | `REC` | SHOULD or SHOULD NOT. |
 | `PERM` | MAY. |
+
+**9.8** When rewriting a specification, preserve unspecified failure behavior. Record the gap instead of adding a failure action.
 
 ### 10. Simplified Technical English (STE)
 
