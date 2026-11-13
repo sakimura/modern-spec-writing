@@ -23,6 +23,9 @@ This document changes their transport, not their meaning.
 
 ## 2. Normative references
 
+<a id="table-1"></a>
+**Table 1 — Normative references**
+
 | Reference | Version / date | Rules used here |
 | --- | --- | --- |
 | [RFC2119](https://www.rfc-editor.org/rfc/rfc2119.html) | March 1997 | Requirement keywords |
@@ -53,6 +56,9 @@ A Response Mode that returns parameters through an automatically submitted HTML 
 The form uses HTTP POST and `application/x-www-form-urlencoded` encoding.
 
 ## 4. Abbreviations
+
+<a id="table-2"></a>
+**Table 2 — Abbreviations**
 
 | Abbreviation | Meaning |
 | --- | --- |
@@ -95,9 +101,12 @@ A received form is not proof that the AS sent it.
 
 ## 7. Interactions
 
-This diagram is informative.
+[Figure 1](#figure-1) is informative.
 Message numbers are the step references used below.
 Notes are not numbered steps.
+
+<a id="figure-1"></a>
+**Figure 1 — Form Post Response Mode interaction**
 
 ```mermaid
 sequenceDiagram
@@ -115,9 +124,9 @@ sequenceDiagram
     Client->>Client: [REQ4.3, REQ4.4, REQ4.5] Validate and process response
 ```
 
-Steps 3–5 apply only after redirect validation succeeds.
+[Figure 1](#figure-1), Messages 3–5 apply only after redirect validation succeeds.
 An invalid URI prevents automatic redirection under `REQ2.2`.
-A valid URI can receive an OAuth error response in Step 3.
+A valid URI can receive an OAuth error response in [Figure 1](#figure-1), Message 3.
 Error handling follows the selected OAuth flow.
 
 ## 8. Variable constraints
@@ -136,15 +145,18 @@ HTML attribute syntax follows HTML401.
 
 **8.2 Constraints**
 
+<a id="table-3"></a>
+**Table 3 — Variable constraints**
+
 | Variable / Parameter | Context | Sequence Step & Provisions | Type | Presence | Allowed Values | Disallowed Values |
 | --- | --- | --- | --- | --- | --- | --- |
-| `response_mode` | Requesting this mode | Steps 1–2; `REQ1.1`, `REQ1.2` | String | Required for this request | Exact `form_post` | Any other value for this request |
-| `redirect_uri` | Authorization Request | Step 2; `REQ2.1`, `REQ2.2` | URI | Per RFC6749 Section 3.1.2.3 | URI permitted by the applicable registration rules | URI that fails those rules |
-| `action` | Response form | Steps 3–4; `REQ3.2` | URI | Required | Client's validated Redirection URI | Another destination |
-| `method` | Response form | Steps 3–4; `REQ3.3` | HTML method | Required | POST, with HTML case rules | A different method |
-| Response parameters | Form controls, then decoded POST fields | Steps 3–5; `REQ3.1`, `REQ4.2`, `REQ4.3` | Per Response Type | Per selected flow | Names and values permitted by that flow | Values prohibited by that flow |
-| Submission media type | POST body | Step 4; `REQ3.7`, `REQ4.1` | Media type | Required | `application/x-www-form-urlencoded` | Another form encoding |
-| Cache instructions | AS response | Step 3; `REQ3.4`, `REQ3.5` | HTTP directives | Required | Instructions against storage and reuse | Missing instructions |
+| `response_mode` | Requesting this mode | [Figure 1](#figure-1), Messages 1–2; `REQ1.1`, `REQ1.2` | String | Required for this request | Exact `form_post` | Any other value for this request |
+| `redirect_uri` | Authorization Request | [Figure 1](#figure-1), Message 2; `REQ2.1`, `REQ2.2` | URI | Per RFC6749 Section 3.1.2.3 | URI permitted by the applicable registration rules | URI that fails those rules |
+| `action` | Response form | [Figure 1](#figure-1), Messages 3–4; `REQ3.2` | URI | Required | Client's validated Redirection URI | Another destination |
+| `method` | Response form | [Figure 1](#figure-1), Messages 3–4; `REQ3.3` | HTML method | Required | POST, with HTML case rules | A different method |
+| Response parameters | Form controls, then decoded POST fields | [Figure 1](#figure-1), Messages 3–5; `REQ3.1`, `REQ4.2`, `REQ4.3` | Per Response Type | Per selected flow | Names and values permitted by that flow | Values prohibited by that flow |
+| Submission media type | POST body | [Figure 1](#figure-1), Message 4; `REQ3.7`, `REQ4.1` | Media type | Required | `application/x-www-form-urlencoded` | Another form encoding |
+| Cache instructions | AS response | [Figure 1](#figure-1), Message 3; `REQ3.4`, `REQ3.5` | HTTP directives | Required | Instructions against storage and reuse | Missing instructions |
 
 The response parameter set is not a fixed list in this document.
 Unspecified inputs need the rules of the applicable parameter or flow.
@@ -152,13 +164,13 @@ The HTML examples use hidden inputs; other valid form controls are not excluded 
 
 ## 9. Provisions
 
-**9.1 Requesting the mode (Steps 1–2)**
+**9.1 Requesting the mode ([Figure 1](#figure-1), Messages 1–2)**
 
 **REQ1.1**: To request this mode, the Client MUST include `response_mode` in the Authorization Request.
 
 **REQ1.2**: For this mode, the Client MUST set `response_mode` to `form_post`.
 
-**9.2 Checking the destination (Step 2)**
+**9.2 Checking the destination ([Figure 1](#figure-1), Message 2)**
 
 These provisions use RFC6749 Sections 3.1.2.3 and 3.1.2.4.
 
@@ -168,7 +180,7 @@ These provisions use RFC6749 Sections 3.1.2.3 and 3.1.2.4.
 
 **REC1**: If `REQ2.1` fails, the AS SHOULD inform the Resource Owner of the error.
 
-**9.3 Creating the response (Step 3)**
+**9.3 Creating the response ([Figure 1](#figure-1), Message 3)**
 
 These provisions apply when the AS returns a response using this mode.
 
@@ -194,17 +206,17 @@ Submit controls can provide a manual fallback.
 The fallback does not remove `REQ3.6`.
 No particular script, input type, or HTTP status is required by these provisions.
 
-**9.4 Receiving the response (Steps 4–5)**
+**9.4 Receiving the response ([Figure 1](#figure-1), Messages 4–5)**
 
-**REQ4.1 (Step 4)**: The Client MUST support form-encoded POST responses at its Redirection URI.
+**REQ4.1 ([Figure 1](#figure-1), Message 4)**: The Client MUST support form-encoded POST responses at its Redirection URI.
 
-**REQ4.2 (Step 4)**: The Client MUST decode the POST body as form data.
+**REQ4.2 ([Figure 1](#figure-1), Message 4)**: The Client MUST decode the POST body as form data.
 
-**REQ4.3 (Step 5)**: The Client MUST validate the decoded response under the selected Response Type's rules.
+**REQ4.3 ([Figure 1](#figure-1), Message 5)**: The Client MUST validate the decoded response under the selected Response Type's rules.
 
-**REQ4.4 (Step 5)**: The Client MUST process a valid response regardless of the form submission technique.
+**REQ4.4 ([Figure 1](#figure-1), Message 5)**: The Client MUST process a valid response regardless of the form submission technique.
 
-**REQ4.5 (Step 5)**: If `REQ4.3` fails, the Client MUST NOT treat the response as a successful authorization.
+**REQ4.5 ([Figure 1](#figure-1), Message 5)**: If `REQ4.3` fails, the Client MUST NOT treat the response as a successful authorization.
 
 For `code`, RFC6749 Sections 4.1.2 and 4.1.2.1 define success and error responses.
 Section 10.12 defines CSRF protection.
@@ -218,7 +230,7 @@ HTTP framing and the earlier Authorization Request are omitted.
 Assume the request used `response_type=code`, `response_mode=form_post`, and the shown `state`.
 The destination has passed `REQ2.1`.
 
-**10.1 Success form — Step 3; `REQ3.1`–`REQ3.7`, `PERM1`, `PERM2`**
+**10.1 Success form — [Figure 1](#figure-1), Message 3; `REQ3.1`–`REQ3.7`, `PERM1`, `PERM2`**
 
 This example uses JavaScript, hidden controls, and explicit cache headers.
 The headers illustrate the cache instructions; they are not a required header template.
@@ -241,7 +253,7 @@ Pragma: no-cache
 </html>
 ```
 
-**10.2 Submitted success — Step 4; `REQ3.7`, `REQ4.1`, `REQ4.2`**
+**10.2 Submitted success — [Figure 1](#figure-1), Message 4; `REQ3.7`, `REQ4.1`, `REQ4.2`**
 
 The body below contains 45 ASCII octets, excluding a trailing newline.
 The Client still applies `REQ4.3` before treating the response as valid.
@@ -254,7 +266,7 @@ Content-Type: application/x-www-form-urlencoded
 code=SplxlOBeZQQYbYS6WxSbIA&state=af0ifjsldkj
 ```
 
-**10.3 Access denied — Steps 3–5; `REQ3.1`, `REQ4.2`, `REQ4.3`**
+**10.3 Access denied — [Figure 1](#figure-1), Messages 3–5; `REQ3.1`, `REQ4.2`, `REQ4.3`**
 
 The Resource Owner denies authorization after redirect validation succeeds.
 The AS uses the same form mechanism with `error` and `state` controls instead of `code`.
@@ -272,24 +284,30 @@ If `REQ2.1` fails, this example does not apply; `REQ2.2` governs that failure.
 These cases check provisions; they do not add protocol requirements.
 Full HTTP messages are not needed for each case.
 
+<a id="table-4"></a>
+**Table 4 — Proposed test requirements**
+
 | ID | Setup / input | Observation and expected result | Step & provision |
 | --- | --- | --- | --- |
-| T1 | Client requests this mode | Request contains `response_mode=form_post` | Steps 1–2; `REQ1.1`, `REQ1.2` |
-| T2 | Client requests this mode but emits `FORM_POST`, an empty value, or surrounding data quotes | Generated request fails the Client requirement; no AS rejection rule is inferred | Steps 1–2; `REQ1.2` |
-| T3 | AS receives a mismatching Redirection URI | No automatic redirection to that URI | Step 2; `REQ2.1`, `REQ2.2` |
-| T4 | AS creates a response form | Parsed action is the validated destination; submission method is POST | Step 3; `REQ3.2`, `REQ3.3` |
-| T5 | AS returns a response form | Response instructs UA and intermediaries against storage and reuse; external compliance is not assumed | Step 3; `REQ3.4`, `REQ3.5` |
-| T6 | AS returns a response form | Form provides automatic submission with form encoding | Steps 3–4; `REQ3.6`, `REQ3.7` |
-| T7 | Equivalent valid responses in separate requests, automatic and manual submission | Client processes both with the same validation result | Steps 4–5; `REQ4.1`–`REQ4.4` |
-| T8 | Error body from Section 10.3; outstanding request has matching state | Client handles an authorization error, not success | Step 5; `REQ4.3` |
-| T9 | Valid response with `state` different from the outstanding request | Response fails the state validation; POST transport does not bypass it | Step 5; `REQ4.3`, `REQ4.5`; RFC6749 Sections 4.1.2 and 10.12 |
-| T10 | Empty `code` in a code response | Empty value fails the nonempty code syntax; the response is not a valid success response | Step 5; `REQ4.3`, `REQ4.5`; RFC6749 Section 4.1.2 and Appendix A.11 |
+| T1 | Client requests this mode | Request contains `response_mode=form_post` | [Figure 1](#figure-1), Messages 1–2; `REQ1.1`, `REQ1.2` |
+| T2 | Client requests this mode but emits `FORM_POST`, an empty value, or surrounding data quotes | Generated request fails the Client requirement; no AS rejection rule is inferred | [Figure 1](#figure-1), Messages 1–2; `REQ1.2` |
+| T3 | AS receives a mismatching Redirection URI | No automatic redirection to that URI | [Figure 1](#figure-1), Message 2; `REQ2.1`, `REQ2.2` |
+| T4 | AS creates a response form | Parsed action is the validated destination; submission method is POST | [Figure 1](#figure-1), Message 3; `REQ3.2`, `REQ3.3` |
+| T5 | AS returns a response form | Response instructs UA and intermediaries against storage and reuse; external compliance is not assumed | [Figure 1](#figure-1), Message 3; `REQ3.4`, `REQ3.5` |
+| T6 | AS returns a response form | Form provides automatic submission with form encoding | [Figure 1](#figure-1), Messages 3–4; `REQ3.6`, `REQ3.7` |
+| T7 | Equivalent valid responses in separate requests, automatic and manual submission | Client processes both with the same validation result | [Figure 1](#figure-1), Messages 4–5; `REQ4.1`–`REQ4.4` |
+| T8 | Error body from Section 10.3; outstanding request has matching state | Client handles an authorization error, not success | [Figure 1](#figure-1), Message 5; `REQ4.3` |
+| T9 | Valid response with `state` different from the outstanding request | Response fails the state validation; POST transport does not bypass it | [Figure 1](#figure-1), Message 5; `REQ4.3`, `REQ4.5`; RFC6749 Sections 4.1.2 and 10.12 |
+| T10 | Empty `code` in a code response | Empty value fails the nonempty code syntax; the response is not a valid success response | [Figure 1](#figure-1), Message 5; `REQ4.3`, `REQ4.5`; RFC6749 Section 4.1.2 and Appendix A.11 |
 
-**11.1 Encoding vectors — Steps 3–4; `REQ3.1`, `REQ4.2`**
+**11.1 Encoding vectors — [Figure 1](#figure-1), Messages 3–4; `REQ3.1`, `REQ4.2`**
 
 These vectors test serialization only.
 They use `sample`, an illustrative field, not a new OAuth parameter.
 A decoded field still needs the validation rules of its protocol parameter.
+
+<a id="table-5"></a>
+**Table 5 — Illustrative encoding vectors**
 
 | Case | Input string | HTML attribute | Form body | Decoded string |
 | --- | --- | --- | --- | --- |

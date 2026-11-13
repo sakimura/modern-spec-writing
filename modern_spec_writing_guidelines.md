@@ -72,9 +72,13 @@ Example: `From [RFC6749]: Client, Authorization Server`.
 
 **7.9** Label optional paths and illustrative choices.
 
-**7.10** For multiple diagrams, include the diagram name in each step reference.
+**7.10** Identify the figure number and message number in each sequence step reference.
 
 **7.11** Identify local actions that have no message step. Do not add messages only to number those actions.
+
+**7.12** Give every figure and table a number and a title. Use separate number sequences for figures and tables.
+
+**7.13** Refer to each figure or table by its number.
 
 ### 8. Active Voice and Actor Ownership
 
@@ -101,6 +105,9 @@ Example: “The Client MUST verify the signature.”
 **9.6** Distinguish receipt of a message from acceptance as valid.
 
 **9.7** Use these prefixes:
+
+<a id="table-1"></a>
+**Table 1 — Provision prefixes**
 
 | Prefix | Keywords |
 | --- | --- |
@@ -205,6 +212,9 @@ It is not a complete OAuth validation procedure.
 **REQ2.2 (Step 2)**: If the check in `REQ2.1` fails, the Authorization Server MUST NOT automatically redirect the User Agent to that URI.
 
 ### EXAMPLE 2: Variable constraints
+
+<a id="table-2"></a>
+**Table 2 — Example variable constraints**
 
 | Variable / Parameter | Context | Sequence Step & Provisions | Type | Presence | Allowed Values | Disallowed Values |
 | --- | --- | --- | --- | --- | --- | --- |
