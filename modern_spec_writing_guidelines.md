@@ -30,12 +30,11 @@ The goals are to help them:
 
 **3.3** Import external terms without redefining them.
 
-
 [Example 1](#example-1) shows an imported-term statement.
 
-<a id="example-1"></a>
+#### Example-1
 
-> **Example 1 — Imported terms (non-normative)**
+> **Imported terms (non-normative)**
 >
 > This statement imports OAuth terms without defining them again.
 >
@@ -75,13 +74,13 @@ The goals are to help them:
 
 **7.6** Link each variable to its steps and provisions.
 
-**7.7** Link each provision to its steps.
+**7.7** Keep a complete provision-to-step reference table when inline references interrupt reading.
 
 **7.8** Keep diagrams, tables, and provisions consistent.
 
 **7.9** Label optional paths and illustrative choices.
 
-**7.10** Identify the figure number and message number in each sequence step reference.
+**7.10** Identify the figure number and message number in interaction reference tables.
 
 **7.11** Identify local actions that have no message step. Do not add messages only to number those actions.
 
@@ -91,6 +90,19 @@ The goals are to help them:
 
 **7.14** Validate each diagram with its diagram tool before review.
 
+**7.15** Put the explanation before cross-reference details.
+
+**7.16** Use short references in prose. Put long ID lists in reference tables.
+
+**7.17** Use short Markdown headings as link targets. Do not depend on raw HTML anchors.
+
+**7.18** Check internal links in the intended Markdown preview tools.
+
+**7.19** For content inside a block quote, link to a heading outside the quote.
+
+Keep link-target headings short. Put the descriptive title on the next line.
+For an example, put the link-target heading before its block quote.
+
 ### 8. Active Voice and Actor Ownership
 
 **8.1** Make the actor the subject.
@@ -99,12 +111,11 @@ The goals are to help them:
 
 **8.3** Do not promise that an external actor will obey an instruction.
 
-
 [Example 2](#example-2) makes the responsible actor the subject.
 
-<a id="example-2"></a>
+#### Example-2
 
-> **Example 2 — Actor ownership (non-normative)**
+> **Actor ownership (non-normative)**
 >
 > This sentence makes the Client responsible for checking the signature.
 >
@@ -126,8 +137,9 @@ The goals are to help them:
 
 **9.7** Use these prefixes:
 
-<a id="table-1"></a>
-**Table 1 — Provision prefixes**
+#### Table-1
+
+**Provision prefixes**
 
 | Prefix | Keywords |
 | --- | --- |
@@ -139,15 +151,15 @@ The goals are to help them:
 
 [Example 3](#example-3) shows atomic provisions and a separate failure action.
 
-<a id="example-3"></a>
+#### Example-3
 
-> **Example 3 — Atomic provisions (non-normative)**
+> **Atomic provisions (non-normative)**
 >
 > The first two provisions separate the presence of a parameter from its value.
 >
-> **REQ1.1 (Step 1)**: To request Form Post Response Mode, the Client MUST include `response_mode` in the Authorization Request.
+> **REQ1.1**: To request Form Post Response Mode, the Client MUST include `response_mode` in the Authorization Request.
 >
-> **REQ1.2 (Step 1)**: When the Client requests Form Post Response Mode, the Client MUST set `response_mode` to `form_post`.
+> **REQ1.2**: When the Client requests Form Post Response Mode, the Client MUST set `response_mode` to `form_post`.
 >
 > Each provision has one action and one ID.
 >
@@ -155,9 +167,9 @@ The goals are to help them:
 > It uses [RFC 6749, Sections 3.1.2.3 and 3.1.2.4](https://www.rfc-editor.org/rfc/rfc6749.html#section-3.1.2.3).
 > It is not a complete OAuth validation procedure.
 >
-> **REQ2.1 (Step 2)**: The Authorization Server MUST validate a supplied `redirect_uri` under RFC 6749, Section 3.1.2.3.
+> **REQ2.1**: The Authorization Server MUST validate a supplied `redirect_uri` under RFC 6749, Section 3.1.2.3.
 >
-> **REQ2.2 (Step 2)**: If the check in `REQ2.1` fails, the Authorization Server MUST NOT automatically redirect the User Agent to that URI.
+> **REQ2.2**: If the check in `REQ2.1` fails, the Authorization Server MUST NOT automatically redirect the User Agent to that URI.
 
 ### 10. Simplified Technical English (STE)
 
@@ -187,24 +199,25 @@ The goals are to help them:
 
 **11.8** Do not confuse delimiters with quotation marks inside data.
 
-**11.9** Use these table columns: `Variable / Parameter`, `Context`, `Sequence Step & Provisions`, `Type`, `Presence`, `Allowed Values`, and `Disallowed Values`.
+**11.9** Use these table columns: `Variable / Parameter`, `Context`, `Rule reference`, `Type`, `Presence`, `Allowed Values`, and `Disallowed Values`.
 
 **11.10** Give the rules for byte counts, escaping, and encoding in the specification or identify them in a normative reference.
 
+**11.11** Keep rule references short. Use the provision-to-step table for detailed interaction references.
+
 [Example 4](#example-4) shows the required variable-constraint columns.
 
-<a id="example-4"></a>
+#### Example-4
 
-> **Example 4 — Variable constraints (non-normative)**
+> **Variable constraints (non-normative)**
 >
 > The table specifies the exact value of `response_mode` when requesting Form Post Response Mode.
 >
-> <a id="table-2"></a>
 > **Table 2 — Example variable constraints**
 >
-> | Variable / Parameter | Context | Sequence Step & Provisions | Type | Presence | Allowed Values | Disallowed Values |
+> | Variable / Parameter | Context | Rule reference | Type | Presence | Allowed Values | Disallowed Values |
 > | --- | --- | --- | --- | --- | --- | --- |
-> | `response_mode` | Requesting Form Post Response Mode | Step 1 (`REQ1.1`, `REQ1.2`) | String | Required | Exact string `form_post` | Any other value in this context |
+> | `response_mode` | Requesting Form Post Response Mode | `REQ1.1`, `REQ1.2` | String | Required | Exact string `form_post` | Any other value in this context |
 
 ### 12. Wire Examples
 
@@ -248,12 +261,11 @@ A full wire message is not needed for each case.
 
 **13.3** Give the expected result for each case and its governing provision.
 
-
 [Example 5](#example-5) shows a test condition and its expected result.
 
-<a id="example-5"></a>
+#### Example-5
 
-> **Example 5 — A test requirement (non-normative)**
+> **A test requirement (non-normative)**
 >
 > This test checks that the Client requests the exact `form_post` value.
 >

@@ -21,10 +21,13 @@ It defines how the AS returns response parameters through an HTML form.
 The selected Response Type defines the response parameters and their validation rules.
 This document changes their transport, not their meaning.
 
+The [interaction reference lookup](#table-6) gives detailed provision-to-message references.
+
 ## 2. Normative references
 
-<a id="table-1"></a>
-**Table 1 — Normative references**
+#### Table-1
+
+**Normative references**
 
 | Reference | Version / date | Rules used here |
 | --- | --- | --- |
@@ -57,8 +60,9 @@ The form uses HTTP POST and `application/x-www-form-urlencoded` encoding.
 
 ## 4. Abbreviations
 
-<a id="table-2"></a>
-**Table 2 — Abbreviations**
+#### Table-2
+
+**Abbreviations**
 
 | Abbreviation | Meaning |
 | --- | --- |
@@ -105,8 +109,9 @@ A received form is not proof that the AS sent it.
 Message numbers are the step references used below.
 Notes are not numbered steps.
 
-<a id="figure-1"></a>
-**Figure 1 — Form Post Response Mode interaction**
+#### Figure-1
+
+**Form Post Response Mode interaction**
 
 ```mermaid
 sequenceDiagram
@@ -145,33 +150,33 @@ HTML attribute syntax follows HTML401.
 
 **8.2 Constraints**
 
-<a id="table-3"></a>
-**Table 3 — Variable constraints**
+#### Table-3
 
-| Variable / Parameter | Context | Sequence Step & Provisions | Type | Presence | Allowed Values | Disallowed Values |
+**Variable constraints**
+
+| Variable / Parameter | Context | Rule reference | Type | Presence | Allowed Values | Disallowed Values |
 | --- | --- | --- | --- | --- | --- | --- |
-| `response_mode` | Requesting this mode | [Figure 1](#figure-1), Messages 1–2; `REQ1.1`, `REQ1.2` | String | Required for this request | Exact `form_post` | Any other value for this request |
-| `redirect_uri` | Authorization Request | [Figure 1](#figure-1), Message 2; `REQ2.1`, `REQ2.2` | URI | Per RFC6749 Section 3.1.2.3 | URI permitted by the applicable registration rules | URI that fails those rules |
-| `action` | Response form | [Figure 1](#figure-1), Messages 3–4; `REQ3.2` | URI | Required | Client's validated Redirection URI | Another destination |
-| `method` | Response form | [Figure 1](#figure-1), Messages 3–4; `REQ3.3` | HTML method | Required | POST, with HTML case rules | A different method |
-| Response parameters | Form controls, then decoded POST fields | [Figure 1](#figure-1), Messages 3–5; `REQ3.1`, `REQ4.2`, `REQ4.3` | Per Response Type | Per selected flow | Names and values permitted by that flow | Values prohibited by that flow |
-| Submission media type | POST body | [Figure 1](#figure-1), Message 4; `REQ3.7`, `REQ4.1` | Media type | Required | `application/x-www-form-urlencoded` | Another form encoding |
-| Cache instructions | AS response | [Figure 1](#figure-1), Message 3; `REQ3.4`, `REQ3.5` | HTTP directives | Required | Instructions against storage and reuse | Missing instructions |
+| `response_mode` | Requesting this mode | `REQ1.1`, `REQ1.2` | String | Required for this request | Exact `form_post` | Any other value for this request |
+| `redirect_uri` | Authorization Request | `REQ2.1`, `REQ2.2` | URI | Per RFC6749 Section 3.1.2.3 | URI permitted by the applicable registration rules | URI that fails those rules |
+| `action` | Response form | `REQ3.2` | URI | Required | Client's validated Redirection URI | Another destination |
+| `method` | Response form | `REQ3.3` | HTML method | Required | POST, with HTML case rules | A different method |
+| Response parameters | Form controls, then decoded POST fields | `REQ3.1`, `REQ4.2`, `REQ4.3` | Per Response Type | Per selected flow | Names and values permitted by that flow | Values prohibited by that flow |
+| Submission media type | POST body | `REQ3.7`, `REQ4.1` | Media type | Required | `application/x-www-form-urlencoded` | Another form encoding |
+| Cache instructions | AS response | `REQ3.4`, `REQ3.5` | HTTP directives | Required | Instructions against storage and reuse | Missing instructions |
 
 The response parameter set is not a fixed list in this document.
 Unspecified inputs need the rules of the applicable parameter or flow.
 The HTML examples use hidden inputs; other valid form controls are not excluded here.
 
-
 ## 9. Provisions
 
-**9.1 Requesting the mode ([Figure 1](#figure-1), Messages 1–2)**
+**9.1 Requesting the mode**
 
 **REQ1.1**: To request this mode, the Client MUST include `response_mode` in the Authorization Request.
 
 **REQ1.2**: For this mode, the Client MUST set `response_mode` to `form_post`.
 
-**9.2 Checking the destination ([Figure 1](#figure-1), Message 2)**
+**9.2 Checking the destination**
 
 These provisions use RFC6749 Sections 3.1.2.3 and 3.1.2.4.
 
@@ -181,7 +186,7 @@ These provisions use RFC6749 Sections 3.1.2.3 and 3.1.2.4.
 
 **REC1**: If `REQ2.1` fails, the AS SHOULD inform the Resource Owner of the error.
 
-**9.3 Creating the response ([Figure 1](#figure-1), Message 3)**
+**9.3 Creating the response**
 
 These provisions apply when the AS returns a response using this mode.
 
@@ -209,9 +214,9 @@ No particular script, input type, or HTTP status is required by these provisions
 
 [Example 1](#example-1) shows an automatically submitted response form.
 
-<a id="example-1"></a>
+#### Example-1
 
-> **Example 1 — Success form (non-normative)**
+> **Success form (non-normative)**
 >
 > The AS returns an HTML form that submits an authorization code to the Client.
 >
@@ -243,17 +248,17 @@ No particular script, input type, or HTTP status is required by these provisions
 >
 > Related: [Figure 1](#figure-1), Message 3; `REQ3.1`–`REQ3.7`, `PERM1`, `PERM2`.
 
-**9.4 Receiving the response ([Figure 1](#figure-1), Messages 4–5)**
+**9.4 Receiving the response**
 
-**REQ4.1 ([Figure 1](#figure-1), Message 4)**: The Client MUST support form-encoded POST responses at its Redirection URI.
+**REQ4.1**: The Client MUST support form-encoded POST responses at its Redirection URI.
 
-**REQ4.2 ([Figure 1](#figure-1), Message 4)**: The Client MUST decode the POST body as form data.
+**REQ4.2**: The Client MUST decode the POST body as form data.
 
-**REQ4.3 ([Figure 1](#figure-1), Message 5)**: The Client MUST validate the decoded response under the selected Response Type's rules.
+**REQ4.3**: The Client MUST validate the decoded response under the selected Response Type's rules.
 
-**REQ4.4 ([Figure 1](#figure-1), Message 5)**: The Client MUST process a valid response regardless of the form submission technique.
+**REQ4.4**: The Client MUST process a valid response regardless of the form submission technique.
 
-**REQ4.5 ([Figure 1](#figure-1), Message 5)**: If `REQ4.3` fails, the Client MUST NOT treat the response as a successful authorization.
+**REQ4.5**: If `REQ4.3` fails, the Client MUST NOT treat the response as a successful authorization.
 
 For `code`, RFC6749 Sections 4.1.2 and 4.1.2.1 define success and error responses.
 Section 10.12 defines CSRF protection.
@@ -262,9 +267,9 @@ Transport parsing is separate from accepting a response as valid.
 
 [Example 2](#example-2) shows a submitted success response.
 
-<a id="example-2"></a>
+#### Example-2
 
-> **Example 2 — Submitted success (non-normative)**
+> **Submitted success (non-normative)**
 >
 > The browser sends the authorization code and `state` to the Client in a form-encoded POST.
 >
@@ -281,12 +286,11 @@ Transport parsing is separate from accepting a response as valid.
 >
 > Related: [Figure 1](#figure-1), Message 4; `REQ3.7`, `REQ4.1`, `REQ4.2`.
 
-<a id="example-access-denied"></a>
 [Example 3](#example-3) shows an access-denied response.
 
-<a id="example-3"></a>
+#### Example-3
 
-> **Example 3 — Access denied (non-normative)**
+> **Access denied (non-normative)**
 >
 > The browser returns `access_denied` after the Resource Owner declines authorization.
 >
@@ -308,8 +312,9 @@ Transport parsing is separate from accepting a response as valid.
 These cases check provisions; they do not add protocol requirements.
 Full HTTP messages are not needed for each case.
 
-<a id="table-4"></a>
-**Table 4 — Proposed test requirements**
+#### Table-4
+
+**Proposed test requirements**
 
 | ID | Setup / input | Observation and expected result | Step & provision |
 | --- | --- | --- | --- |
@@ -326,9 +331,9 @@ Full HTTP messages are not needed for each case.
 
 [Example 4](#example-4) shows encoding boundary cases.
 
-<a id="example-4"></a>
+#### Example-4
 
-> **Example 4 — Encoding vectors (non-normative)**
+> **Encoding vectors (non-normative)**
 >
 > The table shows how quotation marks, ampersands, spaces, and plus signs are encoded.
 >
@@ -336,7 +341,6 @@ Full HTTP messages are not needed for each case.
 > They use `sample`, an illustrative field, not a new OAuth parameter.
 > A decoded field still needs the validation rules of its protocol parameter.
 >
-> <a id="table-5"></a>
 > **Table 5 — Illustrative encoding vectors**
 >
 > | Case | Input string | HTML attribute | Form body | Decoded string |
@@ -349,7 +353,7 @@ Full HTTP messages are not needed for each case.
 
 **10.1 Evaluation status**
 
-This revision applies the guideline at commit `77ec021`.
+The initial exercise applied the guideline at commit `77ec021`.
 One Codex assistant revised the example using the listed references.
 The runtime identified the model as `gpt-6.1-sol`.
 Sampling settings were not available.
@@ -357,3 +361,39 @@ Sampling settings were not available.
 Static document and encoding checks are recorded in the PR.
 Implementations and AI-generated test requirements have not been compared.
 The multi-model interoperability evaluation required before a final version remains pending.
+
+The later reference review preserved all 19 protocol provisions and all code blocks.
+It moved detailed message references to the lookup below.
+Heading navigation was checked in Zed 1.28.1 and Obsidian 1.15.0 with copies of the actual figure, table, and example blocks.
+
+## 11. Interaction reference lookup
+
+These tables link provisions to this document's sequence diagrams.
+The provision text remains in the relevant protocol section.
+Local checks use the message that supplies their input.
+
+#### Table-6
+
+**Form Post Response Mode interaction references**
+
+| Provision | Interaction |
+| --- | --- |
+| `REQ1.1` | [Figure 1](#figure-1), Messages 1–2 |
+| `REQ1.2` | [Figure 1](#figure-1), Messages 1–2 |
+| `REQ2.1` | [Figure 1](#figure-1), Message 2 |
+| `REQ2.2` | [Figure 1](#figure-1), Message 2 |
+| `REC1` | [Figure 1](#figure-1), Message 2 |
+| `REQ3.1` | [Figure 1](#figure-1), Message 3 |
+| `REQ3.2` | [Figure 1](#figure-1), Message 3 |
+| `REQ3.3` | [Figure 1](#figure-1), Message 3 |
+| `REQ3.4` | [Figure 1](#figure-1), Message 3 |
+| `REQ3.5` | [Figure 1](#figure-1), Message 3 |
+| `REQ3.6` | [Figure 1](#figure-1), Message 3 |
+| `REQ3.7` | [Figure 1](#figure-1), Message 3 |
+| `PERM1` | [Figure 1](#figure-1), Message 3 |
+| `PERM2` | [Figure 1](#figure-1), Message 3 |
+| `REQ4.1` | [Figure 1](#figure-1), Message 4 |
+| `REQ4.2` | [Figure 1](#figure-1), Message 4 |
+| `REQ4.3` | [Figure 1](#figure-1), Message 5 |
+| `REQ4.4` | [Figure 1](#figure-1), Message 5 |
+| `REQ4.5` | [Figure 1](#figure-1), Message 5 |
