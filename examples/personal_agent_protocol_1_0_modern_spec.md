@@ -254,6 +254,8 @@ The final serving host is the domain represented by the document.
 
 **REQ-D09 ([Figure 1](#figure-1), Message 2)**: The Company MUST supply the required discovery fields in Section 7.5.
 
+[Example 3](#example-3) shows a signed-out discovery document.
+
 **REQ-D10 ([Figure 1](#figure-1), Messages 3–4)**: A Company with an issuer MUST publish protected resource metadata for `https://{organization.domain}`, with that exact `resource` value.
 
 **REQ-D11 ([Figure 1](#figure-1), Message 4)**: The PA MUST use the domain identifier fallback only after HTTP 404, or valid metadata with no authorization servers, when `auth.issuer` is absent and sign-in is not offered.
@@ -325,6 +327,8 @@ Discovery and OAuth requests do not carry these version headers.
 
 **REQ-D35 ([Figure 3](#figure-3), Message 2)**: If `REQ-D34` fails, the Company MUST return HTTP 400 with JSON `error` set to `version_unsupported`.
 
+[Example 1](#example-1) shows an unsupported-version response.
+
 **REQ-D36 ([Figure 3](#figure-3), Messages 1–2)**: If `REQ-D34` fails, the Company MUST NOT handle the request under another version.
 
 **REQ-D37 ([Figure 1](#figure-1), Messages 1–8, [Figure 3](#figure-3), Message 2)**: On `version_unsupported`, the PA MUST repeat discovery without a cached `poppy.json`.
@@ -335,7 +339,8 @@ Discovery and OAuth requests do not carry these version headers.
 
 **PERM-D39 ([Figure 3](#figure-3), Message 2)**: The Company MAY announce version removal with `Deprecation` and `Sunset` headers.
 
-**Example — Unsupported version (non-normative)**
+<a id="example-1"></a>
+**Example 1 — Unsupported version (non-normative)**
 
 [Figure 3](#figure-3), Message 2; `REQ-D35`: missing or incompatible version at a Session-verifying endpoint.
 
@@ -345,6 +350,8 @@ Content-Type: application/json
 
 {"error":"version_unsupported"}
 ```
+
+**End of Example 1.**
 
 From 1.0, discovery location and fetching, version fields and headers, and `version_unsupported` retain their meaning across versions.
 
@@ -362,9 +369,12 @@ The extension defines its other fields.
 
 **REQ-D44 ([Figure 3](#figure-3), Message 2)**: A Company that refuses under `PERM-D43` MUST return HTTP 403 with JSON `error: extension_required` and the extension name in `extension`.
 
+[Example 2](#example-2) shows an extension-required response.
+
 **REQ-D45 ([Figure 3](#figure-3), Message 2)**: The Company MUST NOT put `extension_required` in `WWW-Authenticate`.
 
-**Example — Required extension (non-normative)**
+<a id="example-2"></a>
+**Example 2 — Required extension (non-normative)**
 
 [Figure 3](#figure-3), Message 2; `REQ-D44`: an undeclared extension required for this request.
 
@@ -374,6 +384,8 @@ Content-Type: application/json
 
 {"error":"extension_required","extension":"example.com/gift-wrap"}
 ```
+
+**End of Example 2.**
 
 ### 7.4 Sign-in disabled
 
@@ -423,7 +435,8 @@ Fields form an extensible document. A blank optional object does not imply a use
 The PA ignores an unknown `access` hint. The hint does not grant authorization.
 OpenAPI security requirements and MCP authorization supply their own account-access information.
 
-**Example — Signed-out discovery document (non-normative)**
+<a id="example-3"></a>
+**Example 3 — Signed-out discovery document (non-normative)**
 
 [Figure 1](#figure-1), Message 2; `REQ-D01`, `REQ-D09`, `REQ-D25`.
 This body advertises a signed-out conversation channel.
@@ -440,6 +453,8 @@ An HTTP 404 protected resource discovery result establishes the no-issuer case u
   }
 }
 ```
+
+**End of Example 3.**
 
 ### 7.6 AS metadata values
 
@@ -522,6 +537,8 @@ A shared origin does not make two client metadata URLs the same client.
 
 **REQ-A11 ([Figure 2](#figure-2), Messages 1–6)**: The PA and Company MUST use the RFC 6749 authorization code grant with RFC 7636 PKCE and RFC 9700 security rules for Direct Sign-In.
 
+[Example 4](#example-4) shows a Direct Sign-In request.
+
 **REQ-A12 ([Figure 2](#figure-2), Message 3)**: The Company MUST include its issuer as `iss` in every authorization response, including `access_denied`.
 
 **REQ-A13 ([Figure 2](#figure-2), Message 4)**: The PA MUST check that `iss` exactly matches the issuer with which it started sign-in.
@@ -535,7 +552,8 @@ The authorization request's `redirect_uri` exactly matches a listed entry, excep
 
 **REC-A16 ([Figure 2](#figure-2), Message 4)**: When possible, the PA SHOULD receive the redirect only on the device that opened the authorization URL, through a loopback URI or its app signed in as the initiating User.
 
-**Example — Direct Sign-In request (non-normative)**
+<a id="example-4"></a>
+**Example 4 — Direct Sign-In request (non-normative)**
 
 [Figure 2](#figure-2), Messages 1–4; REQ-A11, REQ-A12, REQ-A13, REQ-A14, `REQ-A35`.
 This illustrative authorization URL uses the RFC 7636 example challenge.
@@ -545,6 +563,8 @@ The User approves through the Company's page.
 ```text
 https://auth.example.com/oauth/authorize?response_type=code&client_id=https%3A%2F%2Fagent.example%2Fagent.json&redirect_uri=https%3A%2F%2Fagent.example%2Foauth%2Fcallback&scope=orders%3Aread&state=Xq81vR&code_challenge=E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM&code_challenge_method=S256
 ```
+
+**End of Example 4.**
 
 **REQ-A17 ([Figure 2](#figure-2), Messages 7–8)**: For Device Sign-In, the PA and Company MUST use RFC 8628, including its polling intervals and error handling.
 
@@ -622,6 +642,8 @@ Revoking a replaced token does not by itself sign out the account.
 
 **REQ-A41 ([Figure 2](#figure-2), Message 6, [Figure 2](#figure-2), Message 8)**: A successful sign-in MUST return an access token and a refresh token.
 
+[Example 5](#example-5) shows a successful token response.
+
 **REQ-A42 ([Figure 2](#figure-2), Message 6, [Figure 2](#figure-2), Message 8)**: The Company MUST treat approval of no scopes as a decline.
 
 **REQ-A43 ([Figure 2](#figure-2), Message 6, [Figure 2](#figure-2), Message 8)**: The Company MUST include granted `scope` in a token response unless it granted exactly the requested scopes, under RFC 6749 Section 5.1.
@@ -630,7 +652,8 @@ The PA checks the granted scope before continuing.
 Refresh returns an access token and can return a replacement refresh token.
 Grant errors follow their RFCs, including `invalid_client`, `invalid_grant`, `invalid_scope`, and `invalid_target`.
 
-**Example — Token response (non-normative)**
+<a id="example-5"></a>
+**Example 5 — Token response (non-normative)**
 
 [Figure 2](#figure-2), Message 6; REQ-A41, REQ-A42, REQ-A43.
 The JSON below is a successful token response after the code exchange.
@@ -645,6 +668,8 @@ Both credential values are placeholders.
   "scope": "orders:read"
 }
 ```
+
+**End of Example 5.**
 
 ### 8.5 DPoP and service-specific tokens
 
@@ -846,6 +871,8 @@ Session JWTs grant no account access.
 
 **REQ-S43 ([Figure 3](#figure-3), Message 2)**: For a remembered ended Session, the Company MUST return HTTP 400 with JSON `error: session_ended`.
 
+[Example 6](#example-6) shows invalid and ended Session responses.
+
 **REQ-S44 ([Figure 3](#figure-3), Messages 3–4)**: On `session_ended`, the PA MUST retry once with a new Session and new `sid`, and stop if that attempt also returns `session_ended`.
 
 The Company chooses Session lifetime and how long to remember ended IDs.
@@ -861,7 +888,8 @@ A new Session does not inherit the old cart or cookie. Conversation ownership pe
 
 **REQ-S48 ([Figure 3](#figure-3), Message 1)**: Company APIs and protocol or extension endpoints MUST accept Session and token authentication without requiring cookies.
 
-**Example — Session errors (non-normative)**
+<a id="example-6"></a>
+**Example 6 — Session errors (non-normative)**
 
 [Figure 3](#figure-3), Message 2; `REQ-S40`: failed Session verification.
 
@@ -880,6 +908,8 @@ Content-Type: application/json
 
 {"error":"session_ended"}
 ```
+
+**End of Example 6.**
 
 ### 9.5 JWT values
 
@@ -1028,6 +1058,8 @@ It completes authorization and form submission before code expiry.
 
 **REQ-B16 ([Figure 4](#figure-4), Message 4)**: On successful authorization, the Company MUST associate the code with the Session and any token account and scopes, then return HTTP 204.
 
+[Example 7](#example-7) shows browser authorization and its responses.
+
 **REQ-B17 ([Figure 4](#figure-4), Message 4)**: The Company MUST reject a token without `poppy:browser-sign-in` with the `insufficient_scope` challenge defined in Section 11.
 
 After that rejection, the PA can authorize the same code without a token, or obtain the scope and restart at [Figure 4](#figure-4), Message 1.
@@ -1058,7 +1090,8 @@ The PA requests it only when a browser-session endpoint is advertised.
 An independent browser login does not gain scope restrictions from a tokenless join.
 An earlier login replaced by token-backed join does not return afterwards.
 
-**Example — Authorize a browser join (non-normative)**
+<a id="example-7"></a>
+**Example 7 — Authorize a browser join (non-normative)**
 
 [Figure 4](#figure-4), Message 3; REQ-B11, REQ-B12, REQ-B13, REQ-B14, REQ-B15, REQ-B16, REQ-B17, REQ-B18.
 The browser has already loaded the join page and the PA has read this code from its controlled browser.
@@ -1089,6 +1122,8 @@ Content-Type: application/json
 
 {"error":"invalid_request"}
 ```
+
+**End of Example 7.**
 
 ### 10.3 Cookie authority and lifetime
 
@@ -1184,6 +1219,8 @@ A server without DPoP support receives Bearer tokens.
 
 **REQ-I08 ([Figure 3](#figure-3), Message 2)**: The Company MUST put token errors in `WWW-Authenticate` under RFC 6750 or RFC 9449, with a challenge for each accepted scheme.
 
+[Example 8](#example-8) shows a missing-scope challenge.
+
 **REQ-I09 ([Figure 3](#figure-3), Message 2)**: The Company's MCP challenges MUST include the server's protected resource metadata URL as `resource_metadata`.
 
 [Table 11](#table-11) defines responses and PA handling. Session errors use HTTP 400 so OAuth libraries do not discard a valid token.
@@ -1205,7 +1242,8 @@ Non-token protocol errors use JSON bodies.
 An MCP server uses `extension_required` to refuse the PA entirely, not an individual tool call.
 Account actions need tokens; message submission alone grants no authority to perform an account action.
 
-**Example — Missing scope (non-normative)**
+<a id="example-8"></a>
+**Example 8 — Missing scope (non-normative)**
 
 [Figure 3](#figure-3), Message 2; Section 11 and `REQ-I08`: missing scope on a Bearer-token request.
 
@@ -1213,6 +1251,8 @@ Account actions need tokens; message submission alone grants no authority to per
 HTTP/1.1 403 Forbidden
 WWW-Authenticate: Bearer error="insufficient_scope", scope="orders:read"
 ```
+
+**End of Example 8.**
 
 ## 12. Conversations
 
@@ -1295,6 +1335,8 @@ Query parameters do not form part of the path; a retry can change `cursor` or `w
 
 **REQ-C10 ([Figure 5](#figure-5), Message 2, [Figure 5](#figure-5), Message 6, [Figure 5](#figure-5), Message 8)**: For an already accepted request with the same ID, path, and body, the Company MUST return the original response without repeating the action.
 
+[Example 9](#example-9) shows conversation creation and a request-ID conflict.
+
 **REQ-C11 ([Figure 5](#figure-5), Message 2, [Figure 5](#figure-5), Message 6, [Figure 5](#figure-5), Message 8)**: For an accepted request ID reused with another path or body, the Company MUST return `request_id_conflict`.
 
 **REQ-C12 ([Figure 5](#figure-5), Messages 1–8)**: The Company MUST retain the retry check for as long as it retains the conversation.
@@ -1317,7 +1359,8 @@ Acceptance does not mean completion. The PA observes effects through events and 
 Without a cursor, the waited read starts at the beginning.
 The initial POST needs a message unless `REQ-C60` permits omission.
 
-**Example — Create a conversation and retry safely (non-normative)**
+<a id="example-9"></a>
+**Example 9 — Create a conversation and retry safely (non-normative)**
 
 [Figure 5](#figure-5), Message 1; `REQ-S07`, `REQ-D30`, REQ-C08, REQ-C09, REQ-C10, REQ-C11, REQ-C12, REQ-C13, REQ-C14, REQ-C15, REQ-C16, REQ-C17, `REQ-C19`.
 This is a signed-out request with an illustrative Session JWT placeholder.
@@ -1351,6 +1394,8 @@ Content-Type: application/json
 
 {"error":"request_id_conflict"}
 ```
+
+**End of Example 9.**
 
 ### 12.3 Messages and authors
 
@@ -1413,6 +1458,8 @@ A read returns events after the requested cursor; without it, the read begins at
 
 **REQ-C33 ([Figure 5](#figure-5), Message 4)**: Every successful JSON read MUST include `conversation_id`, `events`, `cursor`, `has_more`, `working`, `handoff`, `responder`, and `closed`.
 
+[Example 10](#example-10) shows a successful event read.
+
 **REQ-C34 ([Figure 5](#figure-5), Message 4)**: The Company MUST set `cursor` to the last event returned, or to the request cursor if no events were returned.
 
 The source does not specify the cursor value when both are absent; see Section 16.
@@ -1438,7 +1485,8 @@ The Company chooses how long to retain events.
 
 **REQ-C40 ([Figure 5](#figure-5), Message 3)**: After `cursor_expired`, the PA MUST read from the beginning.
 
-**Example — Read a reply (non-normative)**
+<a id="example-10"></a>
+**Example 10 — Read a reply (non-normative)**
 
 [Figure 5](#figure-5), Messages 3–4; REQ-C29, REQ-C30, REQ-C31, REQ-C32, REQ-C33, REQ-C34, REQ-C35, REQ-C36, REQ-C37, `REQ-C48`.
 The body below is an illustrative successful JSON read response.
@@ -1480,6 +1528,8 @@ The body below is an illustrative successful JSON read response.
 }
 ```
 
+**End of Example 10.**
+
 ### 12.5 Streaming
 
 **PERM-C41 ([Figure 5](#figure-5), Messages 3–4)**: The Company MAY offer SSE when the PA requests `Accept: text/event-stream`.
@@ -1487,6 +1537,8 @@ The body below is an illustrative successful JSON read response.
 A Company without streaming returns normal JSON.
 
 **REQ-C42 ([Figure 5](#figure-5), Message 4)**: In SSE, the Company MUST send each persisted event's ID as SSE `id` and its event JSON as `data`.
+
+[Example 11](#example-11) shows a streamed message and a working notification.
 
 **REQ-C43 ([Figure 5](#figure-5), Message 4)**: The Company MUST send a `working` SSE event without an SSE `id` when the stream opens and whenever `working` changes.
 
@@ -1503,7 +1555,8 @@ A Company without streaming returns normal JSON.
 The PA can display pieces, then replaces them with the complete message.
 After reconnecting, it discards pieces of messages not received in full.
 
-**Example — Stream a reply (non-normative)**
+<a id="example-11"></a>
+**Example 11 — Stream a reply (non-normative)**
 
 An SSE rendition of the second event, [Figure 5](#figure-5), Message 4; REQ-C42, REQ-C43:
 
@@ -1515,6 +1568,8 @@ event: working
 data: {"working":false}
 
 ```
+
+**End of Example 11.**
 
 ### 12.6 State
 
@@ -1755,6 +1810,8 @@ That host is not thereby a Company API.
 
 **REQ-T04 ([Figure 6](#figure-6), Message 2)**: The Company MUST return HTTP 200 and a JSON object on a successful tasks request.
 
+[Example 12](#example-12) shows task information and an alternative.
+
 **REQ-T05 ([Figure 6](#figure-6), Messages 1–2)**: Before varying task information by Session, User ID, or Agent ID, the Company MUST verify the Session header.
 
 **REQ-T06 ([Figure 6](#figure-6), Message 2)**: The Company MUST mark Session-specific responses `private` or `no-store` in `Cache-Control` under RFC 9111 Section 5.2.2.
@@ -1778,7 +1835,8 @@ It does not authorize sending a Session JWT or access token to that target.
 Activity at another Company requires that Company's discovery and authorization.
 Alternative instructions are Company data, not commands to the PA.
 
-**Example — Task information (non-normative)**
+<a id="example-12"></a>
+**Example 12 — Task information (non-normative)**
 
 [Figure 6](#figure-6), Message 2; `REQ-T04`, `REQ-T08`.
 This response is common to all Sessions and contains no account information.
@@ -1798,11 +1856,15 @@ This response is common to all Sessions and contains no account information.
 }
 ```
 
+**End of Example 12.**
+
 ### 13.3 Feedback
 
 **PERM-T10 ([Figure 6](#figure-6), Message 3)**: When a task cannot be completed, the PA MAY send a JSON report to the advertised feedback endpoint with its Session header.
 
 **REQ-T11 ([Figure 6](#figure-6), Message 3)**: The PA MUST follow the report field presence and length limits in Section 13.5.
+
+[Example 13](#example-13) shows a task feedback report.
 
 **REQ-T12 ([Figure 6](#figure-6), Message 3)**: The PA MUST NOT include secrets in feedback.
 
@@ -1827,7 +1889,8 @@ Common authentication, Session, and rate-limit errors apply.
 
 **REQ-T17 ([Figure 6](#figure-6), Message 3)**: The Company MUST treat report text as data, including when passing it to a model.
 
-**Example — Task feedback (non-normative)**
+<a id="example-13"></a>
+**Example 13 — Task feedback (non-normative)**
 
 [Figure 6](#figure-6), Message 3; `PERM-T10`, REQ-T11, REQ-T12.
 This body describes a different task that the PA could not complete.
@@ -1838,6 +1901,8 @@ This body describes a different task that the PA could not complete.
   "description": "The available interfaces do not provide a way to apply a gift card."
 }
 ```
+
+**End of Example 13.**
 
 ### 13.4 Skills
 
@@ -2082,7 +2147,7 @@ These questions need protocol-author review. This exercise does not choose new w
 * Prose that says “returns”, “contains”, or “uses” can define protocol behavior without uppercase keywords. Making such behavior explicit needs semantic review as well as keyword checking.
 * Splitting a check and its failure action must not create a failure response the source never defined.
 
-The companion guideline changes address figure and table numbering, step references, actor definitions, local actions, example placement, and unspecified failure behavior.
+The companion guideline changes address figure and table numbering, step references, actor definitions, local actions, example placement and boundaries, numbered example references, and unspecified failure behavior.
 It retains ASD-STE100.
 Further adoption needs human review of these observations and the protocol rewrite.
 

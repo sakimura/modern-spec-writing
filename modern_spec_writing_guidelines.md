@@ -30,7 +30,14 @@ The goals are to help them:
 
 **3.3** Import external terms without redefining them.
 
-Example: `From [RFC6749]: Client, Authorization Server`.
+[Example 1](#example-1) shows an imported-term statement.
+
+<a id="example-1"></a>
+**Example 1 — Imported terms (non-normative)**
+
+`From [RFC6749]: Client, Authorization Server`.
+
+**End of Example 1.**
 
 ### 4. Abbreviations
 
@@ -90,7 +97,14 @@ Example: `From [RFC6749]: Client, Authorization Server`.
 
 **8.3** Do not promise that an external actor will obey an instruction.
 
-Example: “The Client MUST verify the signature.”
+[Example 2](#example-2) makes the responsible actor the subject.
+
+<a id="example-2"></a>
+**Example 2 — Actor ownership (non-normative)**
+
+“The Client MUST verify the signature.”
+
+**End of Example 2.**
 
 ### 9. Labeled, Atomic Provisions
 
@@ -101,6 +115,8 @@ Example: “The Client MUST verify the signature.”
 **9.3** State the actor, condition, action, and expected result.
 
 **9.4** Give each failure action its own provision.
+
+[Example 3](#example-3) shows atomic provisions and a separate failure action.
 
 **9.5** Reference the provision for the input rule or failed check.
 
@@ -119,7 +135,8 @@ Example: “The Client MUST verify the signature.”
 
 **9.8** When rewriting a specification, preserve unspecified failure behavior. Record the gap instead of adding a failure action.
 
-**Example — Atomic provisions**
+<a id="example-3"></a>
+**Example 3 — Atomic provisions (non-normative)**
 
 **REQ1.1 (Step 1)**: To request Form Post Response Mode, the Client MUST include `response_mode` in the Authorization Request.
 
@@ -134,6 +151,8 @@ It is not a complete OAuth validation procedure.
 **REQ2.1 (Step 2)**: The Authorization Server MUST validate a supplied `redirect_uri` under RFC 6749, Section 3.1.2.3.
 
 **REQ2.2 (Step 2)**: If the check in `REQ2.1` fails, the Authorization Server MUST NOT automatically redirect the User Agent to that URI.
+
+**End of Example 3.**
 
 ### 10. Simplified Technical English (STE)
 
@@ -165,9 +184,12 @@ It is not a complete OAuth validation procedure.
 
 **11.9** Use these table columns: `Variable / Parameter`, `Context`, `Sequence Step & Provisions`, `Type`, `Presence`, `Allowed Values`, and `Disallowed Values`.
 
+[Example 4](#example-4) shows the required variable-constraint columns.
+
 **11.10** Give the rules for byte counts, escaping, and encoding in the specification or identify them in a normative reference.
 
-**Example — Variable constraints**
+<a id="example-4"></a>
+**Example 4 — Variable constraints (non-normative)**
 
 <a id="table-2"></a>
 **Table 2 — Example variable constraints**
@@ -175,6 +197,8 @@ It is not a complete OAuth validation procedure.
 | Variable / Parameter | Context | Sequence Step & Provisions | Type | Presence | Allowed Values | Disallowed Values |
 | --- | --- | --- | --- | --- | --- | --- |
 | `response_mode` | Requesting Form Post Response Mode | Step 1 (`REQ1.1`, `REQ1.2`) | String | Required | Exact string `form_post` | Any other value in this context |
+
+**End of Example 4.**
 
 ### 12. Wire Examples
 
@@ -194,6 +218,12 @@ It is not a complete OAuth validation procedure.
 
 **12.8** Place each example next to the provision or interaction it explains, instead of collecting examples at the end.
 
+**12.9** Give each example a number and a title.
+
+**12.10** Refer to examples by number.
+
+**12.11** Mark the beginning and end of each example.
+
 A full wire message is not needed for each case.
 
 ### 13. Test Requirements
@@ -204,7 +234,10 @@ A full wire message is not needed for each case.
 
 **13.3** Give the expected result for each case and its governing provision.
 
-**Example — A test requirement**
+[Example 5](#example-5) shows a test condition and its expected result.
+
+<a id="example-5"></a>
+**Example 5 — A test requirement (non-normative)**
 
 - **Provision**: `REQ1.2`.
 - **Condition**: The Client requests Form Post Response Mode.
@@ -213,6 +246,8 @@ A full wire message is not needed for each case.
 
 The input to this test is the Client's output.
 It does not define how a server must handle other values.
+
+**End of Example 5.**
 
 ### 14. AI Interoperability Testing
 
