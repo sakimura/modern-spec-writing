@@ -44,6 +44,8 @@ Example: `From [RFC6749]: Client, Authorization Server`.
 
 **5.3** Identify external actors, such as browsers and intermediaries.
 
+**5.4** Define one actor per line or table row. Do not combine actors in one definition.
+
 ### 6. Goal
 
 **6.1** State the problem and the intended result.

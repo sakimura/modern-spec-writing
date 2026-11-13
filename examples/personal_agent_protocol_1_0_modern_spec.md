@@ -133,13 +133,24 @@ ID length limits apply to the ASCII alphabet in Section 12, not to a decoded bas
 
 ## 5. Actors and conformance
 
-The PA and Company implement this protocol.
-The Company's AS, API servers, conversation service, and browser-session service perform the Company duties for their interfaces.
-An extension author supplies extension names, versions, and schemas.
+| Actor | Definition | Conformance role |
+| --- | --- | --- |
+| Personal Agent (PA) | Software that acts for the User at a Company | Implements PA requirements |
+| Company | Entity that offers protocol interfaces | Implements Company requirements for its offered features |
+| Authorization server (AS) | Company service that authorizes account access and issues tokens | Performs Company duties for OAuth |
+| API server | Company service that handles API requests | Performs Company duties for its API |
+| Conversation service | Company service that manages conversations and events | Performs Company duties for conversations |
+| Company Agent | Company's agent that communicates through a conversation service | Performs Company duties for its messages and actions |
+| Browser-session service | Company service that joins a browser to a Session | Performs Company duties for browser join |
+| Extension author | Party that defines an extension's name, versions, and schemas | Implements extension-definition requirements |
+| User | Person for whom the PA acts | External actor |
+| User's browser | Browser through which the User interacts with sign-in pages | External actor |
+| PA-controlled browser | Browser the PA controls for website activity, including a headless browser | External actor controlled by the PA |
+| Model | AI component that processes content for an agent | External actor |
+| Shared cache | Intermediary that stores responses for reuse by multiple clients | External actor |
+| Traffic intermediary | Network component that handles requests before they reach a Company service | External actor |
 
-The User, User's browser, PA-controlled browser, model, shared caches, and traffic intermediaries are external actors.
 A PA or Company controls the messages and checks assigned to it; it does not control all external actors.
-A headless browser is a browser.
 
 Conformance depends on the channels and optional features an implementation offers.
 An implementation need not offer every channel, sign-in flow, extension, or streaming.
