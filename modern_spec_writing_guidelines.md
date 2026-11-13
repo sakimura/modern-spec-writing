@@ -30,14 +30,16 @@ The goals are to help them:
 
 **3.3** Import external terms without redefining them.
 
+
 [Example 1](#example-1) shows an imported-term statement.
 
 <a id="example-1"></a>
-**Example 1 — Imported terms (non-normative)**
 
-`From [RFC6749]: Client, Authorization Server`.
-
-**End of Example 1.**
+> **Example 1 — Imported terms (non-normative)**
+>
+> `From [RFC6749]: Client, Authorization Server`.
+>
+> **End of Example 1.**
 
 ### 4. Abbreviations
 
@@ -97,14 +99,16 @@ The goals are to help them:
 
 **8.3** Do not promise that an external actor will obey an instruction.
 
+
 [Example 2](#example-2) makes the responsible actor the subject.
 
 <a id="example-2"></a>
-**Example 2 — Actor ownership (non-normative)**
 
-“The Client MUST verify the signature.”
-
-**End of Example 2.**
+> **Example 2 — Actor ownership (non-normative)**
+>
+> “The Client MUST verify the signature.”
+>
+> **End of Example 2.**
 
 ### 9. Labeled, Atomic Provisions
 
@@ -115,8 +119,6 @@ The goals are to help them:
 **9.3** State the actor, condition, action, and expected result.
 
 **9.4** Give each failure action its own provision.
-
-[Example 3](#example-3) shows atomic provisions and a separate failure action.
 
 **9.5** Reference the provision for the input rule or failed check.
 
@@ -135,24 +137,27 @@ The goals are to help them:
 
 **9.8** When rewriting a specification, preserve unspecified failure behavior. Record the gap instead of adding a failure action.
 
+[Example 3](#example-3) shows atomic provisions and a separate failure action.
+
 <a id="example-3"></a>
-**Example 3 — Atomic provisions (non-normative)**
 
-**REQ1.1 (Step 1)**: To request Form Post Response Mode, the Client MUST include `response_mode` in the Authorization Request.
-
-**REQ1.2 (Step 1)**: When the Client requests Form Post Response Mode, the Client MUST set `response_mode` to `form_post`.
-
-Each provision has one action and one ID.
-
-The next pair shows a check and a separate failure action.
-It uses [RFC 6749, Sections 3.1.2.3 and 3.1.2.4](https://www.rfc-editor.org/rfc/rfc6749.html#section-3.1.2.3).
-It is not a complete OAuth validation procedure.
-
-**REQ2.1 (Step 2)**: The Authorization Server MUST validate a supplied `redirect_uri` under RFC 6749, Section 3.1.2.3.
-
-**REQ2.2 (Step 2)**: If the check in `REQ2.1` fails, the Authorization Server MUST NOT automatically redirect the User Agent to that URI.
-
-**End of Example 3.**
+> **Example 3 — Atomic provisions (non-normative)**
+>
+> **REQ1.1 (Step 1)**: To request Form Post Response Mode, the Client MUST include `response_mode` in the Authorization Request.
+>
+> **REQ1.2 (Step 1)**: When the Client requests Form Post Response Mode, the Client MUST set `response_mode` to `form_post`.
+>
+> Each provision has one action and one ID.
+>
+> The next pair shows a check and a separate failure action.
+> It uses [RFC 6749, Sections 3.1.2.3 and 3.1.2.4](https://www.rfc-editor.org/rfc/rfc6749.html#section-3.1.2.3).
+> It is not a complete OAuth validation procedure.
+>
+> **REQ2.1 (Step 2)**: The Authorization Server MUST validate a supplied `redirect_uri` under RFC 6749, Section 3.1.2.3.
+>
+> **REQ2.2 (Step 2)**: If the check in `REQ2.1` fails, the Authorization Server MUST NOT automatically redirect the User Agent to that URI.
+>
+> **End of Example 3.**
 
 ### 10. Simplified Technical English (STE)
 
@@ -184,21 +189,22 @@ It is not a complete OAuth validation procedure.
 
 **11.9** Use these table columns: `Variable / Parameter`, `Context`, `Sequence Step & Provisions`, `Type`, `Presence`, `Allowed Values`, and `Disallowed Values`.
 
-[Example 4](#example-4) shows the required variable-constraint columns.
-
 **11.10** Give the rules for byte counts, escaping, and encoding in the specification or identify them in a normative reference.
 
+[Example 4](#example-4) shows the required variable-constraint columns.
+
 <a id="example-4"></a>
-**Example 4 — Variable constraints (non-normative)**
 
-<a id="table-2"></a>
-**Table 2 — Example variable constraints**
-
-| Variable / Parameter | Context | Sequence Step & Provisions | Type | Presence | Allowed Values | Disallowed Values |
-| --- | --- | --- | --- | --- | --- | --- |
-| `response_mode` | Requesting Form Post Response Mode | Step 1 (`REQ1.1`, `REQ1.2`) | String | Required | Exact string `form_post` | Any other value in this context |
-
-**End of Example 4.**
+> **Example 4 — Variable constraints (non-normative)**
+>
+> <a id="table-2"></a>
+> **Table 2 — Example variable constraints**
+>
+> | Variable / Parameter | Context | Sequence Step & Provisions | Type | Presence | Allowed Values | Disallowed Values |
+> | --- | --- | --- | --- | --- | --- | --- |
+> | `response_mode` | Requesting Form Post Response Mode | Step 1 (`REQ1.1`, `REQ1.2`) | String | Required | Exact string `form_post` | Any other value in this context |
+>
+> **End of Example 4.**
 
 ### 12. Wire Examples
 
@@ -224,6 +230,10 @@ It is not a complete OAuth validation procedure.
 
 **12.11** Mark the beginning and end of each example.
 
+**12.12** In Markdown, format each example as a block quote.
+
+**12.13** Place each example immediately after the sentence that introduces it.
+
 A full wire message is not needed for each case.
 
 ### 13. Test Requirements
@@ -234,20 +244,22 @@ A full wire message is not needed for each case.
 
 **13.3** Give the expected result for each case and its governing provision.
 
+
 [Example 5](#example-5) shows a test condition and its expected result.
 
 <a id="example-5"></a>
-**Example 5 — A test requirement (non-normative)**
 
-- **Provision**: `REQ1.2`.
-- **Condition**: The Client requests Form Post Response Mode.
-- **Observation**: Read `response_mode` in the generated request.
-- **Expected result**: The decoded value is exactly `form_post`.
-
-The input to this test is the Client's output.
-It does not define how a server must handle other values.
-
-**End of Example 5.**
+> **Example 5 — A test requirement (non-normative)**
+>
+> - **Provision**: `REQ1.2`.
+> - **Condition**: The Client requests Form Post Response Mode.
+> - **Observation**: Read `response_mode` in the generated request.
+> - **Expected result**: The decoded value is exactly `form_post`.
+>
+> The input to this test is the Client's output.
+> It does not define how a server must handle other values.
+>
+> **End of Example 5.**
 
 ### 14. AI Interoperability Testing
 
