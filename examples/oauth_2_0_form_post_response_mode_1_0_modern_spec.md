@@ -213,7 +213,7 @@ No particular script, input type, or HTTP status is required by these provisions
 
 > **Example 1 — Success form (non-normative)**
 >
-> [Figure 1](#figure-1), Message 3; `REQ3.1`–`REQ3.7`, `PERM1`, `PERM2`
+> The AS returns an HTML form that submits an authorization code to the Client.
 >
 > These are HTTP display excerpts, not complete replayable exchanges.
 > HTTP framing and the earlier Authorization Request are omitted.
@@ -241,7 +241,7 @@ No particular script, input type, or HTTP status is required by these provisions
 > </html>
 > ```
 >
-> **End of Example 1.**
+> Related: [Figure 1](#figure-1), Message 3; `REQ3.1`–`REQ3.7`, `PERM1`, `PERM2`.
 
 **9.4 Receiving the response ([Figure 1](#figure-1), Messages 4–5)**
 
@@ -266,7 +266,7 @@ Transport parsing is separate from accepting a response as valid.
 
 > **Example 2 — Submitted success (non-normative)**
 >
-> [Figure 1](#figure-1), Message 4; `REQ3.7`, `REQ4.1`, `REQ4.2`
+> The browser sends the authorization code and `state` to the Client in a form-encoded POST.
 >
 > The body below contains 45 ASCII octets, excluding a trailing newline.
 > The Client still applies `REQ4.3` before treating the response as valid.
@@ -279,7 +279,7 @@ Transport parsing is separate from accepting a response as valid.
 > code=SplxlOBeZQQYbYS6WxSbIA&state=af0ifjsldkj
 > ```
 >
-> **End of Example 2.**
+> Related: [Figure 1](#figure-1), Message 4; `REQ3.7`, `REQ4.1`, `REQ4.2`.
 
 <a id="example-access-denied"></a>
 [Example 3](#example-3) shows an access-denied response.
@@ -288,7 +288,7 @@ Transport parsing is separate from accepting a response as valid.
 
 > **Example 3 — Access denied (non-normative)**
 >
-> [Figure 1](#figure-1), Messages 3–5; `REQ3.1`, `REQ4.2`, `REQ4.3`
+> The browser returns `access_denied` after the Resource Owner declines authorization.
 >
 > The Resource Owner denies authorization after redirect validation succeeds.
 > The AS uses the same form mechanism with `error` and `state` controls instead of `code`.
@@ -301,7 +301,7 @@ Transport parsing is separate from accepting a response as valid.
 > The Client processes this as an error, not a successful authorization.
 > If `REQ2.1` fails, this example does not apply; `REQ2.2` governs that failure.
 >
-> **End of Example 3.**
+> Related: [Figure 1](#figure-1), Messages 3–5; `REQ3.1`, `REQ4.2`, `REQ4.3`.
 
 ## 10. Test requirements (non-normative)
 
@@ -330,7 +330,7 @@ Full HTTP messages are not needed for each case.
 
 > **Example 4 — Encoding vectors (non-normative)**
 >
-> [Figure 1](#figure-1), Messages 3–4; `REQ3.1`, `REQ4.2`.
+> The table shows how quotation marks, ampersands, spaces, and plus signs are encoded.
 >
 > These vectors test serialization only.
 > They use `sample`, an illustrative field, not a new OAuth parameter.
@@ -345,7 +345,7 @@ Full HTTP messages are not needed for each case.
 > | Space and plus | `a + b` | `value="a + b"` | `sample=a+%2B+b` | `a + b` |
 > | Empty boundary | Empty string | `value=""` | `sample=` | Empty string |
 >
-> **End of Example 4.**
+> Related: [Figure 1](#figure-1), Messages 3–4; `REQ3.1`, `REQ4.2`.
 
 **10.1 Evaluation status**
 

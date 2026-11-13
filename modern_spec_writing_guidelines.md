@@ -37,9 +37,9 @@ The goals are to help them:
 
 > **Example 1 — Imported terms (non-normative)**
 >
-> `From [RFC6749]: Client, Authorization Server`.
+> This statement imports OAuth terms without defining them again.
 >
-> **End of Example 1.**
+> `From [RFC6749]: Client, Authorization Server`.
 
 ### 4. Abbreviations
 
@@ -106,9 +106,9 @@ The goals are to help them:
 
 > **Example 2 — Actor ownership (non-normative)**
 >
-> “The Client MUST verify the signature.”
+> This sentence makes the Client responsible for checking the signature.
 >
-> **End of Example 2.**
+> “The Client MUST verify the signature.”
 
 ### 9. Labeled, Atomic Provisions
 
@@ -143,6 +143,8 @@ The goals are to help them:
 
 > **Example 3 — Atomic provisions (non-normative)**
 >
+> The first two provisions separate the presence of a parameter from its value.
+>
 > **REQ1.1 (Step 1)**: To request Form Post Response Mode, the Client MUST include `response_mode` in the Authorization Request.
 >
 > **REQ1.2 (Step 1)**: When the Client requests Form Post Response Mode, the Client MUST set `response_mode` to `form_post`.
@@ -156,8 +158,6 @@ The goals are to help them:
 > **REQ2.1 (Step 2)**: The Authorization Server MUST validate a supplied `redirect_uri` under RFC 6749, Section 3.1.2.3.
 >
 > **REQ2.2 (Step 2)**: If the check in `REQ2.1` fails, the Authorization Server MUST NOT automatically redirect the User Agent to that URI.
->
-> **End of Example 3.**
 
 ### 10. Simplified Technical English (STE)
 
@@ -197,14 +197,14 @@ The goals are to help them:
 
 > **Example 4 — Variable constraints (non-normative)**
 >
+> The table specifies the exact value of `response_mode` when requesting Form Post Response Mode.
+>
 > <a id="table-2"></a>
 > **Table 2 — Example variable constraints**
 >
 > | Variable / Parameter | Context | Sequence Step & Provisions | Type | Presence | Allowed Values | Disallowed Values |
 > | --- | --- | --- | --- | --- | --- | --- |
 > | `response_mode` | Requesting Form Post Response Mode | Step 1 (`REQ1.1`, `REQ1.2`) | String | Required | Exact string `form_post` | Any other value in this context |
->
-> **End of Example 4.**
 
 ### 12. Wire Examples
 
@@ -228,11 +228,15 @@ The goals are to help them:
 
 **12.10** Refer to examples by number.
 
-**12.11** Mark the beginning and end of each example.
+**12.11** Show each example's extent visually, without a separate end label.
 
 **12.12** In Markdown, format each example as a block quote.
 
 **12.13** Place each example immediately after the sentence that introduces it.
+
+**12.14** Start each example with a short sentence that explains what it shows.
+
+**12.15** Put supporting figure and provision references after the example content.
 
 A full wire message is not needed for each case.
 
@@ -251,6 +255,8 @@ A full wire message is not needed for each case.
 
 > **Example 5 — A test requirement (non-normative)**
 >
+> This test checks that the Client requests the exact `form_post` value.
+>
 > - **Provision**: `REQ1.2`.
 > - **Condition**: The Client requests Form Post Response Mode.
 > - **Observation**: Read `response_mode` in the generated request.
@@ -258,8 +264,6 @@ A full wire message is not needed for each case.
 >
 > The input to this test is the Client's output.
 > It does not define how a server must handle other values.
->
-> **End of Example 5.**
 
 ### 14. AI Interoperability Testing
 

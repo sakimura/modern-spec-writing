@@ -339,9 +339,9 @@ Discovery and OAuth requests do not carry these version headers.
 
 <a id="example-1"></a>
 
-> **Example 1 — Unsupported version (non-normative)**
+> **Example 1 — Unsupported protocol version (non-normative)**
 >
-> [Figure 3](#figure-3), Message 2; `REQ-D35`: missing or incompatible version at a Session-verifying endpoint.
+> The Company rejects a request with a missing or incompatible `Poppy-Version`.
 >
 > ```http
 > HTTP/1.1 400 Bad Request
@@ -350,7 +350,7 @@ Discovery and OAuth requests do not carry these version headers.
 > {"error":"version_unsupported"}
 > ```
 >
-> **End of Example 1.**
+> Related: [Figure 3](#figure-3), Message 2; `REQ-D35`.
 
 From 1.0, discovery location and fetching, version fields and headers, and `version_unsupported` retain their meaning across versions.
 
@@ -374,9 +374,9 @@ The extension defines its other fields.
 
 <a id="example-2"></a>
 
-> **Example 2 — Required extension (non-normative)**
+> **Example 2 — Request rejected for a missing extension (non-normative)**
 >
-> [Figure 3](#figure-3), Message 2; `REQ-D44`: an undeclared extension required for this request.
+> The Company rejects a request because it needs an extension that the PA did not declare.
 >
 > ```http
 > HTTP/1.1 403 Forbidden
@@ -385,7 +385,7 @@ The extension defines its other fields.
 > {"error":"extension_required","extension":"example.com/gift-wrap"}
 > ```
 >
-> **End of Example 2.**
+> Related: [Figure 3](#figure-3), Message 2; `REQ-D44`.
 
 ### 7.4 Sign-in disabled
 
@@ -439,10 +439,10 @@ OpenAPI security requirements and MCP authorization supply their own account-acc
 
 <a id="example-3"></a>
 
-> **Example 3 — Signed-out discovery document (non-normative)**
+> **Example 3 — Discovery without account sign-in (non-normative)**
 >
-> [Figure 1](#figure-1), Message 2; `REQ-D01`, `REQ-D09`, `REQ-D25`.
-> This body advertises a signed-out conversation channel.
+> The Company advertises a conversation channel that does not require account sign-in.
+>
 > An HTTP 404 protected resource discovery result establishes the no-issuer case under `REQ-D11`.
 >
 > ```json
@@ -457,7 +457,7 @@ OpenAPI security requirements and MCP authorization supply their own account-acc
 > }
 > ```
 >
-> **End of Example 3.**
+> Related: [Figure 1](#figure-1), Message 2; `REQ-D01`, `REQ-D09`, `REQ-D25`.
 
 ### 7.6 AS metadata values
 
@@ -557,9 +557,10 @@ The authorization request's `redirect_uri` exactly matches a listed entry, excep
 
 <a id="example-4"></a>
 
-> **Example 4 — Direct Sign-In request (non-normative)**
+> **Example 4 — Authorization URL for Direct Sign-In (non-normative)**
 >
-> [Figure 2](#figure-2), Messages 1–4; REQ-A11, REQ-A12, REQ-A13, REQ-A14, `REQ-A35`.
+> The PA opens this authorization URL so the User can approve account access.
+>
 > This illustrative authorization URL uses the RFC 7636 example challenge.
 > `state` is an illustrative placeholder; the PA binds its real value to the initiating User and request.
 > The User approves through the Company's page.
@@ -568,7 +569,7 @@ The authorization request's `redirect_uri` exactly matches a listed entry, excep
 > https://auth.example.com/oauth/authorize?response_type=code&client_id=https%3A%2F%2Fagent.example%2Fagent.json&redirect_uri=https%3A%2F%2Fagent.example%2Foauth%2Fcallback&scope=orders%3Aread&state=Xq81vR&code_challenge=E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM&code_challenge_method=S256
 > ```
 >
-> **End of Example 4.**
+> Related: [Figure 2](#figure-2), Messages 1–4; `REQ-A11`, `REQ-A12`, `REQ-A13`, `REQ-A14`, `REQ-A35`.
 
 **REQ-A17 ([Figure 2](#figure-2), Messages 7–8)**: For Device Sign-In, the PA and Company MUST use RFC 8628, including its polling intervals and error handling.
 
@@ -658,10 +659,10 @@ Grant errors follow their RFCs, including `invalid_client`, `invalid_grant`, `in
 
 <a id="example-5"></a>
 
-> **Example 5 — Token response (non-normative)**
+> **Example 5 — Tokens returned after sign-in (non-normative)**
 >
-> [Figure 2](#figure-2), Message 6; REQ-A41, REQ-A42, REQ-A43.
-> The JSON below is a successful token response after the code exchange.
+> The Company returns an access token and a refresh token after successful sign-in.
+>
 > Both credential values are placeholders.
 >
 > ```json
@@ -674,7 +675,7 @@ Grant errors follow their RFCs, including `invalid_client`, `invalid_grant`, `in
 > }
 > ```
 >
-> **End of Example 5.**
+> Related: [Figure 2](#figure-2), Message 6; `REQ-A41`, `REQ-A42`, `REQ-A43`.
 
 ### 8.5 DPoP and service-specific tokens
 
@@ -895,9 +896,9 @@ A new Session does not inherit the old cart or cookie. Conversation ownership pe
 
 <a id="example-6"></a>
 
-> **Example 6 — Session errors (non-normative)**
+> **Example 6 — Invalid and ended Sessions (non-normative)**
 >
-> [Figure 3](#figure-3), Message 2; `REQ-S40`: failed Session verification.
+> The first response rejects an invalid Session header.
 >
 > ```http
 > HTTP/1.1 400 Bad Request
@@ -906,7 +907,7 @@ A new Session does not inherit the old cart or cookie. Conversation ownership pe
 > {"error":"invalid_session"}
 > ```
 >
-> [Figure 3](#figure-3), Message 2; `REQ-S43`: a remembered ended Session.
+> The second response rejects a Session that the Company remembers as ended.
 >
 > ```http
 > HTTP/1.1 400 Bad Request
@@ -915,7 +916,7 @@ A new Session does not inherit the old cart or cookie. Conversation ownership pe
 > {"error":"session_ended"}
 > ```
 >
-> **End of Example 6.**
+> Related: [Figure 3](#figure-3), Message 2; `REQ-S40`, `REQ-S43`.
 
 ### 9.5 JWT values
 
@@ -1098,10 +1099,10 @@ An earlier login replaced by token-backed join does not return afterwards.
 
 <a id="example-7"></a>
 
-> **Example 7 — Authorize a browser join (non-normative)**
+> **Example 7 — Browser join authorization (non-normative)**
 >
-> [Figure 4](#figure-4), Message 3; REQ-B11, REQ-B12, REQ-B13, REQ-B14, REQ-B15, REQ-B16, REQ-B17, REQ-B18.
-> The browser has already loaded the join page and the PA has read this code from its controlled browser.
+> The PA authorizes a join code read from its own browser.
+>
 > The access token includes `poppy:browser-sign-in`.
 >
 > ```http
@@ -1115,13 +1116,13 @@ An earlier login replaced by token-backed join does not return afterwards.
 > {"code":"bc_001"}
 > ```
 >
-> [Figure 4](#figure-4), Message 4; `REQ-B16`.
+> Successful authorization returns no content.
 >
 > ```http
 > HTTP/1.1 204 No Content
 > ```
 >
-> An invalid, expired, or already authorized code instead produces [Figure 4](#figure-4), Message 4; `REQ-B15`:
+> The Company rejects an invalid, expired, or already authorized code:
 >
 > ```http
 > HTTP/1.1 400 Bad Request
@@ -1130,7 +1131,7 @@ An earlier login replaced by token-backed join does not return afterwards.
 > {"error":"invalid_request"}
 > ```
 >
-> **End of Example 7.**
+> Related: [Figure 4](#figure-4), Messages 3–4; `REQ-B11`, `REQ-B12`, `REQ-B13`, `REQ-B14`, `REQ-B15`, `REQ-B16`, `REQ-B17`, `REQ-B18`.
 
 ### 10.3 Cookie authority and lifetime
 
@@ -1251,16 +1252,16 @@ Account actions need tokens; message submission alone grants no authority to per
 
 <a id="example-8"></a>
 
-> **Example 8 — Missing scope (non-normative)**
+> **Example 8 — Request rejected for a missing scope (non-normative)**
 >
-> [Figure 3](#figure-3), Message 2; Section 11 and `REQ-I08`: missing scope on a Bearer-token request.
+> The Company rejects an access token that lacks `orders:read`.
 >
 > ```http
 > HTTP/1.1 403 Forbidden
 > WWW-Authenticate: Bearer error="insufficient_scope", scope="orders:read"
 > ```
 >
-> **End of Example 8.**
+> Related: [Figure 3](#figure-3), Message 2; Section 11 and `REQ-I08`.
 
 ## 12. Conversations
 
@@ -1369,9 +1370,10 @@ The initial POST needs a message unless `REQ-C60` permits omission.
 
 <a id="example-9"></a>
 
-> **Example 9 — Create a conversation and retry safely (non-normative)**
+> **Example 9 — Conversation creation and retry (non-normative)**
 >
-> [Figure 5](#figure-5), Message 1; `REQ-S07`, `REQ-D30`, REQ-C08, REQ-C09, REQ-C10, REQ-C11, REQ-C12, REQ-C13, REQ-C14, REQ-C15, REQ-C16, REQ-C17, `REQ-C19`.
+> The PA starts a signed-out conversation, then retries the same request without creating another conversation.
+>
 > This is a signed-out request with an illustrative Session JWT placeholder.
 >
 > ```http
@@ -1384,7 +1386,7 @@ The initial POST needs a message unless `REQ-C60` permits omission.
 > {"id":"req_001","message":{"author":{"type":"agent"},"text":"What is your return policy?"}}
 > ```
 >
-> [Figure 5](#figure-5), Message 2; `REQ-C15`.
+> The Company returns the new conversation ID.
 >
 > ```http
 > HTTP/1.1 201 Created
@@ -1395,7 +1397,7 @@ The initial POST needs a message unless `REQ-C60` permits omission.
 >
 > Repeating the accepted request with the same ID, path, and body returns its original response.
 > The PA generates a fresh Session JWT for the retry.
-> Changing the message while reusing `req_001` gives this [Figure 5](#figure-5), Message 2 error under `REQ-C11`:
+> Changing the message while reusing `req_001` produces a request-ID conflict:
 >
 > ```http
 > HTTP/1.1 409 Conflict
@@ -1404,7 +1406,7 @@ The initial POST needs a message unless `REQ-C60` permits omission.
 > {"error":"request_id_conflict"}
 > ```
 >
-> **End of Example 9.**
+> Related: [Figure 5](#figure-5), Messages 1–2; `REQ-S07`, `REQ-D30`, `REQ-C08`, `REQ-C10`, `REQ-C11`, `REQ-C15`, `REQ-C19`.
 
 ### 12.3 Messages and authors
 
@@ -1496,10 +1498,10 @@ The Company chooses how long to retain events.
 
 <a id="example-10"></a>
 
-> **Example 10 — Read a reply (non-normative)**
+> **Example 10 — Conversation event response (non-normative)**
 >
-> [Figure 5](#figure-5), Messages 3–4; REQ-C29, REQ-C30, REQ-C31, REQ-C32, REQ-C33, REQ-C34, REQ-C35, REQ-C36, REQ-C37, `REQ-C48`.
-> The body below is an illustrative successful JSON read response.
+> The Company returns two recorded messages and the conversation's current state.
+>
 >
 > ```json
 > {
@@ -1538,7 +1540,7 @@ The Company chooses how long to retain events.
 > }
 > ```
 >
-> **End of Example 10.**
+> Related: [Figure 5](#figure-5), Messages 3–4; `REQ-C29`, `REQ-C30`, `REQ-C31`, `REQ-C32`, `REQ-C33`, `REQ-C34`, `REQ-C35`, `REQ-C36`, `REQ-C37`, `REQ-C48`.
 
 ### 12.5 Streaming
 
@@ -1567,9 +1569,9 @@ After reconnecting, it discards pieces of messages not received in full.
 
 <a id="example-11"></a>
 
-> **Example 11 — Stream a reply (non-normative)**
+> **Example 11 — Conversation event stream (non-normative)**
 >
-> An SSE rendition of the second event, [Figure 5](#figure-5), Message 4; REQ-C42, REQ-C43:
+> The Company streams a message and then reports that it has finished working.
 >
 > ```text
 > id: evt_002
@@ -1580,7 +1582,7 @@ After reconnecting, it discards pieces of messages not received in full.
 >
 > ```
 >
-> **End of Example 11.**
+> Related: [Figure 5](#figure-5), Message 4; `REQ-C42`, `REQ-C43`.
 
 ### 12.6 State
 
@@ -1848,9 +1850,10 @@ Alternative instructions are Company data, not commands to the PA.
 
 <a id="example-12"></a>
 
-> **Example 12 — Task information (non-normative)**
+> **Example 12 — Task information and an alternative (non-normative)**
 >
-> [Figure 6](#figure-6), Message 2; `REQ-T04`, `REQ-T08`.
+> The Company lists an excluded task, another way to do it, and a feedback endpoint.
+>
 > This response is common to all Sessions and contains no account information.
 >
 > ```json
@@ -1868,7 +1871,7 @@ Alternative instructions are Company data, not commands to the PA.
 > }
 > ```
 >
-> **End of Example 12.**
+> Related: [Figure 6](#figure-6), Message 2; `REQ-T04`, `REQ-T08`.
 
 ### 13.3 Feedback
 
@@ -1903,10 +1906,10 @@ Common authentication, Session, and rate-limit errors apply.
 
 <a id="example-13"></a>
 
-> **Example 13 — Task feedback (non-normative)**
+> **Example 13 — Feedback about an unsupported task (non-normative)**
 >
-> [Figure 6](#figure-6), Message 3; `PERM-T10`, REQ-T11, REQ-T12.
-> This body describes a different task that the PA could not complete.
+> The PA reports that it could not complete a gift-card payment.
+>
 >
 > ```json
 > {
@@ -1915,7 +1918,7 @@ Common authentication, Session, and rate-limit errors apply.
 > }
 > ```
 >
-> **End of Example 13.**
+> Related: [Figure 6](#figure-6), Message 3; `PERM-T10`, `REQ-T11`, `REQ-T12`.
 
 ### 13.4 Skills
 
