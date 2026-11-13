@@ -206,31 +206,12 @@ Submit controls can provide a manual fallback.
 The fallback does not remove `REQ3.6`.
 No particular script, input type, or HTTP status is required by these provisions.
 
-**9.4 Receiving the response ([Figure 1](#figure-1), Messages 4–5)**
-
-**REQ4.1 ([Figure 1](#figure-1), Message 4)**: The Client MUST support form-encoded POST responses at its Redirection URI.
-
-**REQ4.2 ([Figure 1](#figure-1), Message 4)**: The Client MUST decode the POST body as form data.
-
-**REQ4.3 ([Figure 1](#figure-1), Message 5)**: The Client MUST validate the decoded response under the selected Response Type's rules.
-
-**REQ4.4 ([Figure 1](#figure-1), Message 5)**: The Client MUST process a valid response regardless of the form submission technique.
-
-**REQ4.5 ([Figure 1](#figure-1), Message 5)**: If `REQ4.3` fails, the Client MUST NOT treat the response as a successful authorization.
-
-For `code`, RFC6749 Sections 4.1.2 and 4.1.2.1 define success and error responses.
-Section 10.12 defines CSRF protection.
-An untrusted response does not become valid merely because it is form-encoded.
-Transport parsing is separate from accepting a response as valid.
-
-## 10. Wire examples (non-normative)
+**Example — Success form — [Figure 1](#figure-1), Message 3; `REQ3.1`–`REQ3.7`, `PERM1`, `PERM2` (non-normative)**
 
 These are HTTP display excerpts, not complete replayable exchanges.
 HTTP framing and the earlier Authorization Request are omitted.
 Assume the request used `response_type=code`, `response_mode=form_post`, and the shown `state`.
 The destination has passed `REQ2.1`.
-
-**10.1 Success form — [Figure 1](#figure-1), Message 3; `REQ3.1`–`REQ3.7`, `PERM1`, `PERM2`**
 
 This example uses JavaScript, hidden controls, and explicit cache headers.
 The headers illustrate the cache instructions; they are not a required header template.
@@ -253,7 +234,24 @@ Pragma: no-cache
 </html>
 ```
 
-**10.2 Submitted success — [Figure 1](#figure-1), Message 4; `REQ3.7`, `REQ4.1`, `REQ4.2`**
+**9.4 Receiving the response ([Figure 1](#figure-1), Messages 4–5)**
+
+**REQ4.1 ([Figure 1](#figure-1), Message 4)**: The Client MUST support form-encoded POST responses at its Redirection URI.
+
+**REQ4.2 ([Figure 1](#figure-1), Message 4)**: The Client MUST decode the POST body as form data.
+
+**REQ4.3 ([Figure 1](#figure-1), Message 5)**: The Client MUST validate the decoded response under the selected Response Type's rules.
+
+**REQ4.4 ([Figure 1](#figure-1), Message 5)**: The Client MUST process a valid response regardless of the form submission technique.
+
+**REQ4.5 ([Figure 1](#figure-1), Message 5)**: If `REQ4.3` fails, the Client MUST NOT treat the response as a successful authorization.
+
+For `code`, RFC6749 Sections 4.1.2 and 4.1.2.1 define success and error responses.
+Section 10.12 defines CSRF protection.
+An untrusted response does not become valid merely because it is form-encoded.
+Transport parsing is separate from accepting a response as valid.
+
+**Example — Submitted success — [Figure 1](#figure-1), Message 4; `REQ3.7`, `REQ4.1`, `REQ4.2` (non-normative)**
 
 The body below contains 45 ASCII octets, excluding a trailing newline.
 The Client still applies `REQ4.3` before treating the response as valid.
@@ -266,7 +264,8 @@ Content-Type: application/x-www-form-urlencoded
 code=SplxlOBeZQQYbYS6WxSbIA&state=af0ifjsldkj
 ```
 
-**10.3 Access denied — [Figure 1](#figure-1), Messages 3–5; `REQ3.1`, `REQ4.2`, `REQ4.3`**
+<a id="example-access-denied"></a>
+**Example — Access denied — [Figure 1](#figure-1), Messages 3–5; `REQ3.1`, `REQ4.2`, `REQ4.3` (non-normative)**
 
 The Resource Owner denies authorization after redirect validation succeeds.
 The AS uses the same form mechanism with `error` and `state` controls instead of `code`.
@@ -279,7 +278,7 @@ error=access_denied&state=af0ifjsldkj
 The Client processes this as an error, not a successful authorization.
 If `REQ2.1` fails, this example does not apply; `REQ2.2` governs that failure.
 
-## 11. Test requirements (non-normative)
+## 10. Test requirements (non-normative)
 
 These cases check provisions; they do not add protocol requirements.
 Full HTTP messages are not needed for each case.
@@ -296,11 +295,11 @@ Full HTTP messages are not needed for each case.
 | T5 | AS returns a response form | Response instructs UA and intermediaries against storage and reuse; external compliance is not assumed | [Figure 1](#figure-1), Message 3; `REQ3.4`, `REQ3.5` |
 | T6 | AS returns a response form | Form provides automatic submission with form encoding | [Figure 1](#figure-1), Messages 3–4; `REQ3.6`, `REQ3.7` |
 | T7 | Equivalent valid responses in separate requests, automatic and manual submission | Client processes both with the same validation result | [Figure 1](#figure-1), Messages 4–5; `REQ4.1`–`REQ4.4` |
-| T8 | Error body from Section 10.3; outstanding request has matching state | Client handles an authorization error, not success | [Figure 1](#figure-1), Message 5; `REQ4.3` |
+| T8 | Error body from the [access-denied example](#example-access-denied); outstanding request has matching state | Client handles an authorization error, not success | [Figure 1](#figure-1), Message 5; `REQ4.3` |
 | T9 | Valid response with `state` different from the outstanding request | Response fails the state validation; POST transport does not bypass it | [Figure 1](#figure-1), Message 5; `REQ4.3`, `REQ4.5`; RFC6749 Sections 4.1.2 and 10.12 |
 | T10 | Empty `code` in a code response | Empty value fails the nonempty code syntax; the response is not a valid success response | [Figure 1](#figure-1), Message 5; `REQ4.3`, `REQ4.5`; RFC6749 Section 4.1.2 and Appendix A.11 |
 
-**11.1 Encoding vectors — [Figure 1](#figure-1), Messages 3–4; `REQ3.1`, `REQ4.2`**
+**10.1 Encoding vectors — [Figure 1](#figure-1), Messages 3–4; `REQ3.1`, `REQ4.2`**
 
 These vectors test serialization only.
 They use `sample`, an illustrative field, not a new OAuth parameter.
@@ -315,7 +314,7 @@ A decoded field still needs the validation rules of its protocol parameter.
 | Space and plus | `a + b` | `value="a + b"` | `sample=a+%2B+b` | `a + b` |
 | Empty boundary | Empty string | `value=""` | `sample=` | Empty string |
 
-**11.2 Evaluation status**
+**10.2 Evaluation status**
 
 This revision applies the guideline at commit `77ec021`.
 One Codex assistant revised the example using the listed references.

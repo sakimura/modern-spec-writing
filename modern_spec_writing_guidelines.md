@@ -119,6 +119,22 @@ Example: “The Client MUST verify the signature.”
 
 **9.8** When rewriting a specification, preserve unspecified failure behavior. Record the gap instead of adding a failure action.
 
+**Example — Atomic provisions**
+
+**REQ1.1 (Step 1)**: To request Form Post Response Mode, the Client MUST include `response_mode` in the Authorization Request.
+
+**REQ1.2 (Step 1)**: When the Client requests Form Post Response Mode, the Client MUST set `response_mode` to `form_post`.
+
+Each provision has one action and one ID.
+
+The next pair shows a check and a separate failure action.
+It uses [RFC 6749, Sections 3.1.2.3 and 3.1.2.4](https://www.rfc-editor.org/rfc/rfc6749.html#section-3.1.2.3).
+It is not a complete OAuth validation procedure.
+
+**REQ2.1 (Step 2)**: The Authorization Server MUST validate a supplied `redirect_uri` under RFC 6749, Section 3.1.2.3.
+
+**REQ2.2 (Step 2)**: If the check in `REQ2.1` fails, the Authorization Server MUST NOT automatically redirect the User Agent to that URI.
+
 ### 10. Simplified Technical English (STE)
 
 **10.1** Use Simplified Technical English (ASD-STE100).
@@ -151,6 +167,15 @@ Example: “The Client MUST verify the signature.”
 
 **11.10** Give the rules for byte counts, escaping, and encoding in the specification or identify them in a normative reference.
 
+**Example — Variable constraints**
+
+<a id="table-2"></a>
+**Table 2 — Example variable constraints**
+
+| Variable / Parameter | Context | Sequence Step & Provisions | Type | Presence | Allowed Values | Disallowed Values |
+| --- | --- | --- | --- | --- | --- | --- |
+| `response_mode` | Requesting Form Post Response Mode | Step 1 (`REQ1.1`, `REQ1.2`) | String | Required | Exact string `form_post` | Any other value in this context |
+
 ### 12. Wire Examples
 
 **12.1** Put wire messages in fenced code blocks.
@@ -167,6 +192,8 @@ Example: “The Client MUST verify the signature.”
 
 **12.7** Identify placeholders and omitted data.
 
+**12.8** Place each example next to the provision or interaction it explains, instead of collecting examples at the end.
+
 A full wire message is not needed for each case.
 
 ### 13. Test Requirements
@@ -176,6 +203,16 @@ A full wire message is not needed for each case.
 **13.2** Include valid, invalid, and boundary cases in those tests.
 
 **13.3** Give the expected result for each case and its governing provision.
+
+**Example — A test requirement**
+
+- **Provision**: `REQ1.2`.
+- **Condition**: The Client requests Form Post Response Mode.
+- **Observation**: Read `response_mode` in the generated request.
+- **Expected result**: The decoded value is exactly `form_post`.
+
+The input to this test is the Client's output.
+It does not define how a server must handle other values.
 
 ### 14. AI Interoperability Testing
 
@@ -194,40 +231,3 @@ A full wire message is not needed for each case.
 **14.7** Record the models, inputs, assumptions, and results.
 
 **14.8** Use disagreements to find ambiguities in the document.
-
-## Examples
-
-### EXAMPLE 1: Atomic provisions
-
-**REQ1.1 (Step 1)**: To request Form Post Response Mode, the Client MUST include `response_mode` in the Authorization Request.
-
-**REQ1.2 (Step 1)**: When the Client requests Form Post Response Mode, the Client MUST set `response_mode` to `form_post`.
-
-Each provision has one action and one ID.
-
-The next pair shows a check and a separate failure action.
-It uses [RFC 6749, Sections 3.1.2.3 and 3.1.2.4](https://www.rfc-editor.org/rfc/rfc6749.html#section-3.1.2.3).
-It is not a complete OAuth validation procedure.
-
-**REQ2.1 (Step 2)**: The Authorization Server MUST validate a supplied `redirect_uri` under RFC 6749, Section 3.1.2.3.
-
-**REQ2.2 (Step 2)**: If the check in `REQ2.1` fails, the Authorization Server MUST NOT automatically redirect the User Agent to that URI.
-
-### EXAMPLE 2: Variable constraints
-
-<a id="table-2"></a>
-**Table 2 — Example variable constraints**
-
-| Variable / Parameter | Context | Sequence Step & Provisions | Type | Presence | Allowed Values | Disallowed Values |
-| --- | --- | --- | --- | --- | --- | --- |
-| `response_mode` | Requesting Form Post Response Mode | Step 1 (`REQ1.1`, `REQ1.2`) | String | Required | Exact string `form_post` | Any other value in this context |
-
-### EXAMPLE 3: A test requirement
-
-- **Provision**: `REQ1.2`.
-- **Condition**: The Client requests Form Post Response Mode.
-- **Observation**: Read `response_mode` in the generated request.
-- **Expected result**: The decoded value is exactly `form_post`.
-
-The input to this test is the Client's output.
-It does not define how a server must handle other values.
