@@ -30,7 +30,15 @@ The goals are to help them:
 
 **3.3** Import external terms without redefining them.
 
-Example: `From [RFC6749]: Client, Authorization Server`.
+[Example 1](#example-1) shows an imported-term statement.
+
+#### Example-1
+
+> **Imported terms (non-normative)**
+>
+> This statement imports OAuth terms without defining them again.
+>
+> `From [RFC6749]: Client, Authorization Server`.
 
 ### 4. Abbreviations
 
@@ -43,6 +51,8 @@ Example: `From [RFC6749]: Client, Authorization Server`.
 **5.2** Identify the actors that must conform to the specification.
 
 **5.3** Identify external actors, such as browsers and intermediaries.
+
+**5.4** Define one actor per line or table row. Do not combine actors in one definition.
 
 ### 6. Goal
 
@@ -64,11 +74,34 @@ Example: `From [RFC6749]: Client, Authorization Server`.
 
 **7.6** Link each variable to its steps and provisions.
 
-**7.7** Link each provision to its steps.
+**7.7** Keep a complete provision-to-step reference table when inline references interrupt reading.
 
 **7.8** Keep diagrams, tables, and provisions consistent.
 
 **7.9** Label optional paths and illustrative choices.
+
+**7.10** Identify the figure number and message number in interaction reference tables.
+
+**7.11** Identify local actions that have no message step. Do not add messages only to number those actions.
+
+**7.12** Give every figure and table a number and a title. Use separate number sequences for figures and tables.
+
+**7.13** Refer to each figure or table by its number.
+
+**7.14** Validate each diagram with its diagram tool before review.
+
+**7.15** Put the explanation before cross-reference details.
+
+**7.16** Use short references in prose. Put long ID lists in reference tables.
+
+**7.17** Use short Markdown headings as link targets. Do not depend on raw HTML anchors.
+
+**7.18** Check internal links in the intended Markdown preview tools.
+
+**7.19** For content inside a block quote, link to a heading outside the quote.
+
+Keep link-target headings short. Put the descriptive title on the next line.
+For an example, put the link-target heading before its block quote.
 
 ### 8. Active Voice and Actor Ownership
 
@@ -78,7 +111,15 @@ Example: `From [RFC6749]: Client, Authorization Server`.
 
 **8.3** Do not promise that an external actor will obey an instruction.
 
-Example: “The Client MUST verify the signature.”
+[Example 2](#example-2) makes the responsible actor the subject.
+
+#### Example-2
+
+> **Actor ownership (non-normative)**
+>
+> This sentence makes the Client responsible for checking the signature.
+>
+> “The Client MUST verify the signature.”
 
 ### 9. Labeled, Atomic Provisions
 
@@ -96,11 +137,39 @@ Example: “The Client MUST verify the signature.”
 
 **9.7** Use these prefixes:
 
+#### Table-1
+
+**Provision prefixes**
+
 | Prefix | Keywords |
 | --- | --- |
 | `REQ` | MUST or MUST NOT. |
 | `REC` | SHOULD or SHOULD NOT. |
 | `PERM` | MAY. |
+
+**9.8** When rewriting a specification, preserve unspecified failure behavior. Record the gap instead of adding a failure action.
+
+[Example 3](#example-3) shows atomic provisions and a separate failure action.
+
+#### Example-3
+
+> **Atomic provisions (non-normative)**
+>
+> The first two provisions separate the presence of a parameter from its value.
+>
+> **REQ1.1**: To request Form Post Response Mode, the Client MUST include `response_mode` in the Authorization Request.
+>
+> **REQ1.2**: When the Client requests Form Post Response Mode, the Client MUST set `response_mode` to `form_post`.
+>
+> Each provision has one action and one ID.
+>
+> The next pair shows a check and a separate failure action.
+> It uses [RFC 6749, Sections 3.1.2.3 and 3.1.2.4](https://www.rfc-editor.org/rfc/rfc6749.html#section-3.1.2.3).
+> It is not a complete OAuth validation procedure.
+>
+> **REQ2.1**: The Authorization Server MUST validate a supplied `redirect_uri` under RFC 6749, Section 3.1.2.3.
+>
+> **REQ2.2**: If the check in `REQ2.1` fails, the Authorization Server MUST NOT automatically redirect the User Agent to that URI.
 
 ### 10. Simplified Technical English (STE)
 
@@ -130,9 +199,25 @@ Example: “The Client MUST verify the signature.”
 
 **11.8** Do not confuse delimiters with quotation marks inside data.
 
-**11.9** Use these table columns: `Variable / Parameter`, `Context`, `Sequence Step & Provisions`, `Type`, `Presence`, `Allowed Values`, and `Disallowed Values`.
+**11.9** Use these table columns: `Variable / Parameter`, `Context`, `Rule reference`, `Type`, `Presence`, `Allowed Values`, and `Disallowed Values`.
 
 **11.10** Give the rules for byte counts, escaping, and encoding in the specification or identify them in a normative reference.
+
+**11.11** Keep rule references short. Use the provision-to-step table for detailed interaction references.
+
+[Example 4](#example-4) shows the required variable-constraint columns.
+
+#### Example-4
+
+> **Variable constraints (non-normative)**
+>
+> The table specifies the exact value of `response_mode` when requesting Form Post Response Mode.
+>
+> **Table 2 — Example variable constraints**
+>
+> | Variable / Parameter | Context | Rule reference | Type | Presence | Allowed Values | Disallowed Values |
+> | --- | --- | --- | --- | --- | --- | --- |
+> | `response_mode` | Requesting Form Post Response Mode | `REQ1.1`, `REQ1.2` | String | Required | Exact string `form_post` | Any other value in this context |
 
 ### 12. Wire Examples
 
@@ -150,6 +235,22 @@ Example: “The Client MUST verify the signature.”
 
 **12.7** Identify placeholders and omitted data.
 
+**12.8** Place each example next to the provision or interaction it explains, instead of collecting examples at the end.
+
+**12.9** Give each example a number and a title.
+
+**12.10** Refer to examples by number.
+
+**12.11** Show each example's extent visually, without a separate end label.
+
+**12.12** In Markdown, format each example as a block quote.
+
+**12.13** Place each example immediately after the sentence that introduces it.
+
+**12.14** Start each example with a short sentence that explains what it shows.
+
+**12.15** Put supporting figure and provision references after the example content.
+
 A full wire message is not needed for each case.
 
 ### 13. Test Requirements
@@ -159,6 +260,22 @@ A full wire message is not needed for each case.
 **13.2** Include valid, invalid, and boundary cases in those tests.
 
 **13.3** Give the expected result for each case and its governing provision.
+
+[Example 5](#example-5) shows a test condition and its expected result.
+
+#### Example-5
+
+> **A test requirement (non-normative)**
+>
+> This test checks that the Client requests the exact `form_post` value.
+>
+> - **Provision**: `REQ1.2`.
+> - **Condition**: The Client requests Form Post Response Mode.
+> - **Observation**: Read `response_mode` in the generated request.
+> - **Expected result**: The decoded value is exactly `form_post`.
+>
+> The input to this test is the Client's output.
+> It does not define how a server must handle other values.
 
 ### 14. AI Interoperability Testing
 
@@ -177,37 +294,3 @@ A full wire message is not needed for each case.
 **14.7** Record the models, inputs, assumptions, and results.
 
 **14.8** Use disagreements to find ambiguities in the document.
-
-## Examples
-
-### EXAMPLE 1: Atomic provisions
-
-**REQ1.1 (Step 1)**: To request Form Post Response Mode, the Client MUST include `response_mode` in the Authorization Request.
-
-**REQ1.2 (Step 1)**: When the Client requests Form Post Response Mode, the Client MUST set `response_mode` to `form_post`.
-
-Each provision has one action and one ID.
-
-The next pair shows a check and a separate failure action.
-It uses [RFC 6749, Sections 3.1.2.3 and 3.1.2.4](https://www.rfc-editor.org/rfc/rfc6749.html#section-3.1.2.3).
-It is not a complete OAuth validation procedure.
-
-**REQ2.1 (Step 2)**: The Authorization Server MUST validate a supplied `redirect_uri` under RFC 6749, Section 3.1.2.3.
-
-**REQ2.2 (Step 2)**: If the check in `REQ2.1` fails, the Authorization Server MUST NOT automatically redirect the User Agent to that URI.
-
-### EXAMPLE 2: Variable constraints
-
-| Variable / Parameter | Context | Sequence Step & Provisions | Type | Presence | Allowed Values | Disallowed Values |
-| --- | --- | --- | --- | --- | --- | --- |
-| `response_mode` | Requesting Form Post Response Mode | Step 1 (`REQ1.1`, `REQ1.2`) | String | Required | Exact string `form_post` | Any other value in this context |
-
-### EXAMPLE 3: A test requirement
-
-- **Provision**: `REQ1.2`.
-- **Condition**: The Client requests Form Post Response Mode.
-- **Observation**: Read `response_mode` in the generated request.
-- **Expected result**: The decoded value is exactly `form_post`.
-
-The input to this test is the Client's output.
-It does not define how a server must handle other values.
