@@ -80,6 +80,8 @@ Example: `From [RFC6749]: Client, Authorization Server`.
 
 **7.13** Refer to each figure or table by its number.
 
+**7.14** Validate each diagram with its diagram tool before review.
+
 ### 8. Active Voice and Actor Ownership
 
 **8.1** Make the actor the subject.

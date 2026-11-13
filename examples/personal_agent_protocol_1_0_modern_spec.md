@@ -368,7 +368,7 @@ Fields form an extensible document. A blank optional object does not imply a use
 | --- | --- | --- | --- | --- | --- | --- |
 | `protocol_version` | Discovery | [Figure 1](#figure-1), Message 2, [Figure 1](#figure-1), Message 8; REQ-D25, REQ-D26, REQ-D27, REQ-D28, REQ-D29 | String | Required | `major.minor`; this draft `1.0` | Incompatible selected version |
 | `supported_versions` | Main discovery | [Figure 1](#figure-1), Message 2; REQ-D26, REQ-D27, REQ-D28 | Object | Optional; absent in alternate documents | Version keys mapped to HTTPS URLs on final host | Other host; redirected alternate document |
-| `organization` | Discovery | [Figure 1](#figure-1), Message 2; REQ-D05, [Figure 1](#figure-1), Message 09 | Object | Required | `name`, `domain`, optional `logo_uri` | Missing name or domain |
+| `organization` | Discovery | [Figure 1](#figure-1), Message 2; REQ-D05, REQ-D09 | Object | Required | `name`, `domain`, optional `logo_uri` | Missing name or domain |
 | `organization.name` | Display | [Figure 1](#figure-1), Message 2; REQ-D09 | String | Required | Display name | Unspecified |
 | `organization.domain` | Host identity | [Figure 1](#figure-1), Message 2; REQ-D05 | String | Required | Final serving host, case-insensitive comparison only | Different host |
 | `organization.logo_uri` | Display | [Figure 1](#figure-1), Message 2; REQ-D06 | URL string | Optional | HTTPS logo URL | Non-HTTPS |
@@ -378,7 +378,7 @@ Fields form an extensible document. A blank optional object does not imply a use
 | `auth.scopes` | Scope descriptions | [Figure 1](#figure-1), Message 2; REC-A30 | Object | Optional | Scope names mapped to descriptions in OpenAPI scope form | Unspecified |
 | `auth.scope_hints` | Scope hints | [Figure 1](#figure-1), Message 2; REQ-A31, REQ-A32, REQ-A33 | Object | Optional | Scope names mapped to both hint fields | Missing hint field in an entry |
 | `agent` | Channel | [Figure 1](#figure-1), Message 2; REQ-D09 | Object | At least one of `agent`, `apis`, `web` | `protocols` list with `type` and HTTPS `endpoint` | No channel |
-| `agent.protocols[].access` | `poppy` protocol hint | [Figure 1](#figure-1), Message 2; REQ-D14, [Figure 1](#figure-1), Message 47 | String | Optional; default `session` | `session`, `signed_in`; unknown means no hint | `signed_in` without issuer or with disabled sign-in |
+| `agent.protocols[].access` | `poppy` protocol hint | [Figure 1](#figure-1), Message 2; REQ-D14, REQ-D47 | String | Optional; default `session` | `session`, `signed_in`; unknown means no hint | `signed_in` without issuer or with disabled sign-in |
 | `apis` | Channel | [Figure 1](#figure-1), Message 2; REQ-D09 | Array | At least one channel | Entries with `type`, `url`, short `description` | No channel |
 | `web` | Channel | [Figure 1](#figure-1), Message 2; REQ-D09 | Object | At least one channel | Browser settings | No channel |
 | `web.browser_session_endpoint` | Browser join | [Figure 1](#figure-1), Message 2; REQ-B01, REQ-B02, REQ-B03, REQ-B04, REC-B05 | HTTPS URL | Optional | Endpoint selected for this version | Present with `web.disabled: true` |
@@ -398,7 +398,7 @@ OpenAPI security requirements and MCP authorization supply their own account-acc
 | Variable / Parameter | Context | Sequence Step & Provisions | Type | Presence | Allowed Values | Disallowed Values |
 | --- | --- | --- | --- | --- | --- | --- |
 | `issuer` | AS metadata | [Figure 1](#figure-1), Message 6; REQ-D18 | String | Required | Exact discovered issuer | Any different value |
-| `protected_resources` | AS metadata | [Figure 1](#figure-1), Message 6; REQ-D16, [Figure 1](#figure-1), Message 19 | Array of URL strings | Required | Every represented domain resource; other resources permitted | Omission of represented domain |
+| `protected_resources` | AS metadata | [Figure 1](#figure-1), Message 6; REQ-D16, REQ-D19 | Array of URL strings | Required | Every represented domain resource; other resources permitted | Omission of represented domain |
 | `token_endpoint` | Token exchange | [Figure 1](#figure-1), Message 6, [Figure 2](#figure-2), Messages 5–8; REQ-D15 | HTTPS URL | Required | Token endpoint | Non-HTTPS |
 | `revocation_endpoint` | Revocation | [Figure 1](#figure-1), Message 6, [Figure 2](#figure-2), Messages 7–8; REQ-D15 | HTTPS URL | Required | Revocation endpoint | Non-HTTPS |
 | `grant_types_supported` | Grants | [Figure 1](#figure-1), Message 6; REQ-D15 | Array of strings | Required | Includes `refresh_token`; can include `authorization_code` and device grant URN | Missing `refresh_token` |
@@ -619,7 +619,7 @@ The domain's own discovery metadata does not require every service to have separ
 | `interval`, `expires_in` | Device response | [Figure 2](#figure-2), Message 8; REQ-A17 | Seconds | RFC 8628 rules | Poll interval and expiry | Polling contrary to RFC 8628 |
 | `changes` | Scope hint | [Figure 1](#figure-1), Message 2; REQ-A31, REQ-A32, REQ-A33 | String | Required per hint | `none`, `reversible`, `irreversible`; unknown handled as irreversible | No further receiver rejection specified |
 | `personal_data` | Scope hint | [Figure 1](#figure-1), Message 2; REQ-A31 | Boolean | Required per hint | True if any action exposes or changes personal data | Other types |
-| `access_token`, `token_type` | Token response | [Figure 2](#figure-2), Message 6, [Figure 2](#figure-2), Message 8; REQ-A28, [Figure 2](#figure-2), Message 41 | Strings | Required | OAuth values; `Bearer` or `DPoP` as issued | Unspecified |
+| `access_token`, `token_type` | Token response | [Figure 2](#figure-2), Message 6, [Figure 2](#figure-2), Message 8; REQ-A28, REQ-A41 | Strings | Required | OAuth values; `Bearer` or `DPoP` as issued | Unspecified |
 | `refresh_token` | Token response | [Figure 2](#figure-2), Message 6, [Figure 2](#figure-2), Message 8; REQ-A41 | String | Required for sign-in; optional on refresh | OAuth refresh token | Missing from successful sign-in |
 | `resource` | Token request | [Figure 2](#figure-2), Message 5, [Figure 2](#figure-2), Message 7; REQ-A47, REQ-A48, REQ-A49 | URI string | Service-dependent; required for MCP | Intended service identifier | Unserved resource |
 
@@ -795,13 +795,13 @@ JWT serialization and signature verification follow the imported JWT/JWK rules.
 | Variable / Parameter | Context | Sequence Step & Provisions | Type | Presence | Allowed Values | Disallowed Values |
 | --- | --- | --- | --- | --- | --- | --- |
 | `typ` | Session protected header | [Figure 3](#figure-3), Message 1; REQ-S37 | String | Required | `poppy-session+jwt` | Any other type |
-| `alg` | Session protected header | [Figure 3](#figure-3), Message 1; REQ-S09, [Figure 3](#figure-3), Message 37 | String | Required | `ES256` | Other algorithms |
+| `alg` | Session protected header | [Figure 3](#figure-3), Message 1; REQ-S09, REQ-S37 | String | Required | `ES256` | Other algorithms |
 | `kid` | Session protected header | [Figure 3](#figure-3), Message 1; REQ-S29 | String | Required | Delegated key's JWK thumbprint | Different key identifier |
 | `poppy_dlg` | Session protected header | [Figure 3](#figure-3), Message 1; REQ-S27, REQ-S28, REQ-S29, REQ-S30 | String | Required | Compact delegation JWT | Missing or invalid delegation |
 | `iss` | Session payload | [Figure 3](#figure-3), Message 1; REQ-S36 | HTTPS URL string | Required | PA `client_id` | Different client identity |
 | `aud` | Session payload | [Figure 3](#figure-3), Message 1; REQ-S37 | String | Required | Exact Company identifier | Array; other identifier |
 | `sid` | Session payload | [Figure 3](#figure-3), Message 1; REQ-S10 | String | Required | Random ID; Section 12 alphabet and length | Reused for another Session |
-| `sub` | Session payload | [Figure 3](#figure-3), Message 1; REQ-S01, REQ-S02, PERM-S03, REQ-S04, [Figure 3](#figure-3), Message 12 | String | Required | Company-specific User ID | Personal-information-derived value |
+| `sub` | Session payload | [Figure 3](#figure-3), Message 1; REQ-S01, REQ-S02, PERM-S03, REQ-S04, REQ-S12 | String | Required | Company-specific User ID | Personal-information-derived value |
 | `agent_id` | Session payload | [Figure 3](#figure-3), Message 1; PERM-S05, REQ-S12 | String | Optional | Company-specific Agent ID | Change within Session |
 | `htm` | Session payload | [Figure 3](#figure-3), Message 1; REQ-S37 | String | Required | Request method under RFC 9449 | Mismatched method |
 | `htu` | Session payload | [Figure 3](#figure-3), Message 1; REQ-S37 | URL string | Required | Request URL without query or fragment | Mismatched request target |
@@ -813,7 +813,7 @@ JWT serialization and signature verification follow the imported JWT/JWK rules.
 | `kid` | Delegation header | [Figure 3](#figure-3), Message 1; REQ-S27 | String | Required | Signing key in client JWKS | Unknown signing key |
 | `iss` | Delegation payload | [Figure 3](#figure-3), Message 1; REQ-S28 | String | Required | Same client as Session JWT | Other issuer |
 | `cnf.jwk` | Delegation payload | [Figure 3](#figure-3), Message 1; REQ-S20 | Object | Required | Delegated public JWK under RFC 7800 | Private key members |
-| `iat`, `exp` | Delegation payload | [Figure 3](#figure-3), Message 1; REQ-S21, [Figure 3](#figure-3), Message 28 | Unix seconds | Required | Issue and expiry times; lifetime at most 86,400 seconds | Expired; lifetime over limit |
+| `iat`, `exp` | Delegation payload | [Figure 3](#figure-3), Message 1; REQ-S21, REQ-S28 | Unix seconds | Required | Issue and expiry times; lifetime at most 86,400 seconds | Expired; lifetime over limit |
 | `jti` | Delegation payload | [Figure 3](#figure-3), Message 1; REQ-S19 | String | Required | Unique, unguessable ID | Unspecified additional syntax |
 
 ### 9.6 Account changes and sign-out
@@ -1002,7 +1002,7 @@ The new successful join replaces the previous Session cookie.
 | Variable / Parameter | Context | Sequence Step & Provisions | Type | Presence | Allowed Values | Disallowed Values |
 | --- | --- | --- | --- | --- | --- | --- |
 | `code` | HTML form; authorization JSON; form submission | [Figure 4](#figure-4), Messages 2–5; REQ-B06, REQ-B07, REQ-B08, REQ-B09, REQ-B10, REQ-B11, REQ-B12, REQ-B13, REQ-B14, REQ-B15, REQ-B16, REQ-B17, REQ-B18, REQ-B19, REQ-B20, REQ-B21, REQ-B22, REQ-B23, REQ-B24 | String | Required | Issued, unguessable, unexpired code; one authorization and one submission | Outside-source code; reused submission |
-| Binding cookie | Join response and form submission | [Figure 4](#figure-4), Message 2, [Figure 4](#figure-4), Message 5; REQ-B07, REQ-B08, [Figure 4](#figure-4), Message 19 | Cookie | Required | Browser-bound; resistant to cross-site form and sibling-host setting | Mismatched or absent cookie |
+| Binding cookie | Join response and form submission | [Figure 4](#figure-4), Message 2, [Figure 4](#figure-4), Message 5; REQ-B07, REQ-B08, REQ-B19 | Cookie | Required | Browser-bound; resistant to cross-site form and sibling-host setting | Mismatched or absent cookie |
 | `Poppy-Session` | Code authorization | [Figure 4](#figure-4), Message 3; REQ-B13 | Compact JWT string | Required | Verified Session JWT | Invalid Session |
 | Access token | Code authorization | [Figure 4](#figure-4), Message 3; REQ-B17, REQ-B18 | OAuth credential | Optional | Includes `poppy:browser-sign-in` | Missing scope |
 | Session cookie | Website requests | [Figure 4](#figure-4), Messages 6–8; REQ-B25, REQ-B26, REC-B27, REQ-B28, REQ-B29, REQ-B30 | Cookie | Set on successful join | Authorized Session and account authority | Lifetime beyond Session |
@@ -1098,7 +1098,7 @@ sequenceDiagram
     CO-->>PA: Events and state, or SSE (REQ-C33, REQ-C48)
     opt Continue, handoff, cancel, or close
         PA->>CO: POST conversation route: id, body (REQ-C08, REQ-C70)
-        CO-->>PA: 202 or error; optional waited events (REQ-C16, REQ-C17)
+        CO-->>PA: 202 or error, with optional waited events (REQ-C16, REQ-C17)
     end
     opt Direct Conversation after User agreement
         PA->>CO: POST endpoint: id, parent_conversation_id, optional event ID (REQ-C54, REQ-C57)
@@ -1421,9 +1421,9 @@ They do not imply that unspecified fields have a rejection rule.
 
 | Variable / Parameter | Context | Sequence Step & Provisions | Type | Presence | Allowed Values | Disallowed Values |
 | --- | --- | --- | --- | --- | --- | --- |
-| `id` | POST request | [Figure 5](#figure-5), Message 1, [Figure 5](#figure-5), Message 5, [Figure 5](#figure-5), Message 7; REQ-C06, [Figure 5](#figure-5), Message 08–[Figure 5](#figure-5), Message 12 | String | Required | 1–256 ASCII URL-safe alphabet characters; User-wide unique | Empty; 257 characters; other characters; conflicting reuse |
-| `conversation_id` | Success response | [Figure 5](#figure-5), Message 2, [Figure 5](#figure-5), Message 4, [Figure 5](#figure-5), Message 6, [Figure 5](#figure-5), Message 8; REQ-C06, [Figure 5](#figure-5), Message 15–[Figure 5](#figure-5), Message 17 | String | Required | Company-chosen ID | Invalid ID syntax |
-| `message` | Create or send | [Figure 5](#figure-5), Message 1, [Figure 5](#figure-5), Message 5, [Figure 5](#figure-5), Message 7; REQ-C18, [Figure 5](#figure-5), Message 60 | Object | Required except invitation acceptance | Content-bearing message | No content fields |
+| `id` | POST request | [Figure 5](#figure-5), Message 1, [Figure 5](#figure-5), Message 5, [Figure 5](#figure-5), Message 7; REQ-C06, REQ-C08–REQ-C12 | String | Required | 1–256 ASCII URL-safe alphabet characters; User-wide unique | Empty; 257 characters; other characters; conflicting reuse |
+| `conversation_id` | Success response | [Figure 5](#figure-5), Message 2, [Figure 5](#figure-5), Message 4, [Figure 5](#figure-5), Message 6, [Figure 5](#figure-5), Message 8; REQ-C06, REQ-C15–REQ-C17 | String | Required | Company-chosen ID | Invalid ID syntax |
+| `message` | Create or send | [Figure 5](#figure-5), Message 1, [Figure 5](#figure-5), Message 5, [Figure 5](#figure-5), Message 7; REQ-C18, REQ-C60 | Object | Required except invitation acceptance | Content-bearing message | No content fields |
 | Message `id`, `role` | Stored event | [Figure 5](#figure-5), Message 4; REQ-C29 | Strings | Company-assigned | Request ID for PA message; role `user` or `company` | PA-supplied values are ignored |
 | `author.type` | Every message | [Figure 5](#figure-5), Messages 1–8; REQ-C19, REQ-C20 | String | Required | `agent`, `human` | Human label for generated or translated text |
 | `author.id`, `.name`, `.image` | Company message | [Figure 5](#figure-5), Message 4; REQ-C20 | Strings; image URL | Optional | Stable author ID, display name, HTTPS picture URL | PA author metadata not defined |
@@ -1440,7 +1440,7 @@ They do not imply that unspecified fields have a rejection rule.
 | `wait` | GET or POST query | [Figure 5](#figure-5), Message 1, [Figure 5](#figure-5), Message 3, [Figure 5](#figure-5), Message 5, [Figure 5](#figure-5), Message 7; REQ-C17, PERM-C38 | Integer seconds | Optional; no wait when absent | 0 or greater; server can cap | Negative or fractional value |
 | `parent_conversation_id` | Direct creation | [Figure 5](#figure-5), Message 7; REQ-C54, REQ-C55, REQ-C56 | Conversation ID | Required for Direct Conversation | Eligible parent | Unknown, wrong owner, closed, direct, or already has open child |
 | `user_requested_event_id` | Invitation acceptance | [Figure 5](#figure-5), Message 7; REQ-C57, REQ-C58, REQ-C59, REQ-C60, REQ-C61 | Event ID | Required when accepting invitation | Parent's `user_requested` event | Wrong event or parent |
-| `working`, `closed`, `has_more` | Read | [Figure 5](#figure-5), Message 4; REQ-C33, [Figure 5](#figure-5), Message 48 | Booleans | Required | Boolean state under Section 12.6 | Other types |
+| `working`, `closed`, `has_more` | Read | [Figure 5](#figure-5), Message 4; REQ-C33, REQ-C48 | Booleans | Required | Boolean state under Section 12.6 | Other types |
 | `handoff` | Read/state event | [Figure 5](#figure-5), Message 4; REQ-C48 | String | Required | `none`, `pending`; unknown treated as pending | No added rejection rule |
 | `responder` | Read/state event | [Figure 5](#figure-5), Message 4; REQ-C48 | String | Required | `agent`, `human`; unknown treated as human | No added rejection rule |
 | `Last-Event-ID` | Stream reconnect | [Figure 5](#figure-5), Message 3; REQ-C45, REQ-C46 | Event ID | On reconnect | Last handled event ID; overrides query cursor | Unspecified additional constraints |
@@ -1929,7 +1929,7 @@ This illustrative authorization URL uses the RFC 7636 example challenge.
 The User approves through the Company's page.
 
 ```text
-https://auth.example.com/oauth/authorize?response_type=code&client_id=https%3A%2F%2Fagent.example%2Fagent.json&redirect_uri=https%3A%2F%2Fagent.example%2Foauth%2Fcallback&scope=orders%3Aread&state=Xq81vR&code_challenge=E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM&code_challenge_method=[Figure 3](#figure-3), Message 256
+https://auth.example.com/oauth/authorize?response_type=code&client_id=https%3A%2F%2Fagent.example%2Fagent.json&redirect_uri=https%3A%2F%2Fagent.example%2Foauth%2Fcallback&scope=orders%3Aread&state=Xq81vR&code_challenge=E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM&code_challenge_method=S256
 ```
 
 [Figure 2](#figure-2), Message 6; REQ-A41, REQ-A42, REQ-A43.
@@ -1988,7 +1988,7 @@ Conditional results reflect Company choices rather than requiring optional behav
 
 | Case | Input or condition | Expected observation | Governing provisions |
 | --- | --- | --- | --- |
-| Valid redirected discovery | HTTPS redirect to another host's exact well-known path; valid matching domain and issuer metadata | Document can be selected | REQ-D02, PERM-D03, REQ-D04, REQ-D05, [Figure 1](#figure-1), Message 18–[Figure 1](#figure-1), Message 19 |
+| Valid redirected discovery | HTTPS redirect to another host's exact well-known path; valid matching domain and issuer metadata | Document can be selected | REQ-D02, PERM-D03, REQ-D04, REQ-D05, REQ-D18–REQ-D19 |
 | Uploaded document target | Final discovery path `/uploads/poppy.json` | PA does not use document | REQ-D04 |
 | Discovery query | Final URL has `?source=test` | PA does not use document | REQ-D04 |
 | Domain case | Document domain differs from serving host only in case | Host comparison passes | REQ-D05 |
@@ -2003,13 +2003,13 @@ Conditional results reflect Company choices rather than requiring optional behav
 | Excess scope grant | Requested `orders:read`; response attempts to grant `orders:write` too | Company output violates grant rule | REQ-A34 |
 | Unknown scope hint | `changes: future-value` | PA treats hint as irreversible | REQ-A33 |
 | Service token at another route | MCP token used at another endpoint on same host | Company rejects token | REQ-I06 |
-| No Session header | Resource depends on Session state | HTTP 400 `invalid_session` | REQ-S35, [Figure 3](#figure-3), Message 40 |
+| No Session header | Resource depends on Session state | HTTP 400 `invalid_session` | REQ-S35, REQ-S40 |
 | Header ignored | Resource uses no Session claims; valid independent OAuth | Company can handle request; no Session attribution is made | PERM-S42, REQ-S41 |
-| Delegation boundary | `exp - iat` is 86,400 seconds, otherwise valid and not expired | Lifetime check passes | REQ-S21, [Figure 3](#figure-3), Message 28 |
-| Delegation over boundary | Lifetime 86,401 seconds | HTTP 400 `invalid_session` | REQ-S28, [Figure 3](#figure-3), Message 30 |
+| Delegation boundary | `exp - iat` is 86,400 seconds, otherwise valid and not expired | Lifetime check passes | REQ-S21, REQ-S28 |
+| Delegation over boundary | Lifetime 86,401 seconds | HTTP 400 `invalid_session` | REQ-S28, REQ-S30 |
 | Directly signed Session | Session signature uses JWKS key without delegation | HTTP 400 `invalid_session` | REQ-S30 |
 | Key rotation | New valid delegated key for same User and Session | No rejection solely for key change | REQ-S32 |
-| Wrong token hash | Valid token but mismatched `ath` | HTTP 400 `invalid_session` | REQ-S38, [Figure 3](#figure-3), Message 40 |
+| Wrong token hash | Valid token but mismatched `ath` | HTTP 400 `invalid_session` | REQ-S38, REQ-S40 |
 | Tokenless hash | No access token; `ath` supplied | Session verification fails | REQ-S38, REQ-S39, REQ-S40; Section 9.5 |
 | Anonymous account use | Anonymous browsing User ID | PA emits no access token | REQ-S04 |
 | Repeated ended Session | First and replacement requests both return `session_ended` | One retry, then stop | REQ-S44 |
@@ -2017,7 +2017,7 @@ Conditional results reflect Company choices rather than requiring optional behav
 | Rate limit | Response includes `Retry-After: 10` | No retry before ten seconds have elapsed | REQ-S56 |
 | Foreign browser code | Code arrives in conversation text | PA does not authorize it | REQ-B11, REQ-B12 |
 | Missing browser scope | Valid token lacks `poppy:browser-sign-in` | `insufficient_scope` challenge | REQ-B17 |
-| Wrong binding cookie | Valid authorized code in another browser | Error page; no Session cookie | REQ-B19, [Figure 4](#figure-4), Message 22 |
+| Wrong binding cookie | Valid authorized code in another browser | Error page; no Session cookie | REQ-B19, REQ-B22 |
 | Failed first submission | First form submission fails cookie check; second uses right cookie | Code remains consumed; second fails | REQ-B20, REQ-B21, REQ-B22 |
 | Retry after accepted create | Same ID, path, body; fresh Session JWT | Original creation response; one conversation | REQ-C09, REQ-C10, REQ-C11, REQ-C12 |
 | Retry with changed body | Accepted ID reused for different message | HTTP 409 `request_id_conflict` | REQ-C11 |
@@ -2084,5 +2084,5 @@ Further adoption needs human review of these observations and the protocol rewri
 * Scope: editorial adaptation of all base protocol areas; extension internals are referenced, not rewritten.
 * Approach: short sentences, named actors, labeled provisions, diagrams, value tables, illustrative messages, and proposed test observations.
 * Intent: preserve mandatory, recommended, optional, and unspecified behavior. Explicit labels for declarative protocol rules are editorial interpretations requiring review.
-* Checks: structural and reference checks, JSON example parsing, and source-informed editorial review. See the pull request for observed results.
+* Checks: structural and reference checks, JSON example parsing, source-informed editorial review, and Mermaid parser validation of all diagrams. See the pull request for observed results.
 * Not performed: generated implementations, independent model review, interoperability tests, exhaustive conformance proof, browser wire tests, or formal ASD-STE100 vocabulary verification.
